@@ -6,17 +6,21 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Navbar from './components/Navbar';
 
 ReactDOM.render(
   // <React.StrictMode>
   //   <App />
-  // </React.StrictMode>
+  // </React.StrictMode>,
   <BrowserRouter>
+    <Navbar></Navbar>
+    <div className='main'>
     <Routes>
       <Route path='/' element={<App/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>
     </Routes>
+    </div>
   </BrowserRouter>,
   document.getElementById('root')
 );

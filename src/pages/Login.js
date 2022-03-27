@@ -4,68 +4,44 @@ import './Login.css'
 
 export default function Login() {
     return (
-        <div>
-            <section className="vh-100">
-                <div className="container-fluid h-custom">
-                    <div className="row d-flex justify-content-center align-items-center h-100">
-                        <div className="col-md-9 col-lg-6 col-xl-5">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp" className="img-fluid"
-                                alt="Sample image" />
-                        </div>
-                        <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                            <form>
-                                <div className="form-outline mb-4">
-                                    <input type="email" id="form3Example3" className="form-control form-control-lg"
-                                        placeholder="Enter a valid email address" />
-                                    <label className="form-label" forName="form3Example3">Email address</label>
-                                </div>
+        <div className='login'>
+            <main className="my-form">
+                <div className="cotainer">
+                    <div className="row justify-content-center">
+                        <div className="col-md-8">
+                            <div className="card">
+                                <div className="card-header">Login</div>
+                                <div className="card-body">
+                                    <form name="my-form">
+                                        <div className="form-group row">
+                                            <label forName="email_address" className="col-md-4 col-form-label text-md-right">E-Mail / Username</label>
+                                            <div className="col-md-6">
+                                                <input type="text" id="email_address" className="form-control" name="email-address" />
+                                            </div>
+                                        </div>
 
-                                <div className="form-outline mb-3">
-                                    <input type="password" id="form3Example4" className="form-control form-control-lg"
-                                        placeholder="Enter password" />
-                                    <label className="form-label" forName="form3Example4">Password</label>
+                                        <div className="form-group row">
+                                            <label forName="user_name" className="col-md-4 col-form-label text-md-right">Password</label>
+                                            <div className="col-md-6">
+                                                <input type="password" id="password" className="form-control" name="username" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 offset-md-4">
+                                            <button type="submit" class="btn btn-primary">
+                                                Login
+                                            </button>
+                                            <a href="" class="btn btn-link">Forgot Your Password?</a>
+                                        </div>
+                                    </form>
+                                    <div class="col-md-6 offset-md-4 py-4">
+                                            Don't have account please <Link to="/register">Register</Link>
+                                        </div>
                                 </div>
-
-                                <div className="d-flex justify-content-between align-items-center">
-                                    <div className="form-check mb-0">
-                                        <input className="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
-                                        <label className="form-check-label" forName="form2Example3">
-                                            Remember me
-                                        </label>
-                                    </div>
-                                    <a href="#!" className="text-body">Forgot password?</a>
-                                </div>
-
-                                <div className="text-center text-lg-start mt-4 pt-2">
-                                    <button type="button" className="btn btn-primary btn-lg" id='login-btn'>Login</button>
-                                    <p className="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <Link to="/register"
-                                        className="link-danger">Register</Link></p>
-                                </div>
-
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
-                    <div className="text-white mb-3 mb-md-0">
-                        Copyright © 2020. All rights reserved.
-                    </div>
-                    <div>
-                        <a href="#!" className="text-white me-4">
-                            <i className="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#!" className="text-white me-4">
-                            <i className="fab fa-twitter"></i>
-                        </a>
-                        <a href="#!" className="text-white me-4">
-                            <i className="fab fa-google"></i>
-                        </a>
-                        <a href="#!" className="text-white">
-                            <i className="fab fa-linkedin-in"></i>
-                        </a>
-                    </div>
-                </div>
-            </section>
-        </div>
+            </main >
+        </div >
     )
 }

@@ -3,90 +3,79 @@ import './Register.css'
 
 export default function Register() {
     return (
-        <div>
-            <section className="vh-100" id='main-section'>
-                <div className="container h-100">
-                    <div className="row d-flex justify-content-center align-items-center h-100">
-                        <div className="col-lg-12 col-xl-11">
-                            <div className="card text-black" id="main-card">
-                                <div className="card-body p-md-5">
-                                    <div className="row justify-content-center">
-                                        <div className="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-
-                                            <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
-
-                                            <form className="mx-1 mx-md-4">
-
-                                                <div className="d-flex flex-row align-items-center mb-4">
-                                                    <i className="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                    <div className="form-outline flex-fill mb-0">
-                                                        <label className="form-label" forName="form3Example1c">First Name</label>
-                                                        <input type="text" id="firstName" className="form-control" />
-                                                    </div>
-                                                </div>
-                                                <div className="d-flex flex-row align-items-center mb-4">
-                                                    <i className="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                    <div className="form-outline flex-fill mb-0">
-                                                        <label className="form-label" forName="form3Example1c">Last Name</label>
-                                                        <input type="text" id="lastName" className="form-control" />
-                                                    </div>
-                                                </div>
-                                                <div className="d-flex flex-row align-items-center mb-4">
-                                                    <i className="fas fa-user fa-lg me-3 fa-fw"></i>
-                                                    <div className="form-outline flex-fill mb-0">
-                                                        <div class="mb-4 pb-2">
-                                                        <label className="form-label px-2" forName="form3Example1c">Gender</label>
-                                                            <select class="select" id="gender">
-                                                                <option value="FEMALE">Female</option>
-                                                                <option value="MALE">Male</option>
-                                                                <option value="OTHER">Other</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div className="d-flex flex-row align-items-center mb-4">
-                                                    <i className="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                                                    <div className="form-outline flex-fill mb-0">
-                                                        <label className="form-label" forName="form3Example3c">Your Email</label>
-                                                        <input type="email" id="form3Example3c" className="form-control" />
-                                                    </div>
-                                                </div>
-
-                                                <div className="d-flex flex-row align-items-center mb-4">
-                                                    <i className="fas fa-lock fa-lg me-3 fa-fw"></i>
-                                                    <div className="form-outline flex-fill mb-0">
-                                                        <label className="form-label" forName="form3Example4c">Password</label>
-                                                        <input type="password" id="form3Example4c" className="form-control" />
-                                                    </div>
-                                                </div>
-
-                                                <div className="d-flex flex-row align-items-center mb-4">
-                                                    <i className="fas fa-key fa-lg me-3 fa-fw"></i>
-                                                    <div className="form-outline flex-fill mb-0">
-                                                        <label className="form-label" forName="form3Example4cd">Repeat your password</label>
-                                                        <input type="password" id="form3Example4cd" className="form-control" />
-                                                    </div>
-                                                </div>
-                                                <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                                    <button type="button" className="btn btn-primary btn-lg">Register</button>
-                                                </div>
-
-                                            </form>
-
+        <div className='register'>
+            <main className="my-form">
+                <div className="cotainer">
+                    <div className="row justify-content-center">
+                        <div className="col-md-8">
+                            <div className="card">
+                                <div className="card-header">Register</div>
+                                <div className="card-body">
+                                    <form name="my-form">
+                                        <div className="form-group row">
+                                            <label forName="full_name" className="col-md-4 col-form-label text-md-right">First Name</label>
+                                            <div className="col-md-6">
+                                                <input type="text" id="full_name" className="form-control" name="full-name" />
+                                            </div>
                                         </div>
-                                        <div className="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-
-                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp" className="img-fluid" alt="Sample image" />
-
+                                        <div className="form-group row">
+                                            <label forName="full_name" className="col-md-4 col-form-label text-md-right">Last Name</label>
+                                            <div className="col-md-6">
+                                                <input type="text" id="full_name" className="form-control" name="full-name" />
+                                            </div>
                                         </div>
-                                    </div>
+                                        <div className="form-group row">
+                                            <label forName="full_name" className="col-md-4 col-form-label text-md-right">Gender</label>
+                                            <div className="col-md-6">
+                                                <select className="form-control form-control-sm d-inline-block" aria-label="Default select example">
+                                                    <option selected>Select..</option>
+                                                    <option value="FEMALE">Female</option>
+                                                    <option value="MALE">Male</option>
+                                                    <option value="OTHER">Other</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div className="form-group row">
+                                            <label forName="email_address" className="col-md-4 col-form-label text-md-right">E-Mail</label>
+                                            <div className="col-md-6">
+                                                <input type="text" id="email_address" className="form-control" name="email-address" />
+                                            </div>
+                                        </div>
+
+                                        <div className="form-group row">
+                                            <label forName="user_name" className="col-md-4 col-form-label text-md-right">Password</label>
+                                            <div className="col-md-6">
+                                                <input type="password" id="password" className="form-control" name="username" />
+                                            </div>
+                                        </div>
+                                        <div className="form-group row">
+                                            <label forName="user_name" className="col-md-4 col-form-label text-md-right">Confirm Password</label>
+                                            <div className="col-md-6">
+                                                <input type="password" id="cnfPassword" className="form-control" name="username" />
+                                            </div>
+                                        </div>
+
+                                        <div className="form-group row">
+                                            <label forName="phone_number" className="col-md-4 col-form-label text-md-right">Phone Number</label>
+                                            <div className="col-md-6">
+                                                <input type="text" id="phone_number" className="form-control" />
+                                            </div>
+                                        </div>
+
+
+                                        <div className="col-md-6 offset-md-4">
+                                            <button type="submit" className="btn btn-primary">
+                                                Register
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
+            </main >
+        </div >
     )
 }
