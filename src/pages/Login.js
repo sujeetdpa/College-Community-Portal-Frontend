@@ -1,7 +1,6 @@
-import axios from 'axios'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import UserApis from '../api/UserApis'
+import {login} from '../api/UserApis'
 import './Login.css'
 
 export default function Login() {
@@ -11,21 +10,7 @@ export default function Login() {
     }
     const handleSubmit= (e)=>{
         e.preventDefault();
-        let options = {
-            body:JSON.stringify(data),
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-          }
-          const response= fetch("http://localhost:8080/auth/login",options);
-          response.then(r=>{
-              console.log(r.json().then(d=>{
-                  console.log("Access: "+d.access_token);
-                  console.log("refresh: "+d.refresh_token);
-              }));
-          })
+        login(data.username,data.password);
     }
     return (
         <div className='login'>
