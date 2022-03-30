@@ -15,18 +15,29 @@ export default function Register() {
         dob: "",
         mobileNo: ""
     }
-    let registerSucces;
-    const [registerResponseData,setRegisterResponseData]=useState([]);
+    const [registerSucces, setRegisterSucces] = useState([]);
     const handleSubmit = e => {
         e.preventDefault();
-        const d=register(data);
-        setRegisterResponseData(d);
-        // if(registerResponseData.id){
-        //     registerSucces=<div className='text-success'><h3>Successfully registered {registerResponseData.fullName}</h3></div>
-        // }
-        // else{
-        //     registerSucces=<div className='text-danger'><h3>Some error occured  please try again</h3></div>
-        // }
+        let options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+        const response = fetch("http://localhost:8080/auth/signup", options);
+        response.then(res => {
+            res.json().then(responseData => {
+                console.log("APi response: ");
+                console.log(responseData);
+                if (responseData.id != undefined) {
+                    setRegisterSucces(<div className='alert alert-success .fade' role="alert"><h3>Successfully registered {responseData.fullName}</h3></div>)
+                }
+                else {
+                    setRegisterSucces(<div className='alert alert-danger .fade' role="alert"><h3>Some error occured for field please try again</h3></div>)
+                }
+            })
+        })
     }
     return (
         <div className='register'>
@@ -57,7 +68,7 @@ export default function Register() {
                                                     <option value="Select.." disabled>Select..</option>
                                                     <option value="FEMALE">Female</option>
                                                     <option value="MALE">Male</option>
-                                                    <option value="OTHER">Other</option>
+                                                    <option value="NOT_TO_MENTION">Other</option>
                                                 </select>
                                             </div>
                                         </div>

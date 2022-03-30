@@ -1,16 +1,29 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import {login} from '../api/UserApis'
 import './Login.css'
 
 export default function Login() {
     const data={
-        username:'hello',
-        password:'helo'
+        username:'',
+        password:''
     }
     const handleSubmit= (e)=>{
         e.preventDefault();
-        login(data.username,data.password);
+        let options = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          }
+          let response = fetch("http://localhost:8080/auth/login", options);
+          response.then((res) => {
+            res.json().then(data => {
+              console.log(data);
+              localStorage.setItem("access_token", data.access_token);
+              localStorage.setItem("refresh_token", data.refresh_token);
+            })
+          })
     }
     return (
         <div className='login'>
