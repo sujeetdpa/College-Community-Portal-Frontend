@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Navbar from './components/Navbar';
+import Feeds from './pages/Feeds';
 
 ReactDOM.render(
   // <React.StrictMode>
@@ -19,6 +20,7 @@ ReactDOM.render(
       <Route path='/' element={<App/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>
+      <Route path='/posts' element={<Feeds/>}/>
     </Routes>
     </div>
   </BrowserRouter>,
