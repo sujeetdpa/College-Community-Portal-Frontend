@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Navbar from './components/Navbar';
 import Feeds from './pages/Feeds';
+import Protected from './components/Protected'
 
 ReactDOM.render(
   // <React.StrictMode>
@@ -20,7 +21,7 @@ ReactDOM.render(
       <Route path='/' element={<App/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>
-      <Route path='/posts' element={<Feeds/>}/>
+      <Route path='/feeds' element={<Protected Cmp={Feeds}/>}/>
     </Routes>
     </div>
   </BrowserRouter>,
