@@ -4,11 +4,6 @@ import { Link } from 'react-router-dom'
 import './Navbar.css'
 
 export default function Navbar() {
-    const [accessToken, setAccessToken] = useState([]);
-    useEffect(() => {
-        setAccessToken(localStorage.getItem("access_token"));
-    }, [accessToken])
-
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -19,7 +14,7 @@ export default function Navbar() {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            {(accessToken === undefined || accessToken === null) ?
+                            {/* {(accessToken === undefined || accessToken === null) ? */}
                                 <>
                                     <li className="nav-item">
                                         <Link className="nav-link" to="/login">Login</Link>
@@ -33,9 +28,12 @@ export default function Navbar() {
                                         <Link className="nav-link" to="/user/profile">Welcome Name!</Link>
                                     </li>
                                     <li className="nav-item">
+                                        <Link className="nav-link" to="/feeds">Feeds</Link>
+                                    </li>
+                                    <li className="nav-item">
                                         <Link className="nav-link" to="/logout">Logout</Link>
                                     </li>
-                                </>}
+                                </>
                         </ul>
                         <form className="d-flex">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />

@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link , useNavigate} from 'react-router-dom'
+import { useEffect } from 'react'
 import './Login.css'
 
 export default function Login() {
@@ -7,6 +8,12 @@ export default function Login() {
         username:'',
         password:''
     }
+    const navigate=useNavigate();
+    useEffect(()=>{
+        if(localStorage.getItem("access_token")){
+            navigate("/feeds");
+        }
+    },[])
     const handleSubmit= (e)=>{
         e.preventDefault();
         let options = {
@@ -22,6 +29,7 @@ export default function Login() {
               console.log(data);
               localStorage.setItem("access_token", data.access_token);
               localStorage.setItem("refresh_token", data.refresh_token);
+              navigate("/feeds");
             })
           })
     }

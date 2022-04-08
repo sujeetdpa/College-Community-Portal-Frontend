@@ -1,10 +1,17 @@
 
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Register.css'
 import { register } from '../api/UserApis'
 
 export default function Register() {
+    const navigate=useNavigate();
+    useEffect(()=>{
+        if(localStorage.getItem("access_token")){
+            navigate("/feeds");
+        }
+    },[])
     const data = {
         firstName: "",
         lastName: "",
