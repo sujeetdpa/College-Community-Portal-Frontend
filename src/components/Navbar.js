@@ -1,14 +1,20 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 import './Navbar.css'
 
 export default function Navbar() {
     const [accessToken,setAccessToken]=useState(localStorage.getItem("access_token"));
-
+    const navigate=useNavigate();
     useEffect(()=>{
         setAccessToken(localStorage.getItem("access_token"));
-    },[accessToken])
+    },[accessToken]);
+
+    const handleLogout=()=>{
+        localStorage.removeItem("access_token");
+        setAccessToken(null);
+        navigate("/login");
+    }
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -36,7 +42,7 @@ export default function Navbar() {
                                         <Link className="nav-link" to="/feeds">Feeds</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/logout">Logout</Link>
+                                        <button onClick={handleLogout}>Logout</button>
                                     </li>
                                 </>}
                         </ul>
