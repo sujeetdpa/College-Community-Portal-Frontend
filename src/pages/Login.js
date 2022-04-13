@@ -67,7 +67,7 @@ export default function Login() {
                                         </div>
                                     </form>
                                     <div className="col-md-6 offset-md-4 py-4">
-                                            Don't have account please <Link to="/register">Register</Link>
+                                            Don't have account please <Link to="/register">Join</Link>
                                         </div>
                                 </div>
                             </div>
