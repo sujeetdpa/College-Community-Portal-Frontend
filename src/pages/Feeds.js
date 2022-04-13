@@ -22,11 +22,19 @@ export default function Feeds() {
                 body: JSON.stringify(postRequest)
             }
             const response = await fetch("http://localhost:8080/api/post/all", options);
+            if(!response.ok){
+                throw response.json();
+            }
             return response.json();
         }
         fetchPost().then(data => {
             setPosts(data.postResponseViews);
             console.log(data);
+        }).catch(err=>{
+            err.then(data=>{
+                console.log(data);
+                alert(data.message);
+            })
         })
     }, [])
     useEffect(() => {
@@ -41,21 +49,26 @@ export default function Feeds() {
                 headers: {
                     'Authorization': authHeader
                 },
-                //body: JSON.stringify(postRequest)
             }
             const response = await fetch("http://localhost:8080/api/user", options);
+            if(!response.ok){
+                throw response.json();
+            }
             return response.json();
         }
         fetchUser().then(data => {
             setUser(data);
             console.log((data));
+        }).catch(err=>{
+            err.then(data=>{
+                console.log(data);
+                alert(data.message);
+            })
         })
     }, [])
     return (
         <div className='d-flex flex-row '>
-
             <div className=' align-content-end'>
-                <p>Left Side Bar</p>
                 <button type="button" className="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
                     Create Post
                 </button>
@@ -80,7 +93,7 @@ export default function Feeds() {
                                     <div className="form-group row">
                                         <label className="col-md-4 col-form-label text-md-right">Description</label>
                                         <div className="col-md-6">
-                                            <textarea type="text" id="description" className="form-control"/>
+                                            <textarea type="text" id="description" className="form-control" cols='50' rows='8'/>
                                         </div>
                                     </div>
                                 </form>
@@ -96,11 +109,10 @@ export default function Feeds() {
                     </div>
                 </div >
             </div >
-            <div className=' flex-fill'>
+            <div className='flex-fill'>
                 {posts.map(post => <Post postData={post} key={post.id} />)}
             </div>
-            <div className=' align-content-end'>
-                <p>Right Side Bar</p>
+            <div className='align-content-end'>
                 <button className="btn btn-primary">Most Performances</button>
             </div>
 

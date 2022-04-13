@@ -16,7 +16,7 @@ export default function Navbar() {
         navigate("/login");
     }
     return (
-        <div>
+        <div className='mainNavbar'>
             <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
                     <Link to="/" className="navbar-brand">College Community Portal</Link>
@@ -28,10 +28,10 @@ export default function Navbar() {
                             {(accessToken === undefined || accessToken === null) ?
                                 <>
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/login"><button className="btn btn-outline-primary">Login</button></Link>
+                                        <Link className="nav-link" to="/login"><button className="btn btn-outline-primary btn-sm">Login</button></Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/register"><button className="btn btn-outline-primary">Join</button></Link>
+                                        <Link className="nav-link" to="/register"><button className="btn btn-outline-primary btn-sm">Join</button></Link>
                                     </li>
                                 </> :
                                 <>
@@ -42,13 +42,13 @@ export default function Navbar() {
                                         <Link className="nav-link" to="/feeds">Feeds</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <button className="btn btn-outline-secondary" onClick={handleLogout}>Logout</button>
+                                        <button className="btn btn-outline-secondary btn-sm" onClick={handleLogout}>Logout</button>
                                     </li>
                                 </>}
                         </ul>
                         <form className="d-flex">
                             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button className="btn btn-outline-success" type="submit">Search</button>
+                            <button className="btn btn-outline-success btn-sm" type="submit">Search</button>
                         </form>
                     </div>
                 </div>

@@ -25,6 +25,9 @@ export default function Login() {
           }
           let response = fetch("http://localhost:8080/auth/login", options);
           response.then((res) => {
+              if(!res.ok){
+                  throw res.json();
+              }
             res.json().then(data => {
               console.log(data);
               localStorage.setItem("access_token", data.access_token);
@@ -32,8 +35,10 @@ export default function Login() {
               navigate("/feeds");
             })
           }).catch(err=>{
-              console.log(err);
-              alert(err.message);
+              err.then(data=>{
+                  console.log(data);
+                  alert(data.message);
+              })
           })
     }
     return (

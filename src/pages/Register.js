@@ -22,7 +22,6 @@ export default function Register() {
         dob: "",
         mobileNo: ""
     }
-    const [registerSucces, setRegisterSucces] = useState([]);
     const handleSubmit = e => {
         e.preventDefault();
         let options = {
@@ -34,15 +33,18 @@ export default function Register() {
         }
         const response = fetch("http://localhost:8080/auth/signup", options);
         response.then(res => {
+            if(!res.ok){
+                throw res.json();
+            }
             res.json().then(responseData => {
                 console.log("APi response: ");
                 console.log(responseData);
-                if (responseData.id != undefined) {
-                    setRegisterSucces(<div className='alert alert-success .fade' role="alert"><h3>Successfully registered {responseData.fullName}</h3></div>)
-                }
-                else {
-                    setRegisterSucces(<div className='alert alert-danger .fade' role="alert"><h3>Some error occured for field please try again</h3></div>)
-                }
+                alert("Registration Successfull: Please Login");
+            })
+        }).catch(err=>{
+            err.then(data=>{
+                console.log(data);
+                alert(data.message);
             })
         })
     }
@@ -86,7 +88,7 @@ export default function Register() {
                                             </div>
                                         </div>
                                         <div className="form-group row">
-                                            <label className="col-md-4 col-form-label text-md-right" >University Email</label>
+                                            <label className="col-md-4 col-form-label text-md-right" >University Email/Username</label>
                                             <div className="col-md-6">
                                                 <input type="email" id="email" className="form-control" onChange={e => { data.username = e.target.value }} />
                                             </div>
@@ -119,7 +121,7 @@ export default function Register() {
                                             </button>
                                         </div>
                                     </form>
-                                    {registerSucces}
+                                 
                                 </div>
                             </div>
                         </div>

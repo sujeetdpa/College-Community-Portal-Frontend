@@ -16,11 +16,19 @@ export default function Post({ postData }) {
     }
     const response =fetch("http://localhost:8080/api/post/"+postData.id+"/like/"+postData.userId, options);
     response.then(res=>{
+      if(!res.ok){
+        throw res.json();
+      }
       res.json().then(data=>{
         alert(data.message);
         setNoOfLikes(data.noOfLikes);
         console.log(data);
       });
+    }).catch(err=>{
+      err.then(data=>{
+        console.log(data);
+        alert(data.message);
+      })
     })
   }
   const handleDislikePost = () => {
@@ -33,10 +41,18 @@ export default function Post({ postData }) {
     }
     const response =fetch("http://localhost:8080/api/post/"+postData.id+"/dislike/"+postData.userId, options);
     response.then(res=>{
+      if(!res.ok){
+        throw res.json();
+      }
       res.json().then(data=>{
         console.log(data);
         alert(data.message);
       });
+    }).catch(err=>{
+      err.then(data=>{
+        console.log(data);
+        alert(data.message);
+      })
     })
   }
   return (
@@ -61,10 +77,10 @@ export default function Post({ postData }) {
                 <hr />
                 <div className="d-flex justify-content-between align-items-center">
                   <div className="d-flex flex-row icons d-flex align-items-center">
-                    <h4 className="bi bi-hand-thumbs-up px-2" onClick={handleLikePost}>{noOfLikes}</h4>
-                    <h4 className="bi bi-hand-thumbs-down px-3" onClick={handleDislikePost}></h4>
+                    <h5 className="bi bi-hand-thumbs-up px-2" onClick={handleLikePost}>{noOfLikes}</h5>
+                    <h5 className="bi bi-hand-thumbs-down px-3" onClick={handleDislikePost}></h5>
                   </div>
-                  <div className="d-flex flex-row muted-color"><Link to={"/post/" + postData.id}><h4 className="bi bi-chat-left-text px-3"> {postData.noOfComments}</h4></Link>
+                  <div className="d-flex flex-row muted-color"><Link to={"/post/" + postData.id}><h5 className="bi bi-chat-left-text px-3"> {postData.noOfComments}</h5></Link>
                   </div>
                   <hr />
                 </div>
