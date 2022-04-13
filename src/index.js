@@ -9,6 +9,7 @@ import Register from './pages/Register';
 import Navbar from './components/Navbar';
 import Feeds from './pages/Feeds';
 import Protected from './components/Protected'
+import PostPage from './pages/PostPage';
 
 ReactDOM.render(
   // <React.StrictMode>
@@ -22,6 +23,7 @@ ReactDOM.render(
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>
       <Route path='/feeds' element={<Protected Cmp={Feeds}/>}/>
+      <Route path='/post/:postId' element={<Protected Cmp={PostPage}/>}/>
     </Routes>
     </div>
   </BrowserRouter>,

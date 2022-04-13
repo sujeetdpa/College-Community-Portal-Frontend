@@ -28,10 +28,10 @@ export default function Navbar() {
                             {(accessToken === undefined || accessToken === null) ?
                                 <>
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/login">Login</Link>
+                                        <Link className="nav-link" to="/login"><button className="btn btn-outline-primary">Login</button></Link>
                                     </li>
                                     <li className="nav-item">
-                                        <Link className="nav-link" to="/register">Register</Link>
+                                        <Link className="nav-link" to="/register"><button className="btn btn-outline-primary">Join</button></Link>
                                     </li>
                                 </> :
                                 <>
@@ -42,7 +42,7 @@ export default function Navbar() {
                                         <Link className="nav-link" to="/feeds">Feeds</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <button onClick={handleLogout}>Logout</button>
+                                        <button  className="btn btn-outline-secondary" onClick={handleLogout}>Logout</button>
                                     </li>
                                 </>}
                         </ul>

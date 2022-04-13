@@ -31,6 +31,9 @@ export default function Login() {
               localStorage.setItem("refresh_token", data.refresh_token);
               navigate("/feeds");
             })
+          }).catch(err=>{
+              console.log(err);
+              alert(err.message);
           })
     }
     return (
