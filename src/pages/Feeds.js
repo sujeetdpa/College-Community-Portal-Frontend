@@ -4,6 +4,10 @@ import Post from '../components/Post'
 export default function Feeds() {
     const [posts, setPosts] = useState([]);
     const [user, setUser] = useState([]);
+    let images = [];
+    let docs = [];
+    let uploadedImages;
+    let uploadedDocs;
 
     useEffect(() => {
         async function fetchPost() {
@@ -22,7 +26,7 @@ export default function Feeds() {
                 body: JSON.stringify(postRequest)
             }
             const response = await fetch("http://localhost:8080/api/post/all", options);
-            if(!response.ok){
+            if (!response.ok) {
                 throw response.json();
             }
             return response.json();
@@ -30,8 +34,8 @@ export default function Feeds() {
         fetchPost().then(data => {
             setPosts(data.postResponseViews);
             console.log(data);
-        }).catch(err=>{
-            err.then(data=>{
+        }).catch(err => {
+            err.then(data => {
                 console.log(data);
                 alert(data.message);
             })
@@ -51,7 +55,7 @@ export default function Feeds() {
                 },
             }
             const response = await fetch("http://localhost:8080/api/user", options);
-            if(!response.ok){
+            if (!response.ok) {
                 throw response.json();
             }
             return response.json();
@@ -59,13 +63,58 @@ export default function Feeds() {
         fetchUser().then(data => {
             setUser(data);
             console.log((data));
-        }).catch(err=>{
-            err.then(data=>{
+        }).catch(err => {
+            err.then(data => {
                 console.log(data);
                 alert(data.message);
             })
         })
-    }, [])
+    }, []);
+    
+    const handleUpload = () => {
+        const authHeader = "Bearer " + localStorage.getItem("access_token");
+        console.log("images: "); console.log(images);
+        console.log("docs: "); console.log(docs);
+
+        if (images.length > 0) {
+            const imageFormData = new FormData();
+            imageFormData.append("images", images);
+            let imageOptions = {
+                method: 'POST',
+                headers: {
+                    'Authorization': authHeader,
+                },
+                body: imageFormData
+            }
+            const imgRes = fetch("http://localhost:8080/api/post/local/storage/upload/image", imageOptions);
+            imgRes.then(res => {
+                res.json().then(data => {
+                    console.log(data);
+                    uploadedImages = data;
+                })
+            })
+        }
+        if (docs.length > 0) {
+            const docFormData = new FormData();
+            docFormData.append("documents", docs);
+
+            let docOptions = {
+                method: 'POST',
+                headers: {
+                    'Authorization': authHeader,
+                },
+                body: docFormData
+            }
+            const imgRes = fetch("http://localhost:8080/api/post/local/storage/upload/document", docOptions);
+            imgRes.then(res => {
+                res.json().then(data => {
+                    console.log(data);
+                    uploadedDocs = data;
+                })
+            })
+        }
+
+    }
     return (
         <div className='d-flex flex-row '>
             <div className=' align-content-end'>
@@ -87,19 +136,35 @@ export default function Feeds() {
                                     <div className="form-group row mb-2">
                                         <label className="col-md-4 col-form-label text-md-right">Title</label>
                                         <div className="col-md-6">
-                                            <input type="text" id="title" className="form-control"/>
+                                            <input type="text" id="title" className="form-control" />
                                         </div>
                                     </div>
                                     <div className="form-group row">
                                         <label className="col-md-4 col-form-label text-md-right">Description</label>
                                         <div className="col-md-6">
-                                            <textarea type="text" id="description" className="form-control" cols='50' rows='8'/>
+                                            <textarea type="text" id="description" className="form-control" cols='50' rows='8' />
                                         </div>
                                     </div>
                                 </form>
                             </div>
-                            <div className="modal-body">
-                                <p>File uploads</p>
+                            <div className="modal-body d-felx flex-row">
+                                <div className="form-group row">
+                                    <div className="col-md-6">
+                                        <div class="file btn btn-sm btn-primary bi bi-card-image">
+                                            <input type="file" name="file" className='bg-transparent' onChange={e => { images = e.target.files }} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="form-group row">
+                                    <div className="col-md-6">
+                                        <div class="file btn btn-sm btn-primary bi bi-file-earmark-arrow-up">
+                                            <input type="file" name="file" className='bg-transparent' onChange={e => { docs = e.target.files }} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button className='btn btn-primary btn-sm' onClick={handleUpload}>Upload</button>
+                                </div>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
