@@ -4,9 +4,7 @@ import Post from '../components/Post'
 export default function Feeds() {
     const [posts, setPosts] = useState([]);
     const [user, setUser] = useState([]);
-    let images = [];
-    let docs = [];
-    let uploadedImages;
+    let uploadedImgs;
     let uploadedDocs;
 
     useEffect(() => {
@@ -70,50 +68,49 @@ export default function Feeds() {
             })
         })
     }, []);
-    
-    const handleUpload = () => {
-        const authHeader = "Bearer " + localStorage.getItem("access_token");
-        console.log("images: "); console.log(images);
-        console.log("docs: "); console.log(docs);
-
-        if (images.length > 0) {
-            const imageFormData = new FormData();
-            imageFormData.append("images", images);
-            let imageOptions = {
+    const handleImageUpload=(e)=>{
+        const images=e.target.files;
+        if(images.length>0){
+            const authHeader = "Bearer " + localStorage.getItem("access_token");
+            const imagesData=new FormData();
+            imagesData.append("images",images);
+            const options = {
                 method: 'POST',
                 headers: {
-                    'Authorization': authHeader,
+                    'Authorization': authHeader
                 },
-                body: imageFormData
+                body: imagesData
             }
-            const imgRes = fetch("http://localhost:8080/api/post/local/storage/upload/image", imageOptions);
-            imgRes.then(res => {
-                res.json().then(data => {
+            const response=fetch("http://localhost:8080/api/post/local/storage/upload/image", options);
+            response.then(res=>{
+                res.json().then(data=>{
                     console.log(data);
-                    uploadedImages = data;
+                    uploadedImgs=data;
                 })
             })
         }
-        if (docs.length > 0) {
-            const docFormData = new FormData();
-            docFormData.append("documents", docs);
-
-            let docOptions = {
+    }
+    const handleDocumentUpload=(e)=>{
+        const docs=e.target.files;
+        if(docs.length>0){
+            const authHeader = "Bearer " + localStorage.getItem("access_token");
+            const docsData=new FormData();
+            imagesData.append("documents",docs);
+            const options = {
                 method: 'POST',
                 headers: {
-                    'Authorization': authHeader,
+                    'Authorization': authHeader
                 },
-                body: docFormData
+                body: docsData
             }
-            const imgRes = fetch("http://localhost:8080/api/post/local/storage/upload/document", docOptions);
-            imgRes.then(res => {
-                res.json().then(data => {
+            const response=fetch("http://localhost:8080/api/post/local/storage/upload/image", options);
+            response.then(res=>{
+                res.json().then(data=>{
                     console.log(data);
-                    uploadedDocs = data;
+                    uploadedDocs=data;
                 })
             })
         }
-
     }
     return (
         <div className='d-flex flex-row '>
