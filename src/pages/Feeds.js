@@ -148,14 +148,14 @@ export default function Feeds() {
                                 <div className="form-group row">
                                     <div className="col-md-6">
                                         <div class="file btn btn-sm btn-primary bi bi-card-image">
-                                            <input type="file" name="file" className='bg-transparent' onChange={e => { images = e.target.files }} />
+                                            <input type="file" name="file" className='bg-transparent' onChange={handleImageUpload(e)} />
                                         </div>
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <div className="col-md-6">
                                         <div class="file btn btn-sm btn-primary bi bi-file-earmark-arrow-up">
-                                            <input type="file" name="file" className='bg-transparent' onChange={e => { docs = e.target.files }} />
+                                            <input type="file" name="file" className='bg-transparent' onChange={handleDocumentUpload(e)} />
                                         </div>
                                     </div>
                                 </div>
