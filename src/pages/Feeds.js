@@ -1,35 +1,63 @@
 import React, { useEffect, useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component';
 import Post from '../components/Post'
 
 export default function Feeds() {
     const [posts, setPosts] = useState([]);
     const [user, setUser] = useState([]);
-    let uploadedImgs;
-    let uploadedDocs;
+    const [postResponseList,setPostResponseList]=useState([{
+        postSearchResponseViews:[],
+        pageNo:0,
+        totalPages:0,
+        totalNumberOfItems:0,
+        maxItems:5
+    }]);
+    let postData = {
+        title: "",
+        description: "",
+        images: [],
+        documents: []
+    }
+    let uploadedImgs = [];
+    let uploadedDocs = [];
 
-    useEffect(() => {
-        async function fetchPost() {
-            const authHeader = "Bearer " + localStorage.getItem("access_token");
-            const postRequest = {
-                pageNo: '0',
-                maxItem: '15',
-                sortBy: 'creationDate'
-            }
-            const options = {
-                method: 'POST',
-                headers: {
-                    'Authorization': authHeader,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(postRequest)
-            }
-            const response = await fetch("http://localhost:8080/api/post/all", options);
-            if (!response.ok) {
-                throw response.json();
-            }
-            return response.json();
+    async function fetchPost() {
+        const authHeader = "Bearer " + localStorage.getItem("access_token");
+        const postRequest = {
+            pageNo: postResponseList.pageNo,
+            maxItem: '5',
+            sortBy: 'creationDate'
         }
+        const options = {
+            method: 'POST',
+            headers: {
+                'Authorization': authHeader,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postRequest)
+        }
+        const response = await fetch("http://localhost:8080/api/post/all", options);
+        if (!response.ok) {
+            throw response.json();
+        }
+        return response.json();
+    }
+    function fetchMoreData(){
+        postResponseList.pageNo=postResponseList.pageNo+1;
         fetchPost().then(data => {
+            setPostResponseList(data);
+            setPosts(data.postResponseViews);
+            console.log(data);
+        }).catch(err => {
+            err.then(data => {
+                console.log(data);
+                alert(data.message);
+            })
+        })
+    }
+    useEffect(() => {
+        fetchPost().then(data => {
+            setPostResponseList(data);
             setPosts(data.postResponseViews);
             console.log(data);
         }).catch(err => {
@@ -68,14 +96,14 @@ export default function Feeds() {
             })
         })
     }, []);
-    const handleImageUpload=(e)=>{
-        const images=e.target.files;
+    const handleImageUpload = (e) => {
+        const images = e.target.files;
         console.log("Images");
         console.log(images);
-        if(images.length>0){
+        if (images.length > 0) {
             const authHeader = "Bearer " + localStorage.getItem("access_token");
-            let formData=new FormData();
-                formData.append("images",images[i]);
+            let formData = new FormData();
+            formData.append("images", images);
             console.log("form data:")
             console.log(formData.get("images"));
             const options = {
@@ -85,21 +113,21 @@ export default function Feeds() {
                 },
                 body: formData
             }
-            const response=fetch("http://localhost:8080/api/post/local/storage/upload/image/new", options);
-            response.then(res=>{
-                res.json().then(data=>{
+            const response = fetch("http://localhost:8080/api/post/local/storage/upload/image/new", options);
+            response.then(res => {
+                res.json().then(data => {
                     console.log(data);
-                    uploadedImgs=data;
+                    uploadedImgs = data;
                 })
             })
         }
     }
-    const handleDocumentUpload=(e)=>{
-        const docs=e.target.files;
-        if(docs.length>0){
+    const handleDocumentUpload = (e) => {
+        const docs = e.target.files;
+        if (docs.length > 0) {
             const authHeader = "Bearer " + localStorage.getItem("access_token");
-            const docsData=new FormData();
-            docsData.append("documents",docs);
+            const docsData = new FormData();
+            docsData.append("documents", docs);
             const options = {
                 method: 'POST',
                 headers: {
@@ -107,14 +135,47 @@ export default function Feeds() {
                 },
                 body: docsData
             }
-            const response=fetch("http://localhost:8080/api/post/local/storage/upload/document", options);
-            response.then(res=>{
-                res.json().then(data=>{
+            const response = fetch("http://localhost:8080/api/post/local/storage/upload/document", options);
+            response.then(res => {
+                res.json().then(data => {
                     console.log(data);
-                    uploadedDocs=data;
+                    uploadedDocs = data;
                 })
             })
         }
+    }
+    const handleCreatePost = () => {
+        if (uploadedImgs.length > 0) {
+            postData.images = uploadedImgs;
+        }
+        if (uploadedDocs.length > 0) {
+            postData.documents = uploadedDocs;
+        }
+        const authHeader = "Bearer " + localStorage.getItem("access_token");
+        const options = {
+            method: 'POST',
+            headers: {
+                'Authorization': authHeader,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(postData)
+        }
+        const response = fetch("http://localhost:8080/api/post/new", options);
+        response.then(res => {
+            if (!res.ok) {
+                throw res.json();
+            }
+            res.json().then(data => {
+                console.log(data);
+                alert("Post successfully created");
+            })
+        }).catch(err => {
+            err.then(data => {
+                console.log(data);
+                alert(data.message);
+            })
+        })
+
     }
     return (
         <div className='d-flex flex-row '>
@@ -137,13 +198,13 @@ export default function Feeds() {
                                     <div className="form-group row mb-2">
                                         <label className="col-md-4 col-form-label text-md-right">Title</label>
                                         <div className="col-md-6">
-                                            <input type="text" id="title" className="form-control" />
+                                            <input type="text" id="title" className="form-control" onChange={e => { postData.title = e.target.value }} />
                                         </div>
                                     </div>
                                     <div className="form-group row">
                                         <label className="col-md-4 col-form-label text-md-right">Description</label>
                                         <div className="col-md-6">
-                                            <textarea type="text" id="description" className="form-control" cols='50' rows='8' />
+                                            <textarea type="text" id="description" className="form-control" cols='50' rows='8' onChange={e => { postData.description = e.target.value }} />
                                         </div>
                                     </div>
                                 </form>
@@ -151,15 +212,15 @@ export default function Feeds() {
                             <div className="modal-body d-felx flex-row">
                                 <div className="form-group row">
                                     <div className="col-md-6">
-                                        <div class="file btn btn-sm btn-primary bi bi-card-image">
-                                            <input type="file" name="file" multiple className='bg-transparent' onChange={e=>handleImageUpload(e)} />
+                                        <div className="file btn btn-sm btn-primary bi bi-card-image">
+                                            <input type="file" name="file" multiple className='bg-transparent' onChange={e => handleImageUpload(e)} />
                                         </div>
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <div className="col-md-6">
-                                        <div class="file btn btn-sm btn-primary bi bi-file-earmark-arrow-up">
-                                            <input type="file" name="file" multiple className='bg-transparent' onChange={e=>handleDocumentUpload(e)} />
+                                        <div className="file btn btn-sm btn-primary bi bi-file-earmark-arrow-up">
+                                            <input type="file" name="file" multiple className='bg-transparent' onChange={e => handleDocumentUpload(e)} />
                                         </div>
                                     </div>
                                 </div>
@@ -169,14 +230,21 @@ export default function Feeds() {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary">Post</button>
+                                <button type="button" className="btn btn-primary" onClick={handleCreatePost}>Post</button>
                             </div>
                         </div>
                     </div>
                 </div >
             </div >
             <div className='flex-fill'>
-                {posts.map(post => <Post postData={post} key={post.id} />)}
+                <InfiniteScroll
+                    dataLength={postResponseList.totalNumberOfItems}
+                    next={fetchMoreData()}
+                    hasMore={true}
+                    loader={<h4>Loading...</h4>}
+                >
+                    {posts.map(post => <Post postData={post} key={post.id} />)}
+                </InfiniteScroll>
             </div>
             <div className='align-content-end'>
                 <button className="btn btn-primary">Most Performances</button>
