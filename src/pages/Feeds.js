@@ -5,13 +5,8 @@ import Post from '../components/Post'
 export default function Feeds() {
     const [posts, setPosts] = useState([]);
     const [user, setUser] = useState([]);
-    const [postResponseList,setPostResponseList]=useState([{
-        postSearchResponseViews:[],
-        pageNo:0,
-        totalPages:0,
-        totalNumberOfItems:0,
-        maxItems:5
-    }]);
+    const [pageNo, setPageNo] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
     let postData = {
         title: "",
         description: "",
@@ -21,10 +16,11 @@ export default function Feeds() {
     let uploadedImgs = [];
     let uploadedDocs = [];
 
-    async function fetchPost() {
+    useEffect(() => {
+        console.log("pageNo: " + pageNo);
         const authHeader = "Bearer " + localStorage.getItem("access_token");
         const postRequest = {
-            pageNo: postResponseList.pageNo,
+            pageNo: pageNo,
             maxItem: '5',
             sortBy: 'creationDate'
         }
@@ -36,37 +32,15 @@ export default function Feeds() {
             },
             body: JSON.stringify(postRequest)
         }
-        const response = await fetch("http://localhost:8080/api/post/all", options);
-        if (!response.ok) {
-            throw response.json();
-        }
-        return response.json();
-    }
-    function fetchMoreData(){
-        postResponseList.pageNo=postResponseList.pageNo+1;
-        fetchPost().then(data => {
-            setPostResponseList(data);
-            setPosts(data.postResponseViews);
-            console.log(data);
-        }).catch(err => {
-            err.then(data => {
-                console.log(data);
-                alert(data.message);
+        fetch("http://localhost:8080/api/post/all", options)
+            .then(res => {
+                res.json().then(data => {
+                    console.log(data.postResponseViews);
+                    setTotalPages(data.totalPages);
+                    setPosts([...posts, ...data.postResponseViews])
+                })
             })
-        })
-    }
-    useEffect(() => {
-        fetchPost().then(data => {
-            setPostResponseList(data);
-            setPosts(data.postResponseViews);
-            console.log(data);
-        }).catch(err => {
-            err.then(data => {
-                console.log(data);
-                alert(data.message);
-            })
-        })
-    }, [])
+    }, [pageNo])
     useEffect(() => {
         async function fetchUser() {
             const authHeader = "Bearer " + localStorage.getItem("access_token");
@@ -88,7 +62,7 @@ export default function Feeds() {
         }
         fetchUser().then(data => {
             setUser(data);
-            console.log((data));
+            // console.log((data));
         }).catch(err => {
             err.then(data => {
                 console.log(data);
@@ -184,7 +158,7 @@ export default function Feeds() {
                     Create Post
                 </button>
 
-                <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -238,13 +212,18 @@ export default function Feeds() {
             </div >
             <div className='flex-fill'>
                 <InfiniteScroll
-                    dataLength={postResponseList.totalNumberOfItems}
-                    next={fetchMoreData()}
-                    hasMore={true}
+                    dataLength={posts.length} //This is important field to render the next data
+                    next={()=>setPageNo(pageNo+1)}
+                    hasMore={(totalPages-1)!==pageNo}
                     loader={<h4>Loading...</h4>}
-                >
+                    endMessage={
+                        <p style={{ textAlign: 'center' }}>
+                            <b>Yay! You have seen it all</b>
+                        </p>
+                    }
+                    >
                     {posts.map(post => <Post postData={post} key={post.id} />)}
-                </InfiniteScroll>
+                    </InfiniteScroll>
             </div>
             <div className='align-content-end'>
                 <button className="btn btn-primary">Most Performances</button>
