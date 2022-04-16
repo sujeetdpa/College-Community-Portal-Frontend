@@ -70,19 +70,22 @@ export default function Feeds() {
     }, []);
     const handleImageUpload=(e)=>{
         const images=e.target.files;
+        console.log("Images");
         console.log(images);
         if(images.length>0){
             const authHeader = "Bearer " + localStorage.getItem("access_token");
-            const imagesData=new FormData();
-            imagesData.append("images",images);
+            let formData=new FormData();
+                formData.append("images",images[i]);
+            console.log("form data:")
+            console.log(formData.get("images"));
             const options = {
                 method: 'POST',
                 headers: {
                     'Authorization': authHeader
                 },
-                body: imagesData
+                body: formData
             }
-            const response=fetch("http://localhost:8080/api/post/local/storage/upload/image", options);
+            const response=fetch("http://localhost:8080/api/post/local/storage/upload/image/new", options);
             response.then(res=>{
                 res.json().then(data=>{
                     console.log(data);
@@ -149,14 +152,14 @@ export default function Feeds() {
                                 <div className="form-group row">
                                     <div className="col-md-6">
                                         <div class="file btn btn-sm btn-primary bi bi-card-image">
-                                            <input type="file" name="file" className='bg-transparent' onChange={e=>handleImageUpload(e)} />
+                                            <input type="file" name="file" multiple className='bg-transparent' onChange={e=>handleImageUpload(e)} />
                                         </div>
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <div className="col-md-6">
                                         <div class="file btn btn-sm btn-primary bi bi-file-earmark-arrow-up">
-                                            <input type="file" name="file" className='bg-transparent' onChange={e=>handleDocumentUpload(e)} />
+                                            <input type="file" name="file" multiple className='bg-transparent' onChange={e=>handleDocumentUpload(e)} />
                                         </div>
                                     </div>
                                 </div>
