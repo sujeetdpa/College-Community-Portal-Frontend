@@ -179,7 +179,7 @@ export default function PostPage() {
                 <div className="d-flex justify-content-between align-items-center">
                   <div className="d-flex flex-row icons d-flex align-items-center">
                     <h5 className="bi bi-hand-thumbs-up px-2" onClick={handleLikePost}>{noOfLikes}</h5>
-                    <h5 className="bi bi-hand-thumbs-down px-3" onClick={handleDislikePost}></h5>
+                    <h5 className="bi bi-hand-thumbs-down px-3" onClick={handleDislikePost}><p hidden='true'></p></h5>
                   </div>
                   <div className="d-flex flex-row ">
                     <h5 className="bi bi-chat-left-text px-3" data-toggle="collapse" href="#commentBox" role="button"> {noOfComments}</h5>
@@ -190,13 +190,14 @@ export default function PostPage() {
               <div className="comments collapse" id="commentBox">
                 <div className="comment-input pb-3">
                   <form onSubmit={handleCreateComment}>
-                    <input type="text" className="form-control" id='commentInput' required placeholder='Write comment here.' onChange={e => { createCommentData.description = e.target.value }} />
-                    <div className="fonts">
-                      <button className='btn-outline-primary rounded-circle' type='submit' >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-sendbtn " viewBox="0 0 16 16" onSubmit={handleCreateComment}>
+                    <div class="d-flex flex-row add-comment-section mt-4 mb-4">
+                      <img class="img-fluid img-responsive rounded-circle mr-2" src={"https://robohash.org/"+post.id} width="38" alt='login-user-profile'/>
+                      <input type="text" id='commentInput' class="form-control mr-3" placeholder="Add comment" onChange={e => { createCommentData.description = e.target.value }}/>
+                    <button class="btn-outline-primary rounded-circle" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-sendbtn " viewBox="0 0 16 16">
                         <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
                       </svg>
-                      </button>
+                    </button>
                     </div>
                   </form>
                 </div>

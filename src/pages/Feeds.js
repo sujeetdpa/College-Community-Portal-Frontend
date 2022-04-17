@@ -43,10 +43,6 @@ export default function Feeds() {
     useEffect(() => {
         async function fetchUser() {
             const authHeader = "Bearer " + localStorage.getItem("access_token");
-            const postRequest = {
-                pageNo: '1',
-                maxPostRequest: '10'
-            }
             const options = {
                 method: 'GET',
                 headers: {
