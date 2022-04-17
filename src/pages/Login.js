@@ -36,8 +36,7 @@ export default function Login() {
             })
           }).catch(err=>{
               err.then(data=>{
-                  console.log(data);
-                  alert(data.message);
+                  alert("Invalid Credentials.");
               })
           })
     }

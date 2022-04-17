@@ -17,7 +17,6 @@ export default function Feeds() {
     let uploadedDocs = [];
 
     useEffect(() => {
-        console.log("pageNo: " + pageNo);
         const authHeader = "Bearer " + localStorage.getItem("access_token");
         const postRequest = {
             pageNo: pageNo,
