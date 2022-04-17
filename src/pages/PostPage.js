@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Comment from '../components/Comment';
 import './PostPage.css'
@@ -47,7 +47,7 @@ export default function PostPage() {
           alert(data.message);
         })
       })
-  }, [])
+  }, [params.postId])
   //API call to fetch comments
   useEffect(() => {
     const authHeader = "Bearer " + localStorage.getItem("access_token");
@@ -157,7 +157,8 @@ export default function PostPage() {
           <div className="col-md-6">
             <div className="card">
               <div className="d-flex justify-content-between p-2 px-3">
-                <div className="d-flex flex-row align-items-center"> <img src="https://i.imgur.com/UXdKE3o.jpg" width="50" className="rounded-circle" alt='dvvs' />
+                <div className="d-flex flex-row align-items-center"> 
+                <img src={(post.profileImageId!==null && post.profileImageId!== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + post.profileImageId : "https://robohash.org/"+post.userId} width="50" className="rounded-circle" alt='Profile' />
                   <div className="d-flex flex-column ml-2"> <span className="font-weight-bold">{post.fullName}</span> <small className="text-primary">Collegues</small> </div>
                 </div>
                 <div className="d-flex flex-row mt-1 ellipsis"> <small className="mr-2">{post.creationDate}</small> <i className="fa fa-ellipsis-h"></i> </div>
@@ -166,7 +167,8 @@ export default function PostPage() {
                 <h5>{post.title}</h5>
                 <p className="text-justify">{post.description}</p>
               </div>
-              {post.imageIds.length > 0 ? <img src={"http://localhost:8080/api/post/local/storage/download/image/" + post.imageIds[0]} className="img-fluid" alt='dsvv' /> : ""}
+              {post.imageIds.map(id=> <img src={"http://localhost:8080/api/post/local/storage/download/image/" + id} className="img-fluid" alt='Data' key={id}/>)}
+              {/* {post.imageIds.length > 0 ? <img src={"http://localhost:8080/api/post/local/storage/download/image/" + post.imageIds[0]} className="img-fluid" alt='dsvv' /> : ""} */}
               <div className="p-2">
                 <hr />
                 <div className="d-flex justify-content-between align-items-center">

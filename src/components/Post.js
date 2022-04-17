@@ -14,18 +14,18 @@ export default function Post({ postData }) {
         'Authorization': authHeader
       },
     }
-    const response =fetch("http://localhost:8080/api/post/"+postData.id+"/like/"+postData.userId, options);
-    response.then(res=>{
-      if(!res.ok){
+    const response = fetch("http://localhost:8080/api/post/" + postData.id + "/like/" + postData.userId, options);
+    response.then(res => {
+      if (!res.ok) {
         throw res.json();
       }
-      res.json().then(data=>{
+      res.json().then(data => {
         alert(data.message);
         setNoOfLikes(data.noOfLikes);
         console.log(data);
       });
-    }).catch(err=>{
-      err.then(data=>{
+    }).catch(err => {
+      err.then(data => {
         console.log(data);
         alert(data.message);
       })
@@ -39,17 +39,17 @@ export default function Post({ postData }) {
         'Authorization': authHeader
       },
     }
-    const response =fetch("http://localhost:8080/api/post/"+postData.id+"/dislike/"+postData.userId, options);
-    response.then(res=>{
-      if(!res.ok){
+    const response = fetch("http://localhost:8080/api/post/" + postData.id + "/dislike/" + postData.userId, options);
+    response.then(res => {
+      if (!res.ok) {
         throw res.json();
       }
-      res.json().then(data=>{
+      res.json().then(data => {
         console.log(data);
         alert(data.message);
       });
-    }).catch(err=>{
-      err.then(data=>{
+    }).catch(err => {
+      err.then(data => {
         console.log(data);
         alert(data.message);
       })
@@ -62,7 +62,8 @@ export default function Post({ postData }) {
           <div className="col-md-6">
             <div className="card">
               <div className="d-flex justify-content-between p-2 px-3">
-                <div className="d-flex flex-row align-items-center"> <img src="https://i.imgur.com/UXdKE3o.jpg" width="50" className="rounded-circle" alt='dvvs' />
+                <div className="d-flex flex-row align-items-center">
+                  <img src={(postData.profileImageId!==null && postData.profileImageId!== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + postData.profileImageId : "https://robohash.org/"+postData.userId} width="50" className="rounded-circle" alt='Profile' />
                   <div className="d-flex flex-column ml-2"> <span className="font-weight-bold">{postData.fullName}</span> <small className="text-primary">Collegues</small> </div>
                 </div>
                 <div className="d-flex flex-row mt-1 ellipsis"> <small className="mr-2">{postData.creationDate}</small> <i className="fa fa-ellipsis-h"></i> </div>
