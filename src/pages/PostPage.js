@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import {useParams } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Comment from '../components/Comment';
 import './PostPage.css'
@@ -13,12 +13,12 @@ export default function PostPage() {
   const [commentPageNo, setCommentPageNo] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  const newCommentData = {
+  const [createCommentData,setCreateCommentData]=useState({
     title: '',
     description: '',
     postId: post.id,
     userId: ''
-  }
+  });
 
   //API call to fetch post data
   useEffect(() => {
@@ -39,6 +39,7 @@ export default function PostPage() {
           console.log(data);
           setNoOfLikes(data.noOfLikes);
           setNoOfComments(data.noOfComments);
+          createCommentData.postId=data.id;
           setPost(data);
         })
       }).catch(err => {
@@ -54,7 +55,7 @@ export default function PostPage() {
     const commentRequest = {
       postId: post.id,
       pageNo: commentPageNo,
-      maxItem: '4'
+      maxItem: '5'
     }
     const options = {
       method: 'POST',
@@ -69,7 +70,7 @@ export default function PostPage() {
         res.json().then(data => {
           console.log(data);
           setTotalPages(data.totalPages)
-          setComments(data.commentResponseViews);
+          setComments([...comments,...data.commentResponseViews]);
         })
       })
   }, [commentPageNo])
@@ -124,7 +125,8 @@ export default function PostPage() {
       })
     })
   }
-  const handleCreateComment = () => {
+  const handleCreateComment = (e) => {
+    e.preventDefault();
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     const options = {
       method: 'POST',
@@ -132,7 +134,7 @@ export default function PostPage() {
         'Authorization': authHeader,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(newCommentData)
+      body: JSON.stringify(createCommentData)
     }
     const response = fetch("http://localhost:8080/api/post/comment/new", options);
     response.then(res => {
@@ -141,7 +143,10 @@ export default function PostPage() {
       }
       res.json().then(data => {
         console.log(data);
-        document.getElementById("commentInput").value = '';
+        setNoOfComments(noOfComments+1);
+        document.getElementById("commentInput").value = '';  
+        setComments([]);
+        setCommentPageNo(0);
       })
     }).catch(err => {
       err.then(data => {
@@ -177,17 +182,17 @@ export default function PostPage() {
                     <h5 className="bi bi-hand-thumbs-down px-3" onClick={handleDislikePost}></h5>
                   </div>
                   <div className="d-flex flex-row ">
-                    <h5 className="bi bi-chat-left-text px-3"> {noOfComments}</h5>
+                    <h5 className="bi bi-chat-left-text px-3" data-toggle="collapse" href="#commentBox" role="button"> {noOfComments}</h5>
                   </div>
                   <hr />
                 </div>
               </div>
-              <div className="comments">
+              <div className="comments collapse" id="commentBox">
                 <div className="comment-input pb-3">
-                  <form>
-                    <input type="text" className="form-control" id='commentInput' required placeholder='Write comment here.' onChange={e => { newCommentData.description = e.target.value }} />
+                  <form onSubmit={handleCreateComment}>
+                    <input type="text" className="form-control" id='commentInput' required placeholder='Write comment here.' onChange={e => { createCommentData.description = e.target.value }} />
                     <div className="fonts">
-                      <button className='btn-outline-primary rounded-circle' >
+                      <button className='btn-outline-primary rounded-circle' type='submit' >
                       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-sendbtn " viewBox="0 0 16 16" onSubmit={handleCreateComment}>
                         <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
                       </svg>
@@ -199,7 +204,7 @@ export default function PostPage() {
                   <InfiniteScroll
                     dataLength={comments.length} //This is important field to render the next data
                     next={() => setCommentPageNo(commentPageNo + 1)}
-                    hasMore={(comments.length !==0) && (totalPages-1)!==commentPageNo}
+                    hasMore={(totalPages-1)!==commentPageNo}
                     loader={<h4>Loading...</h4>}
                     endMessage={
                       <p style={{ textAlign: 'center' }}>

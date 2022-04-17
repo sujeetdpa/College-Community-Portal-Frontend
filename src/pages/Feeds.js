@@ -7,12 +7,12 @@ export default function Feeds() {
     const [user, setUser] = useState([]);
     const [pageNo, setPageNo] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
-    let postData = {
+    const [createPostData, setCreatePostData]=useState({
         title: "",
         description: "",
         images: [],
         documents: []
-    }
+    })
     let uploadedImgs = [];
     let uploadedDocs = [];
 
@@ -119,10 +119,10 @@ export default function Feeds() {
     }
     const handleCreatePost = () => {
         if (uploadedImgs.length > 0) {
-            postData.images = uploadedImgs;
+            createPostData.images = uploadedImgs;
         }
         if (uploadedDocs.length > 0) {
-            postData.documents = uploadedDocs;
+            createPostData.documents = uploadedDocs;
         }
         const authHeader = "Bearer " + localStorage.getItem("access_token");
         const options = {
@@ -131,7 +131,7 @@ export default function Feeds() {
                 'Authorization': authHeader,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(postData)
+            body: JSON.stringify(createPostData)
         }
         const response = fetch("http://localhost:8080/api/post/new", options);
         response.then(res => {
@@ -171,13 +171,13 @@ export default function Feeds() {
                                     <div className="form-group row mb-2">
                                         <label className="col-md-4 col-form-label text-md-right">Title</label>
                                         <div className="col-md-6">
-                                            <input type="text" id="title" className="form-control" onChange={e => { postData.title = e.target.value }} />
+                                            <input type="text" id="title" className="form-control" onChange={e => { createPostData.title = e.target.value }} />
                                         </div>
                                     </div>
                                     <div className="form-group row">
                                         <label className="col-md-4 col-form-label text-md-right">Description</label>
                                         <div className="col-md-6">
-                                            <textarea type="text" id="description" className="form-control" cols='50' rows='8' onChange={e => { postData.description = e.target.value }} />
+                                            <textarea type="text" id="description" className="form-control" cols='50' rows='8' onChange={e => { createPostData.description = e.target.value }} />
                                         </div>
                                     </div>
                                 </form>

@@ -22,6 +22,16 @@ export default function Register() {
         dob: "",
         mobileNo: ""
     }
+    const [registerData,setRegisterData] = useState({
+        firstName: "",
+        lastName: "",
+        gender: "",
+        username: "",
+        password: "",
+        cnfPassword: "",
+        dob: "",
+        mobileNo: ""
+    })
     const handleSubmit = e => {
         e.preventDefault();
         let options = {
@@ -29,7 +39,7 @@ export default function Register() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(registerData)
         }
         const response = fetch("http://localhost:8080/auth/signup", options);
         response.then(res => {
@@ -61,19 +71,19 @@ export default function Register() {
                                         <div className="form-group row">
                                             <label className="col-md-4 col-form-label text-md-right">First Name</label>
                                             <div className="col-md-6">
-                                                <input type="text" id="firstName" className="form-control" onChange={e => { data.firstName = e.target.value }} />
+                                                <input type="text" id="firstName" className="form-control" onChange={e => { registerData.firstName = e.target.value }} />
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label className="col-md-4 col-form-label text-md-right">Last Name</label>
                                             <div className="col-md-6">
-                                                <input type="text" id="lastName" className="form-control" onChange={e => { data.lastName = e.target.value }} />
+                                                <input type="text" id="lastName" className="form-control" onChange={e => { registerData.lastName = e.target.value }} />
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label className="col-md-4 col-form-label text-md-right">Gender</label>
                                             <div className="col-md-6">
-                                                <select className="form-control form-control-sm d-inline-block" aria-label="Default select example" id="gender" onChange={e => { data.gender = e.target.value }}>
+                                                <select className="form-control form-control-sm d-inline-block" aria-label="Default select example" id="gender" onChange={e => { registerData.gender = e.target.value }}>
                                                     <option value="Select.." disabled>Select..</option>
                                                     <option value="FEMALE">Female</option>
                                                     <option value="MALE">Male</option>
@@ -84,33 +94,33 @@ export default function Register() {
                                         <div className="form-group row">
                                             <label className="col-md-4 col-form-label text-md-right">Date of Birth</label>
                                             <div className="col-md-6">
-                                                <input type="date" id="dob" className="form-control" onChange={e => { data.dob = e.target.value }} />
+                                                <input type="date" id="dob" className="form-control" onChange={e => { registerData.dob = e.target.value }} />
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label className="col-md-4 col-form-label text-md-right" >University Email/Username</label>
                                             <div className="col-md-6">
-                                                <input type="email" id="email" className="form-control" onChange={e => { data.username = e.target.value }} />
+                                                <input type="email" id="email" className="form-control" onChange={e => { registerData.username = e.target.value }} />
                                             </div>
                                         </div>
 
                                         <div className="form-group row">
                                             <label className="col-md-4 col-form-label text-md-right" >Password</label>
                                             <div className="col-md-6">
-                                                <input type="password" id="password" className="form-control" onChange={e => { data.password = e.target.value }} />
+                                                <input type="password" id="password" className="form-control" onChange={e => { registerData.password = e.target.value }} />
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label className="col-md-4 col-form-label text-md-right">Confirm Password</label>
                                             <div className="col-md-6">
-                                                <input type="password" id="cnfPassword" className="form-control" onChange={e => { data.cnfPassword = e.target.value }} />
+                                                <input type="password" id="cnfPassword" className="form-control" onChange={e => { registerData.cnfPassword = e.target.value }} />
                                             </div>
                                         </div>
 
                                         <div className="form-group row">
                                             <label className="col-md-4 col-form-label text-md-right" >Mobile Number</label>
                                             <div className="col-md-6">
-                                                <input type="tel" id="phoneNumber" className="form-control" onChange={e => { data.mobileNo = e.target.value }} />
+                                                <input type="tel" id="phoneNumber" className="form-control" onChange={e => { registerData.mobileNo = e.target.value }} />
                                             </div>
                                         </div>
 
