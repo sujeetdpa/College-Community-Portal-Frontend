@@ -5,13 +5,18 @@ import './Navbar.css'
 
 export default function Navbar() {
     const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token"));
+    const [loggedInUser,setLoggedInUser] =useState(JSON.parse(localStorage.getItem("logged_in_user")));
     const navigate = useNavigate();
     useEffect(() => {
         setAccessToken(localStorage.getItem("access_token"));
-    }, [accessToken]);
+        console.log("UserData: ",loggedInUser);
+        setLoggedInUser(JSON.parse(localStorage.getItem("logged_in_user")));
+    }, [accessToken,loggedInUser]);
 
     const handleLogout = () => {
         localStorage.removeItem("access_token");
+        localStorage.removeItem("logged_in_user");
+        setLoggedInUser(null);
         setAccessToken(null);
         navigate("/login");
     }
@@ -35,14 +40,18 @@ export default function Navbar() {
                                     </li>
                                 </> :
                                 <>
-                                    <li className="nav-item">
-                                        <Link className="nav-link" to="/user/profile">Welcome Name!</Link>
+                                    <li className="nav-item dropdown">
+                                        <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src={(loggedInUser.profileImageId!==null && loggedInUser.profileImageId!== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + loggedInUser.profileImageId : "https://robohash.org/"+loggedInUser.id} width="30" className="rounded-circle" alt='Profile' /> {loggedInUser.fullName}
+                                        </a>
+                                        <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <li><Link className="dropdown-item" to={"/user/profile/"+loggedInUser.username}>Account</Link></li>
+                                            <li><hr className="dropdown-divider"/></li>
+                                            <li><button className="btn btn-outline-secondary btn-sm dropdown-item" onClick={handleLogout}>Logout</button></li>
+                                        </ul>
                                     </li>
                                     <li className="nav-item">
                                         <Link className="nav-link" to="/feeds">Feeds</Link>
-                                    </li>
-                                    <li className="nav-item">
-                                        <button className="btn btn-outline-secondary btn-sm" onClick={handleLogout}>Logout</button>
                                     </li>
                                 </>}
                         </ul>

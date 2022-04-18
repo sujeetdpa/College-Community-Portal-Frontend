@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Comment from '../components/Comment';
 import './PostPage.css'
+import Navbar from '../components/Navbar';
 
 export default function PostPage() {
   let params = useParams();
@@ -157,6 +158,7 @@ export default function PostPage() {
   }
   return (
     <div>
+      <Navbar />
       <div className="container mt-5 mb-5">
         <div className="row d-flex align-items-center justify-content-center">
           <div className="col-md-6">
@@ -205,7 +207,7 @@ export default function PostPage() {
                   <InfiniteScroll
                     dataLength={comments.length} //This is important field to render the next data
                     next={() => setCommentPageNo(commentPageNo + 1)}
-                    hasMore={(comments.length !==0)&&((totalPages - 1) !== commentPageNo)}
+                    hasMore={(comments.length !== 0) && ((totalPages - 1) !== commentPageNo)}
                     loader={<h4>Loading...</h4>}
                     endMessage={
                       <p style={{ textAlign: 'center' }}>

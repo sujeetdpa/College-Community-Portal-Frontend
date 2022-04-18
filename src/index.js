@@ -10,13 +10,13 @@ import Navbar from './components/Navbar';
 import Feeds from './pages/Feeds';
 import Protected from './components/Protected'
 import PostPage from './pages/PostPage';
+import UserPage from './pages/UserPage';
 
 ReactDOM.render(
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>,
   <BrowserRouter>
-    <Navbar></Navbar>
     <div>
     <Routes>
       <Route path='/' element={<App/>}/>
@@ -24,6 +24,7 @@ ReactDOM.render(
       <Route path='/register' element={<Register/>}/>
       <Route path='/feeds' element={<Protected Cmp={Feeds}/>}/>
       <Route path='/post/:postId' element={<Protected Cmp={PostPage}/>}/>
+      <Route path='/user/profile/:universityId' element={<Protected Cmp={UserPage}/>}/>
     </Routes>
     </div>
   </BrowserRouter>,

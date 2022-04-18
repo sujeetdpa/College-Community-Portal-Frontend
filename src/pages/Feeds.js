@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component';
+import Navbar from '../components/Navbar';
 import Post from '../components/Post'
 
 export default function Feeds() {
@@ -7,7 +8,7 @@ export default function Feeds() {
     const [user, setUser] = useState([]);
     const [pageNo, setPageNo] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
-    const [createPostData, setCreatePostData]=useState({
+    const [createPostData, setCreatePostData] = useState({
         title: "",
         description: "",
         images: [],
@@ -147,84 +148,87 @@ export default function Feeds() {
 
     }
     return (
-        <div className='d-flex flex-row '>
-            <div className=' align-content-end'>
-                <button type="button" className="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
-                    Create Post
-                </button>
+        <>
+            <Navbar />
+            <div className='d-flex flex-row '>
+                <div className=' align-content-end'>
+                    <button type="button" className="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
+                        Create Post
+                    </button>
 
-                <div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div className="modal-dialog" role="document">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">Create Post</h5>
-                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <form className=''>
-                                    <div className="form-group row mb-2">
-                                        <label className="col-md-4 col-form-label text-md-right">Title</label>
+                    <div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div className="modal-dialog" role="document">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title" id="exampleModalLabel">Create Post</h5>
+                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div className="modal-body">
+                                    <form className=''>
+                                        <div className="form-group row mb-2">
+                                            <label className="col-md-4 col-form-label text-md-right">Title</label>
+                                            <div className="col-md-6">
+                                                <input type="text" id="title" className="form-control" onChange={e => { createPostData.title = e.target.value }} />
+                                            </div>
+                                        </div>
+                                        <div className="form-group row">
+                                            <label className="col-md-4 col-form-label text-md-right">Description</label>
+                                            <div className="col-md-6">
+                                                <textarea type="text" id="description" className="form-control" cols='50' rows='8' onChange={e => { createPostData.description = e.target.value }} />
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div className="modal-body d-felx flex-row">
+                                    <div className="form-group row">
                                         <div className="col-md-6">
-                                            <input type="text" id="title" className="form-control" onChange={e => { createPostData.title = e.target.value }} />
+                                            <div className="file btn btn-sm btn-primary bi bi-card-image">
+                                                <input type="file" name="file" multiple className='bg-transparent' onChange={e => handleImageUpload(e)} />
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="form-group row">
-                                        <label className="col-md-4 col-form-label text-md-right">Description</label>
                                         <div className="col-md-6">
-                                            <textarea type="text" id="description" className="form-control" cols='50' rows='8' onChange={e => { createPostData.description = e.target.value }} />
+                                            <div className="file btn btn-sm btn-primary bi bi-file-earmark-arrow-up">
+                                                <input type="file" name="file" multiple className='bg-transparent' onChange={e => handleDocumentUpload(e)} />
+                                            </div>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                            <div className="modal-body d-felx flex-row">
-                                <div className="form-group row">
-                                    <div className="col-md-6">
-                                        <div className="file btn btn-sm btn-primary bi bi-card-image">
-                                            <input type="file" name="file" multiple className='bg-transparent' onChange={e => handleImageUpload(e)} />
-                                        </div>
+                                    <div>
+                                        <button className='btn btn-primary btn-sm'>Upload</button>
                                     </div>
                                 </div>
-                                <div className="form-group row">
-                                    <div className="col-md-6">
-                                        <div className="file btn btn-sm btn-primary bi bi-file-earmark-arrow-up">
-                                            <input type="file" name="file" multiple className='bg-transparent' onChange={e => handleDocumentUpload(e)} />
-                                        </div>
-                                    </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="button" className="btn btn-primary" onClick={handleCreatePost}>Post</button>
                                 </div>
-                                <div>
-                                    <button className='btn btn-primary btn-sm'>Upload</button>
-                                </div>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary" onClick={handleCreatePost}>Post</button>
                             </div>
                         </div>
-                    </div>
+                    </div >
                 </div >
-            </div >
-            <div className='flex-fill'>
-                <InfiniteScroll
-                    dataLength={posts.length} //This is important field to render the next data
-                    next={()=>setPageNo(pageNo+1)}
-                    hasMore={(totalPages-1)!==pageNo}
-                    loader={<h4>Loading...</h4>}
-                    endMessage={
-                        <p style={{ textAlign: 'center' }}>
-                            <b>Yay! You have seen it all</b>
-                        </p>
-                    }
+                <div className='flex-fill'>
+                    <InfiniteScroll
+                        dataLength={posts.length} //This is important field to render the next data
+                        next={() => setPageNo(pageNo + 1)}
+                        hasMore={(totalPages - 1) !== pageNo}
+                        loader={<h4>Loading...</h4>}
+                        endMessage={
+                            <p style={{ textAlign: 'center' }}>
+                                <b>Yay! You have seen it all</b>
+                            </p>
+                        }
                     >
-                    {posts.map(post => <Post postData={post} key={post.id} />)}
+                        {posts.map(post => <Post postData={post} key={post.id} />)}
                     </InfiniteScroll>
-            </div>
-            <div className='align-content-end'>
-                <button className="btn btn-primary">Most Performances</button>
-            </div>
+                </div>
+                <div className='align-content-end'>
+                    <button className="btn btn-primary">Most Performances</button>
+                </div>
 
-        </div >
+            </div >
+        </>
 
     )
 }
