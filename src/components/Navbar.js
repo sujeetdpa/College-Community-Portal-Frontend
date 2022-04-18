@@ -11,7 +11,7 @@ export default function Navbar() {
         setAccessToken(localStorage.getItem("access_token"));
         console.log("UserData: ",loggedInUser);
         setLoggedInUser(JSON.parse(localStorage.getItem("logged_in_user")));
-    }, [accessToken,loggedInUser]);
+    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem("access_token");
