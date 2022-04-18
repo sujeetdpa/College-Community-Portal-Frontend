@@ -24,6 +24,7 @@ ReactDOM.render(
         <Route path='/feeds' element={<Protected Cmp={Feeds} />} />
         <Route path='/post/:postId' element={<Protected Cmp={PostPage} />} />
         <Route path='/user/profile/:universityId' element={<Protected Cmp={UserPage} />} />
+        
       </Routes>
     </div>
   </BrowserRouter>,
