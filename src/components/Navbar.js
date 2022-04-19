@@ -97,7 +97,7 @@ export default function Navbar() {
                                                 <img src={(loggedInUser.profileImageId !== null && loggedInUser.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + loggedInUser.profileImageId : "https://robohash.org/" + loggedInUser.id} width="30" className="rounded-circle" alt='Profile' /> {loggedInUser.fullName}
                                             </a>
                                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                <li><Link className="dropdown-item" to={"/user/" + loggedInUser.username}>Account</Link></li>
+                                                <li><Link className="dropdown-item" to={"/user/" + loggedInUser.universityId+"/profile"}>Account</Link></li>
                                                 <li><hr className="dropdown-divider" /></li>
                                                 <li><button className="btn btn-outline-secondary btn-sm dropdown-item" onClick={handleLogout}>Logout</button></li>
                                             </ul>
