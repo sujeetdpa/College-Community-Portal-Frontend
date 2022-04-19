@@ -4,6 +4,7 @@ import { useState,useEffect } from 'react';
 import Navbar from '../components/Navbar'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Post from '../components/Post';
+import UserSidebar from '../components/UserSidebar';
 
 export default function MyPostPage() {
     const params = useParams();
@@ -41,16 +42,7 @@ export default function MyPostPage() {
         <div>
             <Navbar />
             <div className="d-flex container pt-2" id="wrapper">
-                <div className="border-end bg-white" id="sidebar-wrapper">
-                    <div className="list-group list-group-flush">
-                        <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/" + params.universityId + "/myPosts"}>My Posts</Link>
-                        <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/" + params.universityId + "/dashboard"}>Dashboard</Link>
-                        <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/" + params.universityId + "/statistics"}>Statistics</Link>
-                        <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/" + params.universityId + "/profile"}>Profile</Link>
-                        <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/" + params.universityId + "/images"}>Images</Link>
-                        <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/" + params.universityId + "/documents"}>Documents</Link>
-                    </div>
-                </div>
+            <UserSidebar universityId={params.universityId}/>
                 <div id="page-content-wrapper">
                     <div className="container-fluid">
                         <h1 className="mt-4">{totalNumberOfItems} Posts</h1>

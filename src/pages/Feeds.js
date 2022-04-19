@@ -5,7 +5,6 @@ import Post from '../components/Post'
 
 export default function Feeds() {
     const [posts, setPosts] = useState([]);
-    const [user, setUser] = useState([]);
     const [pageNo, setPageNo] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
     const [createPostData, setCreatePostData] = useState({
@@ -41,31 +40,6 @@ export default function Feeds() {
                 })
             })
     }, [pageNo])
-    useEffect(() => {
-        async function fetchUser() {
-            const authHeader = "Bearer " + localStorage.getItem("access_token");
-            const options = {
-                method: 'GET',
-                headers: {
-                    'Authorization': authHeader
-                },
-            }
-            const response = await fetch("http://localhost:8080/api/user", options);
-            if (!response.ok) {
-                throw response.json();
-            }
-            return response.json();
-        }
-        fetchUser().then(data => {
-            setUser(data);
-            // console.log((data));
-        }).catch(err => {
-            err.then(data => {
-                console.log(data);
-                alert(data.message);
-            })
-        })
-    }, []);
     const handleImageUpload = (e) => {
         const images = e.target.files;
         console.log("Images");
