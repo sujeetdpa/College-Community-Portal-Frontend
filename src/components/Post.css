@@ -75,3 +75,7 @@ hr {
     outline: 0;
     box-shadow: none
 }
+#Link{
+    text-decoration: none;
+    text-align: center;
+}

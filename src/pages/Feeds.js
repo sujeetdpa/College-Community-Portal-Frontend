@@ -151,7 +151,7 @@ export default function Feeds() {
         <>
             <Navbar />
             <div className='d-flex flex-row '>
-                <div className=' align-content-end'>
+                <div className=' align-content-center mt-2'>
                     <button type="button" className="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
                         Create Post
                     </button>
@@ -208,7 +208,7 @@ export default function Feeds() {
                         </div>
                     </div >
                 </div >
-                <div className='flex-fill'>
+                <div className='flex-fill mt-2'>
                     <InfiniteScroll
                         dataLength={posts.length} //This is important field to render the next data
                         next={() => setPageNo(pageNo + 1)}
@@ -223,7 +223,7 @@ export default function Feeds() {
                         {posts.map(post => <Post postData={post} key={post.id} />)}
                     </InfiniteScroll>
                 </div>
-                <div className='align-content-end'>
+                <div className='align-content-end mt-2'>
                     <button className="btn btn-primary">Most Performances</button>
                 </div>
 

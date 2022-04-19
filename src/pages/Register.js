@@ -13,16 +13,6 @@ export default function Register() {
             navigate("/feeds");
         }
     }, [])
-    const data = {
-        firstName: "",
-        lastName: "",
-        gender: "",
-        username: "",
-        password: "",
-        cnfPassword: "",
-        dob: "",
-        mobileNo: ""
-    }
     const [registerData, setRegisterData] = useState({
         firstName: "",
         lastName: "",

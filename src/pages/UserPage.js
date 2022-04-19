@@ -1,10 +1,7 @@
 import React from 'react'
 import {
-  Route,
   Link,
   useParams,
-  Routes,
-  Router
 } from "react-router-dom";
 import Navbar from '../components/Navbar';
 import './UserPage.css';
@@ -24,17 +21,20 @@ export default function UserPage() {
       <div className="d-flex container pt-2" id="wrapper">
         <div className="border-end bg-white" id="sidebar-wrapper">
           <div className="list-group list-group-flush">
-            <a className="list-group-item list-group-item-action list-group-item-light p-3" href="/user/profile/hello/dashboard">Dashboard</a>
-            <a className="list-group-item list-group-item-action list-group-item-light p-3" href="#">Statistics</a>
-            <a className="list-group-item list-group-item-action list-group-item-light p-3" href="#">Profile</a>
-            <a className="list-group-item list-group-item-action list-group-item-light p-3" href="#">Images</a>
-            <a className="list-group-item list-group-item-action list-group-item-light p-3" href="#">Documents</a>
+            <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/"+params.universityId+"/myPosts"}>My Posts</Link>
+            <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/"+params.universityId+"/dashboard"}>Dashboard</Link>
+            <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/"+params.universityId+"/statistics"}>Statistics</Link>
+            <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/"+params.universityId+"/profile"}>Profile</Link>
+            <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/"+params.universityId+"/images"}>Images</Link>
+            <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/"+params.universityId+"/documents"}>Documents</Link>
           </div>
         </div>
         <div id="page-content-wrapper">
           <div className="container-fluid">
             <h1 className="mt-4">Simple Sidebar</h1>
-          
+            <div>
+              
+            </div>
           </div>
         </div>
       </div>

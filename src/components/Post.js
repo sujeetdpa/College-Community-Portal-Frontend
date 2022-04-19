@@ -57,19 +57,19 @@ export default function Post({ postData }) {
   }
   return (
     <div>
-      <div className="container mt-5 mb-5">
+      <div className="container  mb-5">
         <div className="row d-flex align-items-center justify-content-center">
           <div className="col-md-6">
             <div className="card">
-              <div className="d-flex justify-content-between p-2 px-3">
-                <div className="d-flex flex-row align-items-center">
-                  <img src={(postData.profileImageId!==null && postData.profileImageId!== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + postData.profileImageId : "https://robohash.org/"+postData.userId} width="50" className="rounded-circle" alt='Profile' />
-                  <div className="d-flex flex-column ml-2"> <span className="font-weight-bold">{postData.fullName}</span> <small className="text-primary">Collegues</small> </div>
+                <div className="d-flex justify-content-between p-2 px-3">
+                  <div className="d-flex flex-row align-items-center">
+                    <img src={(postData.profileImageId !== null && postData.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + postData.profileImageId : "https://robohash.org/" + postData.userId} width="50" className="rounded-circle" alt='Profile' />
+                    <div className="d-flex flex-column ml-2"> <span className="font-weight-bold">{postData.fullName}</span> <small className="text-primary">Collegues</small> </div>
+                  </div>
+                  <div className="d-flex flex-row mt-1 ellipsis"> <small className="mr-2">{postData.creationDate}</small> <i className="fa fa-ellipsis-h"></i> </div>
                 </div>
-                <div className="d-flex flex-row mt-1 ellipsis"> <small className="mr-2">{postData.creationDate}</small> <i className="fa fa-ellipsis-h"></i> </div>
-              </div>
               <div className="p-2">
-                <h5>{postData.title}</h5>
+              <Link to={"/post/" + postData.id} id="Link"><h5>{postData.title}</h5></Link>
                 <p className="text-justify">{postData.description}</p>
               </div>
               {postData.imageIds.length > 0 ? <img src={"http://localhost:8080/api/post/local/storage/download/image/" + postData.imageIds[0]} className="img-fluid" alt='dsvv' /> : ""}

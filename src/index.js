@@ -10,6 +10,12 @@ import Feeds from './pages/Feeds';
 import Protected from './components/Protected'
 import PostPage from './pages/PostPage';
 import UserPage from './pages/UserPage';
+import DashboardPage from './pages/DashboardPage'
+import StatisticsPage from './pages/StatisticsPage'
+import ProfilePage from './pages/ProfilePage'
+import ImagePage from './pages/ImagePage'
+import DocumentPage from './pages/DocumentPage'
+import MyPostPage from './pages/MyPostPage';
 
 ReactDOM.render(
   // <React.StrictMode>
@@ -23,8 +29,13 @@ ReactDOM.render(
         <Route path='/register' element={<Register />} />
         <Route path='/feeds' element={<Protected Cmp={Feeds} />} />
         <Route path='/post/:postId' element={<Protected Cmp={PostPage} />} />
-        <Route path='/user/profile/:universityId' element={<Protected Cmp={UserPage} />} />
-        
+        <Route path='/user/:universityId' element={<Protected Cmp={UserPage} />} />
+        <Route path='/user/:universityId/myPosts' element={<Protected Cmp={MyPostPage} />} />
+        <Route path='/user/:universityId/dashboard' element={<Protected Cmp={DashboardPage} />} />
+        <Route path='/user/:universityId/statistics' element={<Protected Cmp={StatisticsPage} />} />
+        <Route path='/user/:universityId/profile' element={<Protected Cmp={ProfilePage} />} />
+        <Route path='/user/:universityId/images' element={<Protected Cmp={ImagePage} />} />
+        <Route path='/user/:universityId/documents' element={<Protected Cmp={DocumentPage} />} />
       </Routes>
     </div>
   </BrowserRouter>,

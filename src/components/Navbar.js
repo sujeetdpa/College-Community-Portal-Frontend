@@ -21,40 +21,40 @@ export default function Navbar() {
         console.log("UserData: ", loggedInUser);
         setLoggedInUser(JSON.parse(localStorage.getItem("logged_in_user")));
     }, []);
-    useEffect(()=>{
-        console.log("Page no: "+searchPageNo);
-        const authHeader = "Bearer " + localStorage.getItem("access_token");
-        const searchRequest = {
-            title: searchTxt,
-            pageNo: searchPageNo,
-            maxItems: '10'
-        }
-        const options = {
-            method: 'POST',
-            headers: {
-                'Authorization': authHeader,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(searchRequest)
-        }
-        fetch("http://localhost:8080/api/post/search", options)
-            .then(res => {
-                if (!res.ok) {
-                    throw res.json();
-                }
-                res.json().then(data => {
-                    console.log(data);
-                    setTotalPages(data.totalPages);
-                    setTotalNumberOfItems(data.totalNumberOfItems);
-                    setSearchedPosts([...searchedPosts, ...data.postSearchResponseViews]);
-                })
-            }).catch(err => {
-                err.then(data => {
-                    console.log(data);
-                    alert(data.message);
-                })
-            })
-    },[searchPageNo])
+    // useEffect(()=>{
+    //     console.log("Page no: "+searchPageNo);
+    //     const authHeader = "Bearer " + localStorage.getItem("access_token");
+    //     const searchRequest = {
+    //         title: searchTxt,
+    //         pageNo: searchPageNo,
+    //         maxItems: '10'
+    //     }
+    //     const options = {
+    //         method: 'POST',
+    //         headers: {
+    //             'Authorization': authHeader,
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(searchRequest)
+    //     }
+    //     fetch("http://localhost:8080/api/post/search", options)
+    //         .then(res => {
+    //             if (!res.ok) {
+    //                 throw res.json();
+    //             }
+    //             res.json().then(data => {
+    //                 console.log(data);
+    //                 setTotalPages(data.totalPages);
+    //                 setTotalNumberOfItems(data.totalNumberOfItems);
+    //                 setSearchedPosts([...searchedPosts, ...data.postSearchResponseViews]);
+    //             })
+    //         }).catch(err => {
+    //             err.then(data => {
+    //                 console.log(data);
+    //                 alert(data.message);
+    //             })
+    //         })
+    // },[searchPageNo])
     const fetchSearchedPost = () => {
         
     }
@@ -97,7 +97,7 @@ export default function Navbar() {
                                                 <img src={(loggedInUser.profileImageId !== null && loggedInUser.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + loggedInUser.profileImageId : "https://robohash.org/" + loggedInUser.id} width="30" className="rounded-circle" alt='Profile' /> {loggedInUser.fullName}
                                             </a>
                                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                <li><Link className="dropdown-item" to={"/user/profile/" + loggedInUser.username}>Account</Link></li>
+                                                <li><Link className="dropdown-item" to={"/user/" + loggedInUser.username}>Account</Link></li>
                                                 <li><hr className="dropdown-divider" /></li>
                                                 <li><button className="btn btn-outline-secondary btn-sm dropdown-item" onClick={handleLogout}>Logout</button></li>
                                             </ul>
@@ -115,16 +115,16 @@ export default function Navbar() {
                     </div>
                 </nav>
             </div>
-            <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-scrollable" role="document" >
-                    <div class="modal-content" >
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">{totalNumberOfItems}  Result Found..</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <div className="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-scrollable" role="document" >
+                    <div className="modal-content" >
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLongTitle">{totalNumberOfItems}  Result Found..</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body" id='scroll'>
+                        <div className="modal-body" id='scroll'>
                             <InfiniteScroll
                                 dataLength={searchedPosts.length} //This is important field to render the next data
                                 next={() => setSearchPageNo(searchPageNo+1)}
@@ -141,9 +141,9 @@ export default function Navbar() {
                                 {searchedPosts.map(searchedPost => <SearchedPost postData={searchedPost} key={searchedPost.id} />)}
                             </InfiniteScroll>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>
