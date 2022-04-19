@@ -42,8 +42,8 @@
 
   .my-form
   {
-      padding-top: 1.5rem;
-      padding-bottom: 1.5rem;
+      /* padding-top: 1.5rem;
+      padding-bottom: 1.5rem; */
      
   }
   
@@ -51,8 +51,8 @@
   {
       margin-left: 0;
       margin-right: 0;
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
+      /* padding-top: 0.5rem;
+      padding-bottom: 0.5rem; */
   }
   .register{
     margin: 0;
@@ -62,4 +62,23 @@
     color: #212529;
     text-align: left;
     background-color: #f5f8fa;
+}
+
+body{
+  color: #6F8BA4;
+}
+
+input[type="file"] {
+	border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px; 
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+i{
+  font-size: 40px;
 }

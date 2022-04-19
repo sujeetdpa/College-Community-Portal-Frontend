@@ -82,6 +82,10 @@ export default function UserPage() {
         })
       })
   }
+  const updateImage=(e)=>{
+    const profileImage=e.target.files;
+    
+  }
   return (
     <div>
       <Navbar />
@@ -89,8 +93,32 @@ export default function UserPage() {
         <UserSidebar universityId={params.universityId} />
         <div id="page-content-wrapper">
           <div className="container-fluid">
-            <h1 className="mt-4">Profile Info.</h1>
             <div>
+              <main className="my-form">
+                <div className="cotainer">
+                  <div className="row justify-content-center">
+                    <div className="col-md-8">
+                      <div className="card">
+                        <div className="card-body">
+                          <div name="my-form">
+                            <div className="d-flex justify-content-between p-2 px-3">
+                              <div className="d-flex flex-row align-items-center">
+                                <img src={(userData.profileImageId !== null && userData.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + userData.profileImageId : "https://robohash.org/" + userData.userId} width="100" className="rounded-circle" alt='Profile' />
+                                <div className="d-flex flex-column ml-2"> <h3 className="font-weight-bold">{userData.fullName}</h3> <small className="text-primary">Collegues</small> </div>
+                              </div>
+                              <div className="d-flex flex-row mt-1 ellipsis">
+                                <small className="mr-2">
+                                  <label for="apply" className='' ><input type="file" name="" id='apply' accept="image/*" onChange={e=> updateImage(e)} /><i class="bi bi-images fas fa-10x"></i></label>
+                                </small>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+              </main >
               <main className="my-form">
                 <div className="cotainer">
                   <div className="row justify-content-center">
@@ -214,7 +242,6 @@ export default function UserPage() {
                         </div>
                       </form>
                     </div>
-
                   </div>
                 </div>
               </div>
