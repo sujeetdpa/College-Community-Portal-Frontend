@@ -11,7 +11,9 @@ export default function PostPage() {
   const [noOfLikes, setNoOfLikes] = useState(post.noOfLikes);
   const [noOfComments, setNoOfComments] = useState(post.noOfComments);
   const [comments, setComments] = useState([]);
-  const [commentPageNo, setCommentPageNo] = useState(0);
+  const [commentPageNo, setCommentPageNo] = useState({
+    pageNo:0
+  });
   const [totalPages, setTotalPages] = useState(0);
 
   const [createCommentData, setCreateCommentData] = useState({
@@ -55,7 +57,7 @@ export default function PostPage() {
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     const commentRequest = {
       postId: post.id,
-      pageNo: commentPageNo,
+      pageNo: commentPageNo.pageNo,
       maxItem: '5'
     }
     const options = {
@@ -147,7 +149,8 @@ export default function PostPage() {
         setNoOfComments(noOfComments + 1);
         document.getElementById("commentInput").value = '';
         setComments([]);
-        setCommentPageNo('0');
+        setCommentPageNo({pageNo: 0});
+        setTotalPages(0);
       })
     }).catch(err => {
       err.then(data => {
@@ -206,8 +209,8 @@ export default function PostPage() {
                 <div>
                   <InfiniteScroll
                     dataLength={comments.length} //This is important field to render the next data
-                    next={() => setCommentPageNo(commentPageNo + 1)}
-                    hasMore={(comments.length !== 0) && ((totalPages - 1) !== commentPageNo)}
+                    next={() => setCommentPageNo({pageNo : commentPageNo.pageNo+1})}
+                    hasMore={(comments.length !== 0) && ((totalPages - 1) !== commentPageNo.pageNo)}
                     loader={<h4>Loading...</h4>}
                     endMessage={
                       <p style={{ textAlign: 'center' }}>

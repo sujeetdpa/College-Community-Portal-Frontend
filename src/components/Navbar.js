@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { useState, useEffect } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Link, useNavigate } from 'react-router-dom'
@@ -6,11 +6,15 @@ import './Navbar.css'
 import SearchedPost from './SearchedPost';
 
 export default function Navbar() {
+    const didMount = useRef(false);
+
     const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token"));
     const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
     const [searchTxt, setSearchTxt] = useState();
 
-    const [searchPageNo, setSearchPageNo] = useState(0);
+    const [searchPageNo, setSearchPageNo] = useState({
+        pageNo: null
+    });
     const [totalPages, setTotalPages] = useState(0);
     const [totalNumberOfItems, setTotalNumberOfItems] = useState(0);
     const [searchedPosts, setSearchedPosts] = useState([]);
@@ -22,11 +26,16 @@ export default function Navbar() {
         setLoggedInUser(JSON.parse(localStorage.getItem("logged_in_user")));
     }, []);
     useEffect(()=>{
+        if (didMount.current) fetchSearchedPost();
+        else didMount.current = true;
+    },[searchPageNo])
+
+    const fetchSearchedPost = () => {
         console.log("Page no: "+searchPageNo);
         const authHeader = "Bearer " + localStorage.getItem("access_token");
         const searchRequest = {
             title: searchTxt,
-            pageNo: searchPageNo,
+            pageNo: searchPageNo.pageNo,
             maxItems: '10'
         }
         const options = {
@@ -54,9 +63,6 @@ export default function Navbar() {
                     alert(data.message);
                 })
             })
-    },[searchPageNo])
-    const fetchSearchedPost = () => {
-        
     }
     const handleLogout = () => {
         localStorage.removeItem("access_token");
@@ -65,8 +71,8 @@ export default function Navbar() {
         setAccessToken(null);
         navigate("/login");
     }
-    const handleSearch = (e) => {
-        e.preventDefault();
+    const handleSearch = () => {
+        setSearchPageNo({pageNo:0});
         setTotalNumberOfItems(0);
         setTotalPages(0);
         setSearchedPosts([]);
@@ -107,10 +113,10 @@ export default function Navbar() {
                                         </li>
                                     </>}
                             </ul>
-                            <form className="d-flex" onSubmit={handleSearch}>
+                            <div className="d-flex" >
                                 <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" onChange={e => setSearchTxt(e.target.value)} />
-                                <button className="btn btn-outline-success btn-sm" type="submit" data-toggle="modal" data-target="#exampleModalLong">Search</button>
-                            </form>
+                                <button className="btn btn-outline-success btn-sm" type="submit" data-toggle="modal" data-target="#exampleModalLong" onClick={handleSearch}>Search</button>
+                            </div>
                         </div>
                     </div>
                 </nav>
@@ -127,8 +133,8 @@ export default function Navbar() {
                         <div className="modal-body" id='scroll'>
                             <InfiniteScroll
                                 dataLength={searchedPosts.length} //This is important field to render the next data
-                                next={() => setSearchPageNo(searchPageNo+1)}
-                                hasMore={(totalPages - 1) !== searchPageNo}
+                                next={() => setSearchPageNo({pageNo: searchPageNo.pageNo+1})}
+                                hasMore={(setSearchedPosts.length !==0) && (totalPages - 1) !== searchPageNo.pageNo}
                                 loader={<h4>Loading...</h4>}
                                 scrollableTarget="scroll"
                                 endMessage={
@@ -138,7 +144,7 @@ export default function Navbar() {
                                 }
 
                             >
-                                {searchedPosts.map(searchedPost => <SearchedPost postData={searchedPost} key={searchedPost.id} />)}
+                                {searchedPosts.map(searchedPost => <SearchedPost postData={searchedPost} key={searchedPost.id}/>)}
                             </InfiniteScroll>
                         </div>
                         <div className="modal-footer">
