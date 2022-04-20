@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar';
 
 export default function PostPage() {
   let params = useParams();
+  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
   const [post, setPost] = useState({ imageIds: [], documentIds: [] });
   const [noOfLikes, setNoOfLikes] = useState(post.noOfLikes);
   const [noOfComments, setNoOfComments] = useState(post.noOfComments);
@@ -196,7 +197,7 @@ export default function PostPage() {
                 <div className="comment-input pb-3">
                   <form onSubmit={handleCreateComment}>
                     <div className="d-flex flex-row add-comment-section mt-4 mb-4">
-                      <img className="img-fluid img-responsive rounded-circle mr-2" src={"https://robohash.org/" + post.id} width="38" alt='login-user-profile' />
+                    <img src={(loggedInUser.profileImageId !== null && loggedInUser.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + loggedInUser.profileImageId : "https://robohash.org/" + loggedInUser.id} width="30" className="rounded-circle" alt='Profile' />
                       <input type="text" id='commentInput' className="form-control mr-3" placeholder="Add comment" onChange={e => { createCommentData.description = e.target.value }} />
                       <button className="btn-outline-primary rounded-circle" type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-sendbtn " viewBox="0 0 16 16">

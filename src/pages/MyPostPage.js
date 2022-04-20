@@ -30,11 +30,18 @@ export default function MyPostPage() {
         }
         fetch("http://localhost:8080/api/user/post", options)
             .then(res => {
+                if(!res.ok){
+                    throw res.json();
+                }
                 res.json().then(data => {
                     console.log(data.postResponseViews);
                     setTotalPages(data.totalPages);
                     setTotalNumberOfItems(data.totalNumberOfItems);
                     setPosts([...posts, ...data.postResponseViews])
+                })
+            }).catch(err=>{
+                err.then(data=>{
+                    alert(data.message);
                 })
             })
     }, [pageNo])
