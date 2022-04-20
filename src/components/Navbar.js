@@ -21,40 +21,40 @@ export default function Navbar() {
         console.log("UserData: ", loggedInUser);
         setLoggedInUser(JSON.parse(localStorage.getItem("logged_in_user")));
     }, []);
-    // useEffect(()=>{
-    //     console.log("Page no: "+searchPageNo);
-    //     const authHeader = "Bearer " + localStorage.getItem("access_token");
-    //     const searchRequest = {
-    //         title: searchTxt,
-    //         pageNo: searchPageNo,
-    //         maxItems: '10'
-    //     }
-    //     const options = {
-    //         method: 'POST',
-    //         headers: {
-    //             'Authorization': authHeader,
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(searchRequest)
-    //     }
-    //     fetch("http://localhost:8080/api/post/search", options)
-    //         .then(res => {
-    //             if (!res.ok) {
-    //                 throw res.json();
-    //             }
-    //             res.json().then(data => {
-    //                 console.log(data);
-    //                 setTotalPages(data.totalPages);
-    //                 setTotalNumberOfItems(data.totalNumberOfItems);
-    //                 setSearchedPosts([...searchedPosts, ...data.postSearchResponseViews]);
-    //             })
-    //         }).catch(err => {
-    //             err.then(data => {
-    //                 console.log(data);
-    //                 alert(data.message);
-    //             })
-    //         })
-    // },[searchPageNo])
+    useEffect(()=>{
+        console.log("Page no: "+searchPageNo);
+        const authHeader = "Bearer " + localStorage.getItem("access_token");
+        const searchRequest = {
+            title: searchTxt,
+            pageNo: searchPageNo,
+            maxItems: '10'
+        }
+        const options = {
+            method: 'POST',
+            headers: {
+                'Authorization': authHeader,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(searchRequest)
+        }
+        fetch("http://localhost:8080/api/post/search", options)
+            .then(res => {
+                if (!res.ok) {
+                    throw res.json();
+                }
+                res.json().then(data => {
+                    console.log(data);
+                    setTotalPages(data.totalPages);
+                    setTotalNumberOfItems(data.totalNumberOfItems);
+                    setSearchedPosts([...searchedPosts, ...data.postSearchResponseViews]);
+                })
+            }).catch(err => {
+                err.then(data => {
+                    console.log(data);
+                    alert(data.message);
+                })
+            })
+    },[searchPageNo])
     const fetchSearchedPost = () => {
         
     }

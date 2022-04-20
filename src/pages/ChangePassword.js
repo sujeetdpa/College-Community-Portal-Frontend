@@ -28,8 +28,9 @@ export default function ChangePassword() {
       if(!res.ok){
         throw res.json();
       }
-      res.json().then(data=>{
+      res.text().then(data=>{
         console.log(data);
+        alert(data);
       })
     }).catch(err=>{
       err.then(data=>{
@@ -72,8 +73,11 @@ export default function ChangePassword() {
                             </div>
                           </div>
                           <div className="col-md-6 offset-md-4">
-                            <button type="submit" className="btn btn-primary">
+                            <button type="submit" className="btn btn-primary mx-3">
                               Change
+                            </button>
+                            <button type="reset" className="btn btn-secondary">
+                              Clear
                             </button>
                           </div>
                         </form>
