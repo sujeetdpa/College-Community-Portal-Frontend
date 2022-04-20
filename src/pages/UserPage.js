@@ -7,6 +7,7 @@ import UserSidebar from '../components/UserSidebar'
 
 export default function UserPage() {
   const params = useParams();
+  const [profileImageId,setProfileImageId] =useState();
   const [userData, setUserData] = useState({
     fullName: "",
     firstName: "",
@@ -20,13 +21,6 @@ export default function UserPage() {
     lastLoginTimestamp: "",
     mobileNo: "",
     profileImageId: ""
-  });
-  const [updateData, setUpdateData] = useState({
-    firstName: "",
-    lastName: "",
-    gender: "",
-    dob: "",
-    mobileNo: ""
   });
   useEffect(() => {
     async function fetchUser() {
@@ -44,6 +38,7 @@ export default function UserPage() {
       return response.json();
     }
     fetchUser().then(data => {
+      setProfileImageId(data.profileImageId)
       setUserData(data);
       console.log((data));
     }).catch(err => {
@@ -84,7 +79,26 @@ export default function UserPage() {
   }
   const updateImage=(e)=>{
     const profileImage=e.target.files;
-    
+        console.log("profile image: ",profileImage);
+        if (profileImage.length > 0) {
+            const authHeader = "Bearer " + localStorage.getItem("access_token");
+            let formData = new FormData();
+            formData.append("profileImage", profileImage[0]);
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Authorization': authHeader
+                },
+                body: formData
+            }
+            const response = fetch("http://localhost:8080/api/user/update/profileImage", options);
+            response.then(res => {
+                res.json().then(data => {
+                    console.log(data);
+                    setProfileImageId(data);
+                })
+            })
+        }
   }
   return (
     <div>
@@ -103,12 +117,12 @@ export default function UserPage() {
                           <div name="my-form">
                             <div className="d-flex justify-content-between p-2 px-3">
                               <div className="d-flex flex-row align-items-center">
-                                <img src={(userData.profileImageId !== null && userData.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + userData.profileImageId : "https://robohash.org/" + userData.userId} width="100" className="rounded-circle" alt='Profile' />
-                                <div className="d-flex flex-column ml-2"> <h3 className="font-weight-bold">{userData.fullName}</h3> <small className="text-primary">Collegues</small> </div>
+                                <img src={(profileImageId !== null && profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + profileImageId : "https://robohash.org/" + userData.userId} width="100" className="rounded-circle" alt='Profile' />
+                                <div className="d-flex flex-column ml-2"> <h3 className="font-weight-bold">{userData.fullName}</h3> <small className="text-primary">{userData.role}</small> </div>
                               </div>
                               <div className="d-flex flex-row mt-1 ellipsis">
                                 <small className="mr-2">
-                                  <label for="apply" className='' ><input type="file" name="" id='apply' accept="image/*" onChange={e=> updateImage(e)} /><i class="bi bi-images fas fa-10x"></i></label>
+                                  <label for="apply" className='' ><input type="file" name="" id='apply' accept="image/*" onChange={e=> updateImage(e)} /><i class="bi bi-images"></i></label>
                                 </small>
                               </div>
                             </div>
@@ -201,19 +215,19 @@ export default function UserPage() {
                     </div>
                     <div class="modal-body">
                       <form name="my-form" onSubmit={handleUpdateUser}>
-                        <div className="form-group row">
+                        <div className="form-group row pb-2">
                           <label className="col-md-4 col-form-label text-md-right">First Name</label>
                           <div className="col-md-6">
                             <input type="text" id="firstName" className="form-control" defaultValue={userData.firstName} onChange={e => { userData.firstName = e.target.value }} />
                           </div>
                         </div>
-                        <div className="form-group row">
+                        <div className="form-group row pb-2">
                           <label className="col-md-4 col-form-label text-md-right">Last Name</label>
                           <div className="col-md-6">
                             <input type="text" id="lastName" className="form-control" defaultValue={userData.lastName} onChange={e => { userData.lastName = e.target.value }} />
                           </div>
                         </div>
-                        <div className="form-group row">
+                        <div className="form-group row pb-2">
                           <label className="col-md-4 col-form-label text-md-right">Gender</label>
                           <div className="col-md-6">
                             <select className="form-control form-control-sm d-inline-block" aria-label="Default select example" id="gender" defaultValue={userData.gender} onChange={e => { userData.gender = e.target.value }}>
@@ -224,13 +238,13 @@ export default function UserPage() {
                             </select>
                           </div>
                         </div>
-                        <div className="form-group row">
+                        <div className="form-group row pb-2">
                           <label className="col-md-4 col-form-label text-md-right">Date of Birth</label>
                           <div className="col-md-6">
                             <input type="date" id="dob" className="form-control" defaultValue={userData.dob} onChange={e => { userData.dob = e.target.value }} />
                           </div>
                         </div>
-                        <div className="form-group row">
+                        <div className="form-group row pb-2">
                           <label className="col-md-4 col-form-label text-md-right" >Mobile Number</label>
                           <div className="col-md-6">
                             <input type="tel" id="phoneNumber" className="form-control" defaultValue={userData.mobileNo} onChange={e => { userData.mobileNo = e.target.value }} />
