@@ -11,7 +11,7 @@ import Protected from './components/Protected'
 import PostPage from './pages/PostPage';
 import UserPage from './pages/UserPage';
 import DashboardPage from './pages/DashboardPage'
-import StatisticsPage from './pages/StatisticsPage'
+import ChangePassword from './pages/ChangePassword'
 import ImagePage from './pages/ImagePage'
 import DocumentPage from './pages/DocumentPage'
 import MyPostPage from './pages/MyPostPage';
@@ -31,7 +31,7 @@ ReactDOM.render(
         <Route path='/user/:universityId/profile' element={<Protected Cmp={UserPage} />} />
         <Route path='/user/:universityId/myPosts' element={<Protected Cmp={MyPostPage} />} />
         <Route path='/user/:universityId/dashboard' element={<Protected Cmp={DashboardPage} />} />
-        <Route path='/user/:universityId/statistics' element={<Protected Cmp={StatisticsPage} />} />
+        <Route path='/user/:universityId/changePassword' element={<Protected Cmp={ChangePassword} />} />
         <Route path='/user/:universityId/images' element={<Protected Cmp={ImagePage} />} />
         <Route path='/user/:universityId/documents' element={<Protected Cmp={DocumentPage} />} />
       </Routes>

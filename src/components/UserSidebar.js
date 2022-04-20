@@ -9,7 +9,7 @@ export default function UserSidebar({universityId}) {
             <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/" + universityId + "/profile"}>Profile</Link>
             <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/" + universityId + "/myPosts"}>My Posts</Link>
             <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/" + universityId + "/dashboard"}>Dashboard</Link>
-            <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/" + universityId + "/statistics"}>Statistics</Link>
+            <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/" + universityId + "/changePassword"}>Change Password</Link>
             <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/" + universityId + "/images"}>Images</Link>
             <Link className="list-group-item list-group-item-action list-group-item-light p-3" to={"/user/" + universityId + "/documents"}>Documents</Link>
           </div>
