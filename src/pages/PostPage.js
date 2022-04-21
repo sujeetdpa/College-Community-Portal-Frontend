@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams,useNavigate } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Comment from '../components/Comment';
 import './PostPage.css'
@@ -7,13 +7,14 @@ import Navbar from '../components/Navbar';
 
 export default function PostPage() {
   let params = useParams();
+  const navigate=useNavigate();
   const [loggedInUser, setLoggedInUser] = useState({});
   const [post, setPost] = useState({ imageIds: [], documentIds: [] });
   const [noOfLikes, setNoOfLikes] = useState(post.noOfLikes);
   const [noOfComments, setNoOfComments] = useState(post.noOfComments);
   const [comments, setComments] = useState([]);
   const [commentPageNo, setCommentPageNo] = useState({
-    pageNo:0
+    pageNo: 0
   });
   const [totalPages, setTotalPages] = useState(0);
 
@@ -151,7 +152,7 @@ export default function PostPage() {
         setNoOfComments(noOfComments + 1);
         document.getElementById("commentInput").value = '';
         setComments([]);
-        setCommentPageNo({pageNo: 0});
+        setCommentPageNo({ pageNo: 0 });
         setTotalPages(0);
       })
     }).catch(err => {
@@ -160,6 +161,31 @@ export default function PostPage() {
         alert(data.message);
       })
     })
+  }
+  const handleDeletePost = () => {
+    const authHeader = "Bearer " + localStorage.getItem("access_token");
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Authorization': authHeader
+      }
+    }
+    fetch("http://localhost:8080/api/post/delete/" + post.id, options)
+      .then(res => {
+        if (!res.ok) {
+          throw res.json();
+        }
+        res.json().then(data => {
+          console.log(data);
+          alert(data.message);
+          navigate("/feeds");
+        })
+      }).catch(err => {
+        err.then(data => {
+          console.log();
+          alert(data.message);
+        })
+      })
   }
   return (
     <div>
@@ -173,7 +199,17 @@ export default function PostPage() {
                   <img src={(post.profileImageId !== null && post.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + post.profileImageId : "https://robohash.org/" + post.userId} width="50" className="rounded-circle" alt='Profile' />
                   <div className="d-flex flex-column ml-2"> <span className="font-weight-bold">{post.fullName}</span> <small className="text-primary">Collegues</small> </div>
                 </div>
-                <div className="d-flex flex-row mt-1 ellipsis"> <small className="mr-2">{post.creationDate}</small> <i className="fa fa-ellipsis-h"></i> </div>
+                <div className="d-flex flex-row mt-1 ellipsis">
+                  <small className="mr-2 px-2">{post.creationDate}</small>
+                  <small>
+                    <a class="bi bi-list " href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><Link class="dropdown-item" to={"/post/" + post.id}>View</Link></li>
+                      {post.userId === loggedInUser.id ? <li><button class="dropdown-item" onClick={handleDeletePost}>Delete</button></li> : null}
+                    </ul>
+                  </small>
+                </div>
               </div>
               <div className="p-2">
                 <h5>{post.title}</h5>
@@ -198,7 +234,7 @@ export default function PostPage() {
                 <div className="comment-input pb-3">
                   <form onSubmit={handleCreateComment}>
                     <div className="d-flex flex-row add-comment-section mt-4 mb-4">
-                    <img src={(loggedInUser.profileImageId !== null && loggedInUser.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + loggedInUser.profileImageId : "https://robohash.org/" + loggedInUser.id} width="30" className="rounded-circle" alt='Profile' />
+                      <img src={(loggedInUser.profileImageId !== null && loggedInUser.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + loggedInUser.profileImageId : "https://robohash.org/" + loggedInUser.id} width="30" className="rounded-circle" alt='Profile' />
                       <input type="text" id='commentInput' className="form-control mr-3" placeholder="Add comment" onChange={e => { createCommentData.description = e.target.value }} />
                       <button className="btn-outline-primary rounded-circle" type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-sendbtn " viewBox="0 0 16 16">
@@ -211,7 +247,7 @@ export default function PostPage() {
                 <div>
                   <InfiniteScroll
                     dataLength={comments.length} //This is important field to render the next data
-                    next={() => setCommentPageNo({pageNo : commentPageNo.pageNo+1})}
+                    next={() => setCommentPageNo({ pageNo: commentPageNo.pageNo + 1 })}
                     hasMore={(comments.length !== 0) && ((totalPages - 1) !== commentPageNo.pageNo)}
                     loader={<h4>Loading...</h4>}
                     endMessage={

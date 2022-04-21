@@ -8,15 +8,23 @@ import UserSidebar from '../components/UserSidebar';
 
 export default function MyPostPage() {
     const params = useParams();
-    const [pageNo, setPageNo] = useState(0);
+    const [postPageNo, setPostPageNo] = useState({
+        pageNo:0
+    });
     const [totalPages, setTotalPages] = useState(0);
     const [totalNumberOfItems, setTotalNumberOfItems] = useState(0);
     const [posts, setPosts] = useState([]);
 
+    function changePageNo(){
+        setPosts([]);
+        setTotalPages(0);
+        setPostPageNo({pageNo:0});
+    }
+
     useEffect(() => {
         const authHeader = "Bearer " + localStorage.getItem("access_token");
         const postRequest = {
-            pageNo: pageNo,
+            pageNo: postPageNo.pageNo,
             maxItem: '5',
             sortBy: 'creationDate'
         }
@@ -44,7 +52,7 @@ export default function MyPostPage() {
                     alert(data.message);
                 })
             })
-    }, [pageNo])
+    }, [postPageNo])
     return (
         <div>
             <Navbar />
@@ -56,8 +64,8 @@ export default function MyPostPage() {
                         <div className='d-flex flex-fill'>
                             <InfiniteScroll
                                 dataLength={posts.length} //This is important field to render the next data
-                                next={() => setPageNo(pageNo + 1)}
-                                hasMore={(posts.length !==0 )&&(totalPages - 1) !== pageNo}
+                                next={() => setPostPageNo({pageNo: postPageNo.pageNo+1})}
+                                hasMore={(posts.length !==0 )&&(totalPages - 1) !== postPageNo.pageNo}
                                 loader={<h4>Loading...</h4>}
                                 endMessage={
                                     <p style={{ textAlign: 'center' }}>
@@ -65,7 +73,7 @@ export default function MyPostPage() {
                                     </p>
                                 }
                             >
-                                {posts.map(post => <Post postData={post} key={post.id} />)}
+                                {posts.map(post => <Post postData={post} key={post.id} changePage={changePageNo} />)}
                             </InfiniteScroll>
                         </div>
                     </div>

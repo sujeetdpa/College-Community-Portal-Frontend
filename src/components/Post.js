@@ -1,11 +1,15 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link,useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import './Post.css'
 
-export default function Post({ postData }) {
+export default function Post({ postData,changePage }) {
   const [noOfLikes, setNoOfLikes] = useState(postData.noOfLikes);
-
+  const [loggedInUser, setLoggedInUser] = useState({});
+  const navigate=useNavigate();
+  useEffect(() => {
+    setLoggedInUser(JSON.parse(localStorage.getItem("logged_in_user")));
+  }, [])
   const handleLikePost = () => {
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     const options = {
@@ -55,21 +59,56 @@ export default function Post({ postData }) {
       })
     })
   }
+  const handleDeletePost = () => {
+    const authHeader = "Bearer " + localStorage.getItem("access_token");
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Authorization': authHeader
+      }
+    }
+    fetch("http://localhost:8080/api/post/delete/" + postData.id, options)
+      .then(res => {
+        if (!res.ok) {
+          throw res.json();
+        }
+        res.json().then(data => {
+          console.log(data);
+          alert(data.message);
+          changePage();
+        })
+      }).catch(err => {
+        err.then(data => {
+          console.log();
+          alert(data.message);
+        })
+      })
+  }
   return (
     <div>
-      <div className="container  mb-5">
+      <div className="container  mb-2">
         <div className="row d-flex align-items-center justify-content-center">
           <div className="col-md-6">
             <div className="card">
-                <div className="d-flex justify-content-between p-2 px-3">
-                  <div className="d-flex flex-row align-items-center">
-                    <img src={(postData.profileImageId !== null && postData.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + postData.profileImageId : "https://robohash.org/" + postData.userId} width="50" className="rounded-circle" alt='Profile' />
-                    <div className="d-flex flex-column ml-2"> <span className="font-weight-bold">{postData.fullName}</span> <small className="text-primary">Collegues</small> </div>
-                  </div>
-                  <div className="d-flex flex-row mt-1 ellipsis"> <small className="mr-2">{postData.creationDate}</small> <i className="fa fa-ellipsis-h"></i> </div>
+              <div className="d-flex justify-content-between p-2 px-3">
+                <div className="d-flex flex-row align-items-center">
+                  <img src={(postData.profileImageId !== null && postData.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + postData.profileImageId : "https://robohash.org/" + postData.userId} width="50" className="rounded-circle" alt='Profile' />
+                  <div className="d-flex flex-column ml-2"> <span className="font-weight-bold">{postData.fullName}</span> <small className="text-primary">Collegues</small> </div>
                 </div>
+                <div className="d-flex flex-row mt-1 ellipsis">
+                  <small className="mr-2 px-2">{postData.creationDate}</small>
+                  <small>
+                    <a class="bi bi-list " href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><Link class="dropdown-item" to={"/post/" + postData.id}>View</Link></li>
+                      {postData.userId === loggedInUser.id ? <li><button class="dropdown-item" onClick={handleDeletePost}>Delete</button></li> : null}
+                    </ul>
+                  </small>
+                </div>
+              </div>
               <div className="p-2">
-              <Link to={"/post/" + postData.id} id="Link"><h5>{postData.title}</h5></Link>
+                <Link to={"/post/" + postData.id} id="Link"><h5>{postData.title}</h5></Link>
                 <p className="text-justify">{postData.description}</p>
               </div>
               {postData.imageIds.length > 0 ? <img src={"http://localhost:8080/api/post/local/storage/download/image/" + postData.imageIds[0]} className="img-fluid" alt='dsvv' /> : ""}

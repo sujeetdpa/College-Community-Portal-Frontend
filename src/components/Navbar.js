@@ -25,6 +25,7 @@ export default function Navbar() {
         console.log("UserData: ", loggedInUser);
         setLoggedInUser(JSON.parse(localStorage.getItem("logged_in_user")));
     }, []);
+    
     useEffect(()=>{
         if (didMount.current) fetchSearchedPost();
         else didMount.current = true;
