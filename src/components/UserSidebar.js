@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import './UserSidebar.css'
 
 export default function UserSidebar({universityId}) {
   return (

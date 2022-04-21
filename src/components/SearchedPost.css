@@ -1,3 +1,6 @@
+Link {
+    text-decoration: none;
+}
 .comment-text {
     font-size: 12px
 }
@@ -12,7 +15,7 @@
     position: relative
 }
 .name {
-    font-weight: 400
+    font-weight: 600
 }
 .rounded-image {
     border-radius: 50% !important;

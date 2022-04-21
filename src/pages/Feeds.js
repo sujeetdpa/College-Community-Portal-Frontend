@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Navbar from '../components/Navbar';
 import Post from '../components/Post'
+import lodash from 'lodash'
 
 export default function Feeds() {
     const [posts, setPosts] = useState([]);
@@ -13,8 +14,8 @@ export default function Feeds() {
         images: [],
         documents: []
     })
-    let uploadedImgs = [];
-    let uploadedDocs = [];
+    const [uploadedImgs, setUploadedImgs] = useState([]);
+    const [uploadedDocs, setUploadedDocs] = useState([]);
 
     useEffect(() => {
         const authHeader = "Bearer " + localStorage.getItem("access_token");
@@ -47,9 +48,9 @@ export default function Feeds() {
         if (images.length > 0) {
             const authHeader = "Bearer " + localStorage.getItem("access_token");
             let formData = new FormData();
-            formData.append("images", images);
-            console.log("form data:")
-            console.log(formData.get("images"));
+            lodash.forEach(images, file => {
+                formData.append("images", file)
+            })
             const options = {
                 method: 'POST',
                 headers: {
@@ -57,11 +58,11 @@ export default function Feeds() {
                 },
                 body: formData
             }
-            const response = fetch("http://localhost:8080/api/post/local/storage/upload/image/new", options);
+            const response = fetch("http://localhost:8080/api/post/local/storage/upload/image", options);
             response.then(res => {
                 res.json().then(data => {
                     console.log(data);
-                    uploadedImgs = data;
+                    setUploadedImgs(data);
                 })
             })
         }
@@ -71,7 +72,9 @@ export default function Feeds() {
         if (docs.length > 0) {
             const authHeader = "Bearer " + localStorage.getItem("access_token");
             const docsData = new FormData();
-            docsData.append("documents", docs);
+            lodash.forEach(docs, file => {
+                docsData.append("documents", file);
+            })
             const options = {
                 method: 'POST',
                 headers: {
@@ -83,7 +86,7 @@ export default function Feeds() {
             response.then(res => {
                 res.json().then(data => {
                     console.log(data);
-                    uploadedDocs = data;
+                    setUploadedDocs(data);
                 })
             })
         }
@@ -153,31 +156,35 @@ export default function Feeds() {
                                                 <textarea type="text" id="description" className="form-control" cols='50' rows='8' onChange={e => { createPostData.description = e.target.value }} />
                                             </div>
                                         </div>
+                                        <div className="modal-body d-felx flex-row">
+                                            <div className="form-group row d-flex">
+                                                <div className="col-md-6">
+                                                    <small className="mr-2">
+                                                        <label for="apply" className='' ><input type="file" name="" id='apply' accept="image/*" onChange={e => handleImageUpload(e)} multiple /><i class="bi bi-images mx-2"></i>Upload Image</label>
+                                                    </small>
+                                                    <span className='container-fluid'>
+                                                        {
+                                                            uploadedImgs.map(id => <img src={"http://localhost:8080/api/post/local/storage/download/image/" + id} width="50" key={id} className="px-1" />)
+                                                        }
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="form-group row d-flex">
+                                                <div className="col-md-6">
+                                                    <small className="mr-2">
+                                                        <label for="apply1" className='' ><input type="file" name="" id='apply1' onChange={e => handleDocumentUpload(e)} multiple /><i class="bi bi-file-earmark-arrow-up mx-2"></i>Upload Document</label>
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button type="reset" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="button" className="btn btn-primary" onClick={handleCreatePost}>Post</button>
+                                        </div>
                                     </form>
                                 </div>
-                                <div className="modal-body d-felx flex-row">
-                                    <div className="form-group row">
-                                        <div className="col-md-6">
-                                            <div className="file btn btn-sm btn-primary bi bi-card-image">
-                                                <input type="file" name="file" multiple className='bg-transparent' onChange={e => handleImageUpload(e)} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="form-group row">
-                                        <div className="col-md-6">
-                                            <div className="file btn btn-sm btn-primary bi bi-file-earmark-arrow-up">
-                                                <input type="file" name="file" multiple className='bg-transparent' onChange={e => handleDocumentUpload(e)} />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <button className='btn btn-primary btn-sm'>Upload</button>
-                                    </div>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" className="btn btn-primary" onClick={handleCreatePost}>Post</button>
-                                </div>
+
+
                             </div>
                         </div>
                     </div >

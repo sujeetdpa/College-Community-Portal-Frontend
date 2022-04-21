@@ -7,7 +7,7 @@ import Navbar from '../components/Navbar';
 
 export default function PostPage() {
   let params = useParams();
-  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
+  const [loggedInUser, setLoggedInUser] = useState({});
   const [post, setPost] = useState({ imageIds: [], documentIds: [] });
   const [noOfLikes, setNoOfLikes] = useState(post.noOfLikes);
   const [noOfComments, setNoOfComments] = useState(post.noOfComments);
@@ -26,6 +26,7 @@ export default function PostPage() {
 
   //API call to fetch post data
   useEffect(() => {
+    setLoggedInUser(JSON.parse(localStorage.getItem("logged_in_user")));
     console.log("POST id:" + params.postId);
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     const options = {

@@ -6,8 +6,9 @@ export default function Protected(props) {
     let Cmp=props.Cmp;
     const navigate=useNavigate();
     useEffect(()=>{
-        if(localStorage.getItem("access_token")===null || localStorage.getItem("access_token")===undefined){
+        if(localStorage.getItem("access_token")===null || localStorage.getItem("access_token")===undefined || localStorage.getItem("logged_in_user")===null){
             navigate("/login");
+            alert("Please Login.")
         }
     },[])
   return (

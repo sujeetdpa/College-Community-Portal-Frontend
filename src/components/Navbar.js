@@ -31,6 +31,10 @@ export default function Navbar() {
     },[searchPageNo])
 
     const fetchSearchedPost = () => {
+        if(localStorage.getItem("access_token")===null || localStorage.getItem("access_token")===undefined || localStorage.getItem("logged_in_user")===null){
+            alert("Please login.")
+            navigate("/login");
+        }
         console.log("Page no: "+searchPageNo);
         const authHeader = "Bearer " + localStorage.getItem("access_token");
         const searchRequest = {
