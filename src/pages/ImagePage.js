@@ -17,6 +17,7 @@ export default function ImagePage() {
     
 
   useEffect(()=>{
+   
     if(loggedInUser.universityId!==params.universityId){
       alert("You dont't have the required permissions");
       navigate("/user/"+params.universityId+"/profile");

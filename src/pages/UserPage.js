@@ -7,7 +7,7 @@ import UserSidebar from '../components/UserSidebar'
 
 export default function UserPage() {
   const params = useParams();
-  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
+  const [loggedInUser, setLoggedInUser] = useState({});
   const [profileImageId, setProfileImageId] = useState();
   const [userData, setUserData] = useState({
     fullName: "",
@@ -23,6 +23,10 @@ export default function UserPage() {
     mobileNo: "",
     profileImageId: ""
   });
+
+  useEffect(()=>{
+    setLoggedInUser(JSON.parse(localStorage.getItem("logged_in_user")));
+  },[])
   useEffect(() => {
     async function fetchUser() {
       const authHeader = "Bearer " + localStorage.getItem("access_token");

@@ -22,7 +22,6 @@ export default function MyPostPage() {
         setTotalPages(0);
         setPostPageNo({pageNo:0});
     }
-
     useEffect(() => {
         if(loggedInUser.universityId!==params.universityId){
             alert("You dont't have the required permissions");
