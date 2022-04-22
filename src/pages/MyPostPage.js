@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams,useNavigate } from 'react-router-dom'
 import { useState,useEffect } from 'react';
 import Navbar from '../components/Navbar'
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -8,13 +8,15 @@ import UserSidebar from '../components/UserSidebar';
 
 export default function MyPostPage() {
     const params = useParams();
+    const navigate=useNavigate();
     const [postPageNo, setPostPageNo] = useState({
         pageNo:0
     });
     const [totalPages, setTotalPages] = useState(0);
     const [totalNumberOfItems, setTotalNumberOfItems] = useState(0);
     const [posts, setPosts] = useState([]);
-
+    const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
+    
     function changePageNo(){
         setPosts([]);
         setTotalPages(0);
@@ -22,6 +24,10 @@ export default function MyPostPage() {
     }
 
     useEffect(() => {
+        if(loggedInUser.universityId!==params.universityId){
+            alert("You dont't have the required permissions");
+            navigate("/user/"+params.universityId+"/profile");
+        }
         const authHeader = "Bearer " + localStorage.getItem("access_token");
         const postRequest = {
             pageNo: postPageNo.pageNo,

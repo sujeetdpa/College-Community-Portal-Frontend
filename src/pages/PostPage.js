@@ -24,7 +24,11 @@ export default function PostPage() {
     postId: post.id,
     userId: ''
   });
-
+  function changeCommentPageNo(){
+    setTotalPages(0);
+    setComments([]);
+    setCommentPageNo({pageNo:0});
+  }
   //API call to fetch post data
   useEffect(() => {
     setLoggedInUser(JSON.parse(localStorage.getItem("logged_in_user")));
@@ -256,7 +260,7 @@ export default function PostPage() {
                       </p>
                     }
                   >
-                    {comments.map(comment => <Comment commentData={comment} key={comment.id} />)}
+                    {comments.map(comment => <Comment commentData={comment} key={comment.id} changePageNo={changeCommentPageNo}/>)}
                   </InfiniteScroll>
                 </div>
               </div>

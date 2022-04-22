@@ -1,16 +1,23 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useParams,useNavigate } from 'react-router-dom';
+import { useState,useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import UserSidebar from '../components/UserSidebar';
 
 export default function ChangePassword() {
   const params = useParams();
-
+  const navigate=useNavigate();
   const [changePasswordData, setChangePasswordData] = useState({
     currentPassword: "",
     newPassword: "",
     cnfNewPassword: ""
+  })
+  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
+  useEffect(()=>{
+    if (loggedInUser.universityId !== params.universityId) {
+      alert("You dont't have the required permissions");
+      navigate("/user/" + params.universityId + "/profile");
+    }
   })
   const handleChangePassword = (e) => {
     e.preventDefault();
@@ -24,20 +31,20 @@ export default function ChangePassword() {
       body: JSON.stringify(changePasswordData)
     }
     const response = fetch("http://localhost:8080/auth/update/password", options)
-    .then(res=>{
-      if(!res.ok){
-        throw res.json();
-      }
-      res.text().then(data=>{
-        console.log(data);
-        alert(data);
+      .then(res => {
+        if (!res.ok) {
+          throw res.json();
+        }
+        res.text().then(data => {
+          console.log(data);
+          alert(data);
+        })
+      }).catch(err => {
+        err.then(data => {
+          console.log(data);
+          alert(data.message);
+        })
       })
-    }).catch(err=>{
-      err.then(data=>{
-        console.log(data);
-        alert(data.message);
-      })
-    })
   }
   return (
     <div>

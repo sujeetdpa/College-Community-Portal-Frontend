@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams,useNavigate } from 'react-router-dom'
 import { useEffect,useState } from 'react';
 import Navbar from '../components/Navbar'
 import UserSidebar from '../components/UserSidebar';
@@ -8,8 +8,14 @@ import DashboardCard from '../components/DashboardCard'
 export default function DashboardPage() {
   const params = useParams();
   const [dashboardData,setDashboardData] =useState({});
+  const navigate=useNavigate();
+  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
 
   useEffect(()=>{
+    if(loggedInUser.universityId!==params.universityId){
+      alert("You dont't have the required permissions");
+      navigate("/user/"+params.universityId+"/profile");
+  }
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     const options = {
       method: 'GET',

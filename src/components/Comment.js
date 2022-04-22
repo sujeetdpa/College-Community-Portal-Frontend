@@ -1,7 +1,34 @@
 import React from 'react'
+import { useState } from 'react';
 import './Comment.css'
 
-export default function Comment({ commentData }) {
+export default function Comment({ commentData,changePageNo }) {
+  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
+  const handleCommentDelete=()=>{
+    const authHeader = "Bearer " + localStorage.getItem("access_token");
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'Authorization': authHeader
+      }
+    }
+    fetch("http://localhost:8080/api/post/comment/delete/" + commentData.id, options)
+    .then(res=>{
+      if(!res.ok){
+        throw res.json();
+      }
+      res.json().then(data=>{
+        console.log(data);
+        alert(data.message);
+        changePageNo();
+      })
+    }).catch(err=>{
+      err.then(data=>{
+        console.log(data);
+        alert(data.message);
+      })
+    })
+  }
   return (
     <>
       <div className="d-flex flex-row mb-2">
@@ -17,7 +44,7 @@ export default function Comment({ commentData }) {
               <a class="bi bi-list " href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Delete</a></li>
+                {loggedInUser.id===commentData.userId? <li><button class="dropdown-item" onClick={handleCommentDelete}>Delete</button></li>:null}
               </ul>
             </small>
           </div>

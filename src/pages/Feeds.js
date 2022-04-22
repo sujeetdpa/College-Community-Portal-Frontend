@@ -122,6 +122,7 @@ export default function Feeds() {
             res.json().then(data => {
                 console.log(data);
                 alert("Post successfully created");
+                changePageNo();
             })
         }).catch(err => {
             err.then(data => {

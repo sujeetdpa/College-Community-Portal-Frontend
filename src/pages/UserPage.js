@@ -7,7 +7,8 @@ import UserSidebar from '../components/UserSidebar'
 
 export default function UserPage() {
   const params = useParams();
-  const [profileImageId,setProfileImageId] =useState();
+  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
+  const [profileImageId, setProfileImageId] = useState();
   const [userData, setUserData] = useState({
     fullName: "",
     firstName: "",
@@ -77,34 +78,34 @@ export default function UserPage() {
         })
       })
   }
-  const updateImage=(e)=>{
-    const profileImage=e.target.files;
-        console.log("profile image: ",profileImage);
-        if (profileImage.length > 0) {
-            const authHeader = "Bearer " + localStorage.getItem("access_token");
-            let formData = new FormData();
-            formData.append("profileImage", profileImage[0]);
-            const options = {
-                method: 'POST',
-                headers: {
-                    'Authorization': authHeader
-                },
-                body: formData
-            }
-            const response = fetch("http://localhost:8080/api/user/update/profileImage", options);
-            response.then(res => {
-                res.json().then(data => {
-                    console.log(data);
-                    setProfileImageId(data);
-                })
-            })
-        }
+  const updateImage = (e) => {
+    const profileImage = e.target.files;
+    console.log("profile image: ", profileImage);
+    if (profileImage.length > 0) {
+      const authHeader = "Bearer " + localStorage.getItem("access_token");
+      let formData = new FormData();
+      formData.append("profileImage", profileImage[0]);
+      const options = {
+        method: 'POST',
+        headers: {
+          'Authorization': authHeader
+        },
+        body: formData
+      }
+      const response = fetch("http://localhost:8080/api/user/update/profileImage", options);
+      response.then(res => {
+        res.json().then(data => {
+          console.log(data);
+          setProfileImageId(data);
+        })
+      })
+    }
   }
   return (
     <div>
       <Navbar />
       <div className="d-flex container pt-2" id="wrapper">
-        <UserSidebar universityId={params.universityId} />
+        {loggedInUser.id === userData.id ? <UserSidebar universityId={params.universityId} /> : null}
         <div id="page-content-wrapper">
           <div className="container-fluid">
             <div>
@@ -120,18 +121,20 @@ export default function UserPage() {
                                 <img src={(profileImageId !== null && profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + profileImageId : "https://robohash.org/" + userData.userId} width="100" className="rounded-circle" alt='Profile' />
                                 <div className="d-flex flex-column ml-2"> <h3 className="font-weight-bold">{userData.fullName}</h3> <small className="text-primary">{userData.role}</small> </div>
                               </div>
-                              <div className="d-flex flex-row mt-1 ellipsis">
-                                <small className="mr-2">
-                                  <label for="apply" className='' ><input type="file" name="" id='apply' accept="image/*" onChange={e=> updateImage(e)} /><i class="bi bi-images"></i></label>
-                                </small>
-                              </div>
+                              {loggedInUser.id === userData.id ?
+                                <div className="d-flex flex-row mt-1 ellipsis">
+                                  <small className="mr-2">
+                                    <label for="apply" className='' ><input type="file" name="" id='apply' accept="image/*" onChange={e => updateImage(e)} /><i class="bi bi-images"></i></label>
+                                  </small>
+                                </div>
+                                : null}
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  </div>
+                </div>
               </main >
               <main className="my-form">
                 <div className="cotainer">
@@ -182,6 +185,7 @@ export default function UserPage() {
                                 <input type="tel" id="phoneNumber" className="form-control" value={userData.mobileNo} disabled />
                               </div>
                             </div>
+                            { loggedInUser.id===userData.id ?<>
                             <div className="form-group row">
                               <label className="col-md-4 col-form-label text-md-right" >Join Date</label>
                               <div className="col-md-6">
@@ -199,6 +203,7 @@ export default function UserPage() {
                                 Edit
                               </button>
                             </div>
+                            </>: null}
                           </div>
                         </div>
                       </div>
