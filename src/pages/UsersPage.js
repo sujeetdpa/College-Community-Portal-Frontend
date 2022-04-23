@@ -28,7 +28,7 @@ export default function UsersPage() {
     }
     fetch("http://localhost:8080/api/admin/users", options)
       .then(res => {
-        if (res.ok) {
+        if (!res.ok) {
           throw res.json();
         }
         res.json().then(data => {
@@ -47,21 +47,19 @@ export default function UsersPage() {
     <div>
       <Navbar />
       <div className='container'>
-        <table>
-          <thead>
+        <table className='table align-middle mb-0 bg-white'>
+          <thead className="bg-light ">
             <tr>
-              <th>Id</th>
-              <th>Profile Image</th>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Username</th>
-              <th>Active</th>
-              <th>Locked</th>
-              <th>Operation</th>
+              <th>Name</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Position</th>
+              <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
-            {/* <InfiniteScroll
+          <tbody className='mt-3'>
+          {users.map(user => <UserSmallCard userData={user} key={user.id} />)}
+            <InfiniteScroll
               dataLength={users.length} //This is important field to render the next data
               next={() => setUserPageNo({ pageNo: userPageNo.pageNo + 1 })}
               hasMore={(users.length !== 0) && (totalPages - 1) !== userPageNo.pageNo}
@@ -71,9 +69,9 @@ export default function UsersPage() {
                   <b>Yay! You have seen it all</b>
                 </p>
               }
-            > */}
-              {users.map(user => <UserSmallCard userData={user} key={user.id} />)}
-            {/* </InfiniteScroll> */}
+            >
+            </InfiniteScroll>
+           
           </tbody>
         </table>
       </div>
