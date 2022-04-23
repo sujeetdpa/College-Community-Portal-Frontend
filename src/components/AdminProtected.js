@@ -1,12 +1,12 @@
 import React from 'react'
-import { decodeToken, useJwt } from 'react-jwt';
+import { decodeToken, isExpired } from 'react-jwt';
 import { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function AdminProtected(props) {
     let Cmp=props.Cmp;
-    const { decodedToken, isExpired } = useJwt(localStorage.getItem("access_token"));
     const decodeData=decodeToken(localStorage.getItem("access_token"))
+    const isTokenExpired=isExpired(localStorage.getItem("access_token"));
     const navigate=useNavigate();
     const [flag,setFlag]=useState(false);
     useEffect(()=>{
@@ -14,7 +14,8 @@ export default function AdminProtected(props) {
             navigate("/login");
             alert("Please Login.")
         }
-        if(isExpired){
+        if(isTokenExpired){
+          localStorage.clear();
           navigate("/login");
           alert("Token expired please login again");
           
