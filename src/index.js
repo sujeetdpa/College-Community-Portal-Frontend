@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Feeds from './pages/Feeds';
 import Protected from './components/Protected'
+import AdminProtected from './components/AdminProtected'
 import PostPage from './pages/PostPage';
 import UserPage from './pages/UserPage';
 import DashboardPage from './pages/DashboardPage'
@@ -15,6 +16,7 @@ import ChangePassword from './pages/ChangePassword'
 import ImagePage from './pages/ImagePage'
 import DocumentPage from './pages/DocumentPage'
 import MyPostPage from './pages/MyPostPage';
+import UsersPage from './pages/UsersPage';
 
 ReactDOM.render(
   // <React.StrictMode>
@@ -34,6 +36,7 @@ ReactDOM.render(
         <Route path='/user/:universityId/changePassword' element={<Protected Cmp={ChangePassword} />} />
         <Route path='/user/:universityId/images' element={<Protected Cmp={ImagePage} />} />
         <Route path='/user/:universityId/documents' element={<Protected Cmp={DocumentPage} />} />
+        <Route path='/admin/users' element={<AdminProtected Cmp={UsersPage}/>}/>
       </Routes>
     </div>
   </BrowserRouter>,

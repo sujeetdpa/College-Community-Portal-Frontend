@@ -1,6 +1,7 @@
 import React, { useRef } from 'react'
 import { useState, useEffect } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { decodeToken } from 'react-jwt';
 import { Link, useNavigate } from 'react-router-dom'
 import './Navbar.css'
 import SearchedPost from './SearchedPost';
@@ -9,6 +10,7 @@ export default function Navbar() {
     const didMount = useRef(false);
 
     const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token"));
+    const token=decodeToken(localStorage.getItem("access_token"))
     const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
     const [searchTxt, setSearchTxt] = useState();
 
@@ -109,6 +111,7 @@ export default function Navbar() {
                                             </a>
                                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                                 <li><Link className="dropdown-item" to={"/user/" + loggedInUser.universityId+"/profile"}>Account</Link></li>
+                                                {token.Roles.includes("ROLE_ADMIN")?<li><Link className="dropdown-item" to={"/admin/users"}>Users</Link></li>:null}
                                                 <li><hr className="dropdown-divider" /></li>
                                                 <li><button className="btn btn-outline-secondary btn-sm dropdown-item" onClick={handleLogout}>Logout</button></li>
                                             </ul>
