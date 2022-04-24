@@ -17,6 +17,9 @@ import ImagePage from './pages/ImagePage'
 import DocumentPage from './pages/DocumentPage'
 import MyPostPage from './pages/MyPostPage';
 import UsersPage from './pages/UsersPage';
+import AddAdminPage from './pages/AddAdminPage';
+import RemovedPostPage from './pages/RemovedPostPage';
+import AdminDashboardPage from './pages/AdminDashboardPage';
 
 ReactDOM.render(
   // <React.StrictMode>
@@ -28,6 +31,8 @@ ReactDOM.render(
         <Route path='/' element={<App />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+
+
         <Route path='/feeds' element={<Protected Cmp={Feeds} />} />
         <Route path='/post/:postId' element={<Protected Cmp={PostPage} />} />
         <Route path='/user/:universityId/profile' element={<Protected Cmp={UserPage} />} />
@@ -36,7 +41,13 @@ ReactDOM.render(
         <Route path='/user/:universityId/changePassword' element={<Protected Cmp={ChangePassword} />} />
         <Route path='/user/:universityId/images' element={<Protected Cmp={ImagePage} />} />
         <Route path='/user/:universityId/documents' element={<Protected Cmp={DocumentPage} />} />
+
+
+        <Route path='/admin/dashboard' element={<AdminProtected Cmp={AdminDashboardPage}/>}/>
         <Route path='/admin/users' element={<AdminProtected Cmp={UsersPage}/>}/>
+        <Route path='/admin/add' element={<AdminProtected Cmp={AddAdminPage}/>}/>
+        <Route path='/admin/removedPosts' element={<AdminProtected Cmp={RemovedPostPage}/>}/>
+        <Route path='/admin/removedComments' element={<AdminProtected Cmp={UsersPage}/>}/>
       </Routes>
     </div>
   </BrowserRouter>,

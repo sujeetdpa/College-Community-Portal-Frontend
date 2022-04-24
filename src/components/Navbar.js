@@ -111,7 +111,13 @@ export default function Navbar() {
                                             </a>
                                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                                                 <li><Link className="dropdown-item" to={"/user/" + loggedInUser.universityId+"/profile"}>Account</Link></li>
-                                                {token.Roles.includes("ROLE_ADMIN")?<li><Link className="dropdown-item" to={"/admin/users"}>Users</Link></li>:null}
+                                                {token.Roles.includes("ROLE_ADMIN")? <>
+                                                <li><Link className="dropdown-item" to={"/admin/dashboard"}>Admin Dashboard</Link></li>
+                                                <li><Link className="dropdown-item" to={"/admin/users"}>Users</Link></li>
+                                                <li><Link className="dropdown-item" to={"/admin/add"}>Add Admin</Link></li>
+                                                <li><Link className="dropdown-item" to={"/admin/removedPosts"}>Removed Posts</Link></li>
+                                                <li><Link className="dropdown-item" to={"/admin/removedComments"}>Removed Comments</Link></li>
+                                                </> :null}
                                                 <li><hr className="dropdown-divider" /></li>
                                                 <li><button className="btn btn-outline-secondary btn-sm dropdown-item" onClick={handleLogout}>Logout</button></li>
                                             </ul>
