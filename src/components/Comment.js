@@ -1,9 +1,11 @@
 import React from 'react'
 import { useState } from 'react';
+import { decodeToken } from 'react-jwt';
 import './Comment.css'
 
 export default function Comment({ commentData,changePageNo }) {
   const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
+  const decodeData=decodeToken(localStorage.getItem("access_token"))
   const handleCommentDelete=()=>{
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     const options = {
@@ -44,7 +46,7 @@ export default function Comment({ commentData,changePageNo }) {
               <a class="bi bi-list " href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {loggedInUser.id===commentData.userId? <li><button class="dropdown-item" onClick={handleCommentDelete}>Delete</button></li>:null}
+                {(loggedInUser.id===commentData.userId)|| decodeData.Roles.includes("ROLE_ADMIN")? <li><button class="dropdown-item" onClick={handleCommentDelete}>Delete</button></li>:null}
               </ul>
             </small>
           </div>

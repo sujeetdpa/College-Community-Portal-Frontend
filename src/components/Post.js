@@ -2,9 +2,11 @@ import React, { useEffect } from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import './Post.css'
+import { decodeToken } from 'react-jwt';
 
 export default function Post({ postData,changePage }) {
   const [noOfLikes, setNoOfLikes] = useState(postData.noOfLikes);
+  const decodeData=decodeToken(localStorage.getItem("access_token"))
   const [loggedInUser, setLoggedInUser] = useState({});
   const navigate=useNavigate();
   useEffect(() => {
@@ -102,7 +104,7 @@ export default function Post({ postData,changePage }) {
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li><Link class="dropdown-item" to={"/post/" + postData.id}>View</Link></li>
-                      {postData.userId === loggedInUser.id ? <li><button class="dropdown-item" onClick={handleDeletePost}>Delete</button></li> : null}
+                      {(postData.userId === loggedInUser.id ) || decodeData.Roles.includes("ROLE_ADMIN") ? <li><button class="dropdown-item" onClick={handleDeletePost}>Delete</button></li> : null}
                     </ul>
                   </small>
                 </div>
