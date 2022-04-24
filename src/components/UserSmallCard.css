@@ -1,0 +1,14 @@
+.my-form
+{
+    padding-top: 0rem;
+    padding-bottom: 0rem;
+   
+}
+
+.my-form .row
+{
+    margin-left: 0;
+    margin-right: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}

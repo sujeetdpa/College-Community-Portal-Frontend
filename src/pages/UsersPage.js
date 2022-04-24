@@ -47,34 +47,37 @@ export default function UsersPage() {
     <div>
       <Navbar />
       <div className='container'>
-        <table className='table align-middle mb-0 bg-white'>
-          <thead className="bg-light ">
-            <tr>
-              <th>Name</th>
-              <th>Title</th>
-              <th>Status</th>
-              <th>Position</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody className='mt-3'>
-          {users.map(user => <UserSmallCard userData={user} key={user.id} />)}
-            <InfiniteScroll
-              dataLength={users.length} //This is important field to render the next data
-              next={() => setUserPageNo({ pageNo: userPageNo.pageNo + 1 })}
-              hasMore={(users.length !== 0) && (totalPages - 1) !== userPageNo.pageNo}
-              loader={<h4>Loading...</h4>}
-              endMessage={
-                <p style={{ textAlign: 'center' }}>
-                  <b>Yay! You have seen it all</b>
-                </p>
-              }
-            >
-            </InfiniteScroll>
-           
-          </tbody>
-        </table>
+        <InfiniteScroll
+          dataLength={users.length} //This is important field to render the next data
+          next={() => setUserPageNo({ pageNo: userPageNo.pageNo + 1 })}
+          hasMore={(users.length !== 0) && (totalPages - 1) !== userPageNo.pageNo}
+          loader={<h4>Loading...</h4>}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+        >
+          <table className='table align-middle mb-0 bg-white table-hover'>
+            <thead className="bg-light ">
+              <tr>
+                <th>Id</th>
+                <th>Image</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Account Status</th>
+                <th colSpan={2}>Actions</th>
+              </tr>
+            </thead>
+            <tbody className='mt-3'>
+            {users.map(user => <UserSmallCard userData={user} key={user.id} />)}
+            </tbody>
+          </table>
+        </InfiniteScroll>
       </div>
-    </div>
+    </div >
   )
 }

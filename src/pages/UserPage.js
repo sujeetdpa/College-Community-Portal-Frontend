@@ -178,7 +178,7 @@ export default function UserPage() {
                               </div>
                             </div>
                             <div className="form-group row">
-                              <label className="col-md-4 col-form-label text-md-right" >University Roll No.</label>
+                              <label className="col-md-4 col-form-label text-md-right" >University ID</label>
                               <div className="col-md-6">
                                 <input type="email" id="universityId" className="form-control" value={userData.universityId} disabled />
                               </div>
