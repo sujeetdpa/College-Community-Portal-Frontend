@@ -27,7 +27,7 @@ export default function AdminDashboardPage() {
         alert(data.message);
       })
     })
-  })
+  },[])
   return (
     <div>
       <Navbar/>
