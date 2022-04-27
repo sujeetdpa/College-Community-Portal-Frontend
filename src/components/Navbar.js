@@ -115,8 +115,8 @@ export default function Navbar() {
                                                 <li><Link className="dropdown-item" to={"/admin/dashboard"}>Admin Dashboard</Link></li>
                                                 <li><Link className="dropdown-item" to={"/admin/users"}>Users</Link></li>
                                                 <li><Link className="dropdown-item" to={"/admin/add"}>Add Admin</Link></li>
-                                                <li><Link className="dropdown-item" to={"/admin/removedPosts"}>Removed Posts</Link></li>
-                                                <li><Link className="dropdown-item" to={"/admin/removedComments"}>Removed Comments</Link></li>
+                                                <li><Link className="dropdown-item" to={"/admin/deletedPosts"}>Deleted Posts</Link></li>
+                                                <li><Link className="dropdown-item" to={"/admin/deletedComments"}>Deleted Comments</Link></li>
                                                 </> :null}
                                                 <li><hr className="dropdown-divider" /></li>
                                                 <li><button className="btn btn-outline-secondary btn-sm dropdown-item" onClick={handleLogout}>Logout</button></li>

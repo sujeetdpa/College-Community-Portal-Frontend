@@ -134,8 +134,8 @@ export default function Feeds() {
     return (
         <>
             <Navbar />
-            <div className='d-flex flex-row '>
-                <div className=' align-content-center mt-2'>
+            <div className='d-flex flex-row container'>
+                <div className='mt-2 position-fixed'>
                     <button type="button" className="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
                         Create Post
                     </button>
@@ -211,10 +211,6 @@ export default function Feeds() {
                         {posts.map(post => <Post postData={post} key={post.id} changePage={changePageNo} />)}
                     </InfiniteScroll>
                 </div>
-                <div className='align-content-end mt-2'>
-                    <button className="btn btn-primary">Most Performances</button>
-                </div>
-
             </div >
         </>
 

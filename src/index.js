@@ -20,6 +20,7 @@ import UsersPage from './pages/UsersPage';
 import AddAdminPage from './pages/AddAdminPage';
 import RemovedPostPage from './pages/RemovedPostPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
+import RemovedCommentPage from './pages/RemovedCommentPage';
 
 ReactDOM.render(
   // <React.StrictMode>
@@ -46,8 +47,8 @@ ReactDOM.render(
         <Route path='/admin/dashboard' element={<AdminProtected Cmp={AdminDashboardPage}/>}/>
         <Route path='/admin/users' element={<AdminProtected Cmp={UsersPage}/>}/>
         <Route path='/admin/add' element={<AdminProtected Cmp={AddAdminPage}/>}/>
-        <Route path='/admin/removedPosts' element={<AdminProtected Cmp={RemovedPostPage}/>}/>
-        <Route path='/admin/removedComments' element={<AdminProtected Cmp={UsersPage}/>}/>
+        <Route path='/admin/deletedPosts' element={<AdminProtected Cmp={RemovedPostPage}/>}/>
+        <Route path='/admin/deletedComments' element={<AdminProtected Cmp={RemovedCommentPage}/>}/>
       </Routes>
     </div>
   </BrowserRouter>,

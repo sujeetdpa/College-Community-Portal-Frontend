@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState ,useEffect} from 'react'
+import { useState, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import './Register.css'
 
@@ -8,10 +8,11 @@ export default function AddAdminPage() {
     firstName: "",
     lastName: "",
     username: "",
+    gender:"",
     roles: []
   })
-  const [roles,setRoles]=useState([]);
-  useEffect(()=>{
+  const [roles, setRoles] = useState([]);
+  useEffect(() => {
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     const options = {
       method: 'GET',
@@ -20,21 +21,21 @@ export default function AddAdminPage() {
       }
     }
     const response = fetch("http://localhost:8080/api/admin/roles", options)
-    .then(res=>{
-      if(!res.ok){
-        throw res.json();
-      }
-      res.json().then(data=>{
-       setRoles(data);
-        console.log("roles: ",roles);
+      .then(res => {
+        if (!res.ok) {
+          throw res.json();
+        }
+        res.json().then(data => {
+          setRoles(data);
+          console.log("roles: ", roles);
+        })
+      }).catch(err => {
+        err.then(data => {
+          console.log(data);
+          alert(data.message);
+        })
       })
-    }).catch(err=>{
-      err.then(data=>{
-        console.log(data);
-        alert(data.message);
-      })
-    })
-  },[])
+  }, [])
   const handleSubmit = (e) => {
     e.preventDefault();
     const authHeader = "Bearer " + localStorage.getItem("access_token");
@@ -47,20 +48,20 @@ export default function AddAdminPage() {
       body: JSON.stringify(registerData)
     }
     const response = fetch("http://localhost:8080/api/admin/add", options)
-    .then(res=>{
-      if(!res.ok){
-        throw res.json();
-      }
-      res.json().then(data=>{
-        console.log(data);
-        alert("User added successfully and an e-mail containing password is sent on the username");
+      .then(res => {
+        if (!res.ok) {
+          throw res.json();
+        }
+        res.json().then(data => {
+          console.log(data);
+          alert("User added successfully and an e-mail containing password is sent on the username");
+        })
+      }).catch(err => {
+        err.then(data => {
+          console.log(data.message);
+          alert(data.message);
+        })
       })
-    }).catch(err=>{
-      err.then(data=>{
-        console.log(data.message);
-        alert(data.message);
-      })
-    })
   }
   return (
     <div>
@@ -87,6 +88,17 @@ export default function AddAdminPage() {
                         </div>
                       </div>
                       <div className="form-group row">
+                        <label className="col-md-4 col-form-label text-md-right">Gender</label>
+                        <div className="col-md-6">
+                          <select className="form-control form-control-sm d-inline-block" aria-label="Default select example" id="gender" onChange={e => { registerData.gender = e.target.value }}>
+                            <option value="Select.." disabled>Select..</option>
+                            <option value="FEMALE">Female</option>
+                            <option value="MALE">Male</option>
+                            <option value="NOT_TO_MENTION">Other</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="form-group row">
                         <label className="col-md-4 col-form-label text-md-right" >University Email/Username</label>
                         <div className="col-md-6">
                           <input type="email" id="email" className="form-control" onChange={e => { registerData.username = e.target.value }} />
@@ -97,7 +109,7 @@ export default function AddAdminPage() {
                         <div className="col-md-6">
                           <select className="form-control form-control-sm d-inline-block" aria-label="Default select example" id="gender" onChange={e => { registerData.roles[0] = e.target.value }}>
                             <option disabled>Role.</option>
-                            {roles.map(role=> <option value={role.id} key={role.id}>{role.name}</option>)}
+                            {roles.map(role => <option value={role.id} key={role.id}>{role.name}</option>)}
                           </select>
                         </div>
                       </div>

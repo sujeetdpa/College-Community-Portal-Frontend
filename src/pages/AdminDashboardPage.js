@@ -3,7 +3,7 @@ import DashboardCard from '../components/DashboardCard'
 import Navbar from '../components/Navbar'
 
 export default function AdminDashboardPage() {
-  const [dashboardData,setDashboardData] =useState();
+  const [dashboardData,setDashboardData] =useState({});
   useEffect(()=>{
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     const options = {
@@ -14,12 +14,12 @@ export default function AdminDashboardPage() {
     }
     fetch("http://localhost:8080/api/admin/dashboard", options)
     .then(res=>{
-      if(res.ok){
+      if(!res.ok){
         throw res.json();
       }
       res.json().then(data=>{
         console.log(data);
-        setDashboardData(dashboardData);
+        setDashboardData(data);
       })
     }).catch(err=>{
       err.then(data=>{
@@ -31,11 +31,12 @@ export default function AdminDashboardPage() {
   return (
     <div>
       <Navbar/>
-      <div id="page-content-wrapper">
+      <div  className='container'>
           <div className="container-fluid">
             <h1 className="mt-4">Dashboard.</h1>
+            <div className='d-flex'>
               <DashboardCard header={"Total Posts "} data={dashboardData.numberOfPosts}/>
-              <DashboardCard header={"Total Deleted Posts "} data={dashboardData.numberOfDeletedPosts}/>
+              <DashboardCard header={"Total Deleted Posts "} data={dashboardData.numberOfDeletedPost}/>
               <DashboardCard header={"Total Images "} data={dashboardData.numberOfImages}/>
               <DashboardCard header={"Total Documents "} data={dashboardData.numberOfDocuments}/>
               <DashboardCard header={"Total Likes"} data={dashboardData.numberOfLikes}/>
@@ -43,7 +44,8 @@ export default function AdminDashboardPage() {
               <DashboardCard header={"Total Admins "} data={dashboardData.numberOfAdmins}/>
               <DashboardCard header={"Total Dislikes"} data={dashboardData.numberOfDislikes}/>
               <DashboardCard header={"Total Comments"} data={dashboardData.numberOfComments}/>
-              <DashboardCard header={"Total Deleted Comments"} data={dashboardData.numberOfDeletedComments}/>
+              <DashboardCard header={"Total Deleted Comments"} data={dashboardData.numberOfDeletedComment}/>
+              </div>
           </div>
         </div>
     </div>
