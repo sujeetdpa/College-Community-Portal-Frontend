@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './Post.css'
 
 export default function DeletedPost({postData}) {
@@ -11,7 +12,7 @@ export default function DeletedPost({postData}) {
               <div className="d-flex justify-content-between p-2 px-3">
                 <div className="d-flex flex-row align-items-center">
                   <img src={(postData.profileImageId !== null && postData.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + postData.profileImageId : "https://robohash.org/" + postData.userId} width="50" className="rounded-circle" alt='Profile' />
-                  <div className="d-flex flex-column ml-2"> <span className="font-weight-bold">{postData.fullName}</span> <small className="text-primary">Collegues</small> </div>
+                  <div className="d-flex flex-column ml-2"> <Link to={"/user/"+postData.universityId+"/profile"} id="Link"><span className="font-weight-bold">{postData.fullName}</span> </Link><small className="text-primary">Collegues</small> </div>
                 </div>
                 <div className="d-flex flex-row mt-1 ellipsis">
                   <small className="mr-2 px-2">{postData.creationDate}</small>

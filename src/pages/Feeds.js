@@ -139,8 +139,24 @@ export default function Feeds() {
                     <button type="button" className="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
                         Create Post
                     </button>
-
-                    <div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                </div >
+                <div className='flex-fill mt-2'>
+                    <InfiniteScroll
+                        dataLength={posts.length} //This is important field to render the next data
+                        next={() => setPostPageNo({pageNo: postPageNo.pageNo+1})}
+                        hasMore={(totalPages - 1) !== postPageNo.pageNo}
+                        loader={<h4>Loading...</h4>}
+                        endMessage={
+                            <p style={{ textAlign: 'center' }}>
+                                <b>Yay! You have seen it all</b>
+                            </p>
+                        }
+                    >
+                        {posts.map(post => <Post postData={post} key={post.id} changePage={changePageNo} />)}
+                    </InfiniteScroll>
+                </div>
+            </div >
+            <div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div className="modal-dialog" role="document">
                             <div className="modal-content">
                                 <div className="modal-header">
@@ -195,23 +211,6 @@ export default function Feeds() {
                             </div>
                         </div>
                     </div >
-                </div >
-                <div className='flex-fill mt-2'>
-                    <InfiniteScroll
-                        dataLength={posts.length} //This is important field to render the next data
-                        next={() => setPostPageNo({pageNo: postPageNo.pageNo+1})}
-                        hasMore={(totalPages - 1) !== postPageNo.pageNo}
-                        loader={<h4>Loading...</h4>}
-                        endMessage={
-                            <p style={{ textAlign: 'center' }}>
-                                <b>Yay! You have seen it all</b>
-                            </p>
-                        }
-                    >
-                        {posts.map(post => <Post postData={post} key={post.id} changePage={changePageNo} />)}
-                    </InfiniteScroll>
-                </div>
-            </div >
         </>
 
     )

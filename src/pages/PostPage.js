@@ -220,6 +220,7 @@ export default function PostPage() {
                 <p className="text-justify">{post.description}</p>
               </div>
               {post.imageIds.map(id => <img src={"http://localhost:8080/api/post/local/storage/download/image/" + id} className="img-fluid" alt='Data' key={id} />)}
+              {post.documentIds.map(id => <iframe src={'http://localhost:8080/api/post/local/storage/download/document/'+id } key={id}></iframe>)}
               {/* {post.imageIds.length > 0 ? <img src={"http://localhost:8080/api/post/local/storage/download/image/" + post.imageIds[0]} className="img-fluid" alt='dsvv' /> : ""} */}
               <div className="p-2">
                 <hr />
@@ -269,5 +270,6 @@ export default function PostPage() {
         </div>
       </div>
     </div>
+    
   )
 }
