@@ -80,6 +80,7 @@ export default function PostPage() {
         res.json().then(data => {
           console.log(data);
           setTotalPages(data.totalPages)
+          setNoOfComments(data.totalNumberOfItems)
           setComments([...comments, ...data.commentResponseViews]);
         })
       })
