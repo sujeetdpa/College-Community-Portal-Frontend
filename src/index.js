@@ -21,6 +21,7 @@ import AddAdminPage from './pages/AddAdminPage';
 import RemovedPostPage from './pages/RemovedPostPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import RemovedCommentPage from './pages/RemovedCommentPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 
 ReactDOM.render(
   // <React.StrictMode>
@@ -32,7 +33,7 @@ ReactDOM.render(
         <Route path='/' element={<App />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-
+        <Route path='/resetPassword' element={<ForgotPasswordPage/>}/>
 
         <Route path='/feeds' element={<Protected Cmp={Feeds} />} />
         <Route path='/post/:postId' element={<Protected Cmp={PostPage} />} />

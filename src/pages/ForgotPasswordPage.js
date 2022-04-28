@@ -1,76 +1,74 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
-import './Login.css'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
+import './Login.css'
+import {Link , useNavigate} from 'react-router-dom'
 
-export default function Login() {
-    const [loginData, setLoginData] = useState({
-        username: '',
-        password: ''
-    })
+export default function ForgotPasswordPage() {
+    const [resetData,setResetData]=useState({
+        username:"",
+        dob:""
+    });
     const navigate = useNavigate();
     useEffect(() => {
         if (localStorage.getItem("access_token")) {
             navigate("/feeds");
         }
     }, [])
-    const handleSubmit = (e) => {
+    const handleSubmit=(e)=>{
         e.preventDefault();
         let options = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(loginData)
+            body: JSON.stringify(resetData)
         }
-        fetch("http://localhost:8080/auth/login", options)
-        .then(res => {
-            if (!res.ok) {
+        fetch("http://localhost:8080/auth/forgot/password", options)
+        .then(res=>{
+            if(!res.ok){
                 throw res.json();
             }
-            res.json().then(data => {
+            res.text().then(data=>{
                 console.log(data);
-                localStorage.setItem("access_token", data.access_token);
-                localStorage.setItem("logged_in_user",JSON.stringify(data.userResponseView));
-                navigate("/feeds");
+                alert(data);
             })
-        }).catch(err => {
-            err.then(data => {
-                alert("Invalid Credentials.");
+        }).catch(err=>{
+            err.then(data=>{
+                console.log(data);
+                alert(data.message);
             })
         })
     }
-    return (
-        <>
+  return (
+    <div>
         <Navbar/>
-            <div className='login'>
+        <div className='login'>
                 <main className="my-form">
                     <div className="cotainer">
                         <div className="row justify-content-center">
                             <div className="col-md-8">
                                 <div className="card">
-                                    <div className="card-header">Login</div>
+                                    <div className="card-header">Reset Password</div>
                                     <div className="card-body">
                                         <form name="my-form" onSubmit={handleSubmit}>
                                             <div className="form-group row">
                                                 <label className="col-md-4 col-form-label text-md-right">E-Mail / Username</label>
                                                 <div className="col-md-6">
-                                                    <input type="text" id="username" className="form-control" onChange={e => { loginData.username = e.target.value }} />
+                                                    <input type="text" id="username" className="form-control" onChange={e => { resetData.username = e.target.value }} />
                                                 </div>
                                             </div>
 
                                             <div className="form-group row">
-                                                <label className="col-md-4 col-form-label text-md-right">Password</label>
+                                                <label className="col-md-4 col-form-label text-md-right">Date of Borth</label>
                                                 <div className="col-md-6">
-                                                    <input type="password" id="password" className="form-control" onChange={e => { loginData.password = e.target.value }} />
+                                                    <input type="date" id="password" className="form-control" onChange={e => { resetData.dob = e.target.value }} />
                                                 </div>
                                             </div>
                                             <div className="col-md-6 offset-md-4">
                                                 <button type="submit" className="btn btn-primary">
-                                                    Login
+                                                   Send
                                                 </button>
-                                                <Link to="/resetPassword" className="btn btn-link">Forgot Your Password?</Link>
+                                                <Link to="/login" className="btn btn-link">Click to Login</Link>
                                             </div>
                                         </form>
                                         <div className="col-md-6 offset-md-4 py-4">
@@ -83,6 +81,6 @@ export default function Login() {
                     </div>
                 </main >
             </div >
-        </>
-    )
+    </div>
+  )
 }
