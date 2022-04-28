@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import { useState } from 'react'
-import './Post.css'
 import { decodeToken } from 'react-jwt';
+import './Post.css'
 
 export default function Post({ postData,changePage }) {
   const [noOfLikes, setNoOfLikes] = useState(postData.noOfLikes);

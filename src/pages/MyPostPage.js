@@ -66,7 +66,7 @@ export default function MyPostPage() {
                 <div id="page-content-wrapper">
                     <div className="container-fluid">
                         <h1 className="mt-4">{totalNumberOfItems} Posts</h1>
-                        <div className='d-flex flex-fill'>
+                        <div className=''>
                             <InfiniteScroll
                                 dataLength={posts.length} //This is important field to render the next data
                                 next={() => setPostPageNo({pageNo: postPageNo.pageNo+1})}

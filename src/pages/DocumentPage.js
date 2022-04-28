@@ -37,11 +37,19 @@ export default function DocumentPage() {
         }
         fetch("http://localhost:8080/api/user/documents", options)
         .then(res=>{
+          if(!res.ok){
+            throw res.json();
+          }
           res.json().then(data=>{
             console.log(data);
             setTotalNumberOfItems(data.totalNumberOfItems);
             setTotalPages(data.totalPages);
             setDocumentIds([...documentIds,...data.documentIds]);
+          })
+        }).catch(err=>{
+          err.then(data=>{
+            console.log(data);
+            alert(data.message);
           })
         })
   },[pageNo])

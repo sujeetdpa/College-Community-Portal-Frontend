@@ -16,7 +16,7 @@ export default function Protected(props) {
             navigate("/login");
             alert("Please Login.")
         }
-        if(isTokenExpired){
+        else if(isTokenExpired){
           localStorage.clear();
           navigate("/login");
           alert("Token expired please login again");

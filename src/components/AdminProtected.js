@@ -14,11 +14,10 @@ export default function AdminProtected(props) {
             navigate("/login");
             alert("Please Login.")
         }
-        if(isTokenExpired){
+        else if(isTokenExpired){
           localStorage.clear();
           navigate("/login");
           alert("Token expired please login again");
-          
         }
         if(!decodeData.Roles.includes("ROLE_ADMIN")){
             alert("You dont have the permission to access this page");
