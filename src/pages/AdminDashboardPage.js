@@ -12,7 +12,7 @@ export default function AdminDashboardPage() {
         'Authorization': authHeader
       },
     }
-    fetch("http://localhost:8080/api/admin/dashboard", options)
+    fetch(process.env.REACT_APP_BASE_URL+"/api/admin/dashboard", options)
     .then(res=>{
       if(!res.ok){
         throw res.json();

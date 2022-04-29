@@ -20,7 +20,7 @@ export default function Post({ postData,changePage }) {
         'Authorization': authHeader
       },
     }
-    const response = fetch("http://localhost:8080/api/post/" + postData.id + "/like/" + postData.userId, options);
+    const response = fetch(process.env.REACT_APP_BASE_URL+"/api/post/" + postData.id + "/like/" + postData.userId, options);
     response.then(res => {
       if (!res.ok) {
         throw res.json();
@@ -45,7 +45,7 @@ export default function Post({ postData,changePage }) {
         'Authorization': authHeader
       },
     }
-    const response = fetch("http://localhost:8080/api/post/" + postData.id + "/dislike/" + postData.userId, options);
+    const response = fetch(process.env.REACT_APP_BASE_URL+"/api/post/" + postData.id + "/dislike/" + postData.userId, options);
     response.then(res => {
       if (!res.ok) {
         throw res.json();
@@ -69,7 +69,7 @@ export default function Post({ postData,changePage }) {
         'Authorization': authHeader
       }
     }
-    fetch("http://localhost:8080/api/post/delete/" + postData.id, options)
+    fetch(process.env.REACT_APP_BASE_URL+"/api/post/delete/" + postData.id, options)
       .then(res => {
         if (!res.ok) {
           throw res.json();
@@ -94,7 +94,7 @@ export default function Post({ postData,changePage }) {
             <div className="card">
               <div className="d-flex justify-content-between p-2 px-3">
                 <div className="d-flex flex-row align-items-center">
-                  <img src={(postData.profileImageId !== null && postData.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + postData.profileImageId : "https://robohash.org/" + postData.userId} width="50" className="rounded-circle" alt='Profile' />
+                  <img src={(postData.profileImageId !== null && postData.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + postData.profileImageId : "https://robohash.org/" + postData.userId} width="50" className="rounded-circle" alt='Profile' />
                   <div className="d-flex flex-column ml-2"> <Link to={"/user/"+postData.universityId+"/profile"} id="Link"><span className="font-weight-bold">{postData.fullName}</span></Link> <small className="text-primary">Collegues</small> </div>
                 </div>
                 <div className="d-flex flex-row mt-1 ellipsis">
@@ -113,7 +113,7 @@ export default function Post({ postData,changePage }) {
                 <Link to={"/post/" + postData.id} id="Link"><h5>{postData.title}</h5></Link>
                 <p className="text-justify">{postData.description}</p>
               </div>
-              {postData.imageIds.length > 0 ? <img src={"http://localhost:8080/api/post/local/storage/download/image/" + postData.imageIds[0]} className="img-fluid" alt='dsvv' /> : ""}
+              {postData.imageIds.length > 0 ? <img src={process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + postData.imageIds[0]} className="img-fluid" alt='dsvv' /> : ""}
               {postData.imageIds.length > 1 ? <Link to={"/post/" + postData.id}><p>More...</p></Link> : ""}
               <div className="p-2">
                 <hr />

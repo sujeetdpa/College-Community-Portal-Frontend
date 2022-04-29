@@ -25,7 +25,7 @@ export default function RemovedPostPage() {
       },
       body: JSON.stringify(postRequest)
     }
-    fetch("http://localhost:8080/api/admin/deletedPosts", options)
+    fetch(process.env.REACT_APP_BASE_URL+"/api/admin/deletedPosts", options)
       .then(res => {
         res.json().then(data => {
           console.log(data.postResponseViews);

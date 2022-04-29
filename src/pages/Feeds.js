@@ -38,7 +38,7 @@ export default function Feeds() {
             },
             body: JSON.stringify(postRequest)
         }
-        fetch("http://localhost:8080/api/post/all", options)
+        fetch(process.env.REACT_APP_BASE_URL+"/api/post/all", options)
             .then(res => {
                 res.json().then(data => {
                     console.log(data.postResponseViews);
@@ -64,7 +64,7 @@ export default function Feeds() {
                 },
                 body: formData
             }
-            const response = fetch("http://localhost:8080/api/post/local/storage/upload/image", options);
+            const response = fetch(process.env.REACT_APP_BASE_URL+"/api/post/local/storage/upload/image", options);
             response.then(res => {
                 if(!res.ok){
                     throw res.json();
@@ -96,7 +96,7 @@ export default function Feeds() {
                 },
                 body: docsData
             }
-            const response = fetch("http://localhost:8080/api/post/local/storage/upload/document", options);
+            const response = fetch(process.env.REACT_APP_BASE_URL+"/api/post/local/storage/upload/document", options);
             response.then(res => {
                 if(!res.ok){
                     throw res.json();
@@ -129,7 +129,7 @@ export default function Feeds() {
             },
             body: JSON.stringify(createPostData)
         }
-        const response = fetch("http://localhost:8080/api/post/new", options);
+        const response = fetch(process.env.REACT_APP_BASE_URL+"/api/post/new", options);
         response.then(res => {
             if (!res.ok) {
                 throw res.json();
@@ -203,7 +203,7 @@ export default function Feeds() {
                                                     </small>
                                                     <span className='container-fluid'>
                                                         {
-                                                            uploadedImgs.map(id => <img src={"http://localhost:8080/api/post/local/storage/download/image/" + id} width="50" key={id} className="px-1" />)
+                                                            uploadedImgs.map(id => <img src={process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + id} width="50" key={id} className="px-1" />)
                                                         }
                                                     </span>
                                                 </div>
@@ -222,8 +222,6 @@ export default function Feeds() {
                                         </div>
                                     </form>
                                 </div>
-
-
                             </div>
                         </div>
                     </div >

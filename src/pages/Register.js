@@ -32,7 +32,7 @@ export default function Register() {
             },
             body: JSON.stringify(registerData)
         }
-        const response = fetch("http://localhost:8080/auth/signup", options);
+        const response = fetch(process.env.REACT_APP_BASE_URL+"/auth/signup", options);
         response.then(res => {
             if (!res.ok) {
                 throw res.json();

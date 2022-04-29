@@ -40,7 +40,7 @@ export default function PostPage() {
         'Authorization': authHeader
       }
     }
-    fetch("http://localhost:8080/api/post/" + params.postId, options)
+    fetch(process.env.REACT_APP_BASE_URL+"/api/post/" + params.postId, options)
       .then(res => {
         if (!res.ok) {
           throw res.json();
@@ -75,7 +75,7 @@ export default function PostPage() {
       },
       body: JSON.stringify(commentRequest)
     }
-    fetch("http://localhost:8080/api/post/" + params.postId + "/comments", options)
+    fetch(process.env.REACT_APP_BASE_URL+"/api/post/" + params.postId + "/comments", options)
       .then(res => {
         res.json().then(data => {
           console.log(data);
@@ -94,7 +94,7 @@ export default function PostPage() {
         'Authorization': authHeader
       },
     }
-    const response = fetch("http://localhost:8080/api/post/" + post.id + "/like/" + post.userId, options);
+    const response = fetch(process.env.REACT_APP_BASE_URL+"/api/post/" + post.id + "/like/" + post.userId, options);
     response.then(res => {
       if (!res.ok) {
         throw res.json();
@@ -120,7 +120,7 @@ export default function PostPage() {
         'Authorization': authHeader
       },
     }
-    const response = fetch("http://localhost:8080/api/post/" + post.id + "/dislike/" + post.userId, options);
+    const response = fetch(process.env.REACT_APP_BASE_URL+"/api/post/" + post.id + "/dislike/" + post.userId, options);
     response.then(res => {
       if (!res.ok) {
         throw res.json();
@@ -147,7 +147,7 @@ export default function PostPage() {
       },
       body: JSON.stringify(createCommentData)
     }
-    const response = fetch("http://localhost:8080/api/post/comment/new", options);
+    const response = fetch(process.env.REACT_APP_BASE_URL+"/api/post/comment/new", options);
     response.then(res => {
       if (!res.ok) {
         throw res.json();
@@ -175,7 +175,7 @@ export default function PostPage() {
         'Authorization': authHeader
       }
     }
-    fetch("http://localhost:8080/api/post/delete/" + post.id, options)
+    fetch(process.env.REACT_APP_BASE_URL+"/api/post/delete/" + post.id, options)
       .then(res => {
         if (!res.ok) {
           throw res.json();
@@ -201,7 +201,7 @@ export default function PostPage() {
             <div className="card">
               <div className="d-flex justify-content-between p-2 px-3">
                 <div className="d-flex flex-row align-items-center">
-                  <img src={(post.profileImageId !== null && post.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + post.profileImageId : "https://robohash.org/" + post.userId} width="50" className="rounded-circle" alt='Profile' />
+                  <img src={(post.profileImageId !== null && post.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + post.profileImageId : "https://robohash.org/" + post.userId} width="50" className="rounded-circle" alt='Profile' />
                   <div className="d-flex flex-column ml-2"> <span className="font-weight-bold">{post.fullName}</span> <small className="text-primary">Collegues</small> </div>
                 </div>
                 <div className="d-flex flex-row mt-1 ellipsis">
@@ -220,9 +220,9 @@ export default function PostPage() {
                 <h5>{post.title}</h5>
                 <p className="text-justify">{post.description}</p>
               </div>
-              {post.imageIds.map(id => <img src={"http://localhost:8080/api/post/local/storage/download/image/" + id} className="img-fluid" alt='Data' key={id} />)}
-              {post.documentIds.map(id => <iframe src={'http://localhost:8080/api/post/local/storage/download/document/'+id } key={id}></iframe>)}
-              {/* {post.imageIds.length > 0 ? <img src={"http://localhost:8080/api/post/local/storage/download/image/" + post.imageIds[0]} className="img-fluid" alt='dsvv' /> : ""} */}
+              {post.imageIds.map(id => <img src={process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + id} className="img-fluid" alt='Data' key={id} />)}
+              {post.documentIds.map(id => <iframe src={process.env.REACT_APP_BASE_URL+'/api/post/local/storage/download/document/'+id } key={id}></iframe>)}
+              {/* {post.imageIds.length > 0 ? <img src={process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + post.imageIds[0]} className="img-fluid" alt='dsvv' /> : ""} */}
               <div className="p-2">
                 <hr />
                 <div className="d-flex justify-content-between align-items-center">
@@ -240,7 +240,7 @@ export default function PostPage() {
                 <div className="comment-input pb-3">
                   <form onSubmit={handleCreateComment}>
                     <div className="d-flex flex-row add-comment-section mt-4 mb-4">
-                      <img src={(loggedInUser.profileImageId !== null && loggedInUser.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + loggedInUser.profileImageId : "https://robohash.org/" + loggedInUser.id} width="30" className="rounded-circle" alt='Profile' />
+                      <img src={(loggedInUser.profileImageId !== null && loggedInUser.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + loggedInUser.profileImageId : "https://robohash.org/" + loggedInUser.id} width="30" className="rounded-circle" alt='Profile' />
                       <input type="text" id='commentInput' className="form-control mr-3" placeholder="Add comment" onChange={e => { createCommentData.description = e.target.value }} />
                       <button className="btn-outline-primary rounded-circle" type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-sendbtn " viewBox="0 0 16 16">

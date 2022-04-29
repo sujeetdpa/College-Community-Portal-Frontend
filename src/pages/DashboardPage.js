@@ -23,7 +23,7 @@ export default function DashboardPage() {
         'Authorization': authHeader
       },
     }
-    fetch("http://localhost:8080/api/user/data/dashboard", options)
+    fetch(process.env.REACT_APP_BASE_URL+"/api/user/data/dashboard", options)
     .then(res=>{
       if(!res.ok){
         throw res.json();

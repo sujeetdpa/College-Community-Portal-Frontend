@@ -20,7 +20,7 @@ export default function AddAdminPage() {
         'Authorization': authHeader,
       }
     }
-    const response = fetch("http://localhost:8080/api/admin/roles", options)
+    const response = fetch(process.env.REACT_APP_BASE_URL+"/api/admin/roles", options)
       .then(res => {
         if (!res.ok) {
           throw res.json();
@@ -47,7 +47,7 @@ export default function AddAdminPage() {
       },
       body: JSON.stringify(registerData)
     }
-    const response = fetch("http://localhost:8080/api/admin/add", options)
+    const response = fetch(process.env.REACT_APP_BASE_URL+"/api/admin/add", options)
       .then(res => {
         if (!res.ok) {
           throw res.json();

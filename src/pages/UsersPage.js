@@ -26,7 +26,7 @@ export default function UsersPage() {
       },
       body: JSON.stringify(userRequest)
     }
-    fetch("http://localhost:8080/api/admin/users", options)
+    fetch(process.env.REACT_APP_BASE_URL+"/api/admin/users", options)
       .then(res => {
         if (!res.ok) {
           throw res.json();

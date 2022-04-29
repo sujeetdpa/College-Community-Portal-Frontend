@@ -24,7 +24,7 @@ export default function RemovedCommentPage() {
             },
             body: JSON.stringify(commentRequest)
         }
-        fetch("http://localhost:8080/api/admin/deletedComments", options)
+        fetch(process.env.REACT_APP_BASE_URL+"/api/admin/deletedComments", options)
             .then(res => {
                 res.json().then(data => {
                     console.log(data);

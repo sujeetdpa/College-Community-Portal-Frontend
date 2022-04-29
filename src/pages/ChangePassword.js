@@ -30,7 +30,7 @@ export default function ChangePassword() {
       },
       body: JSON.stringify(changePasswordData)
     }
-    const response = fetch("http://localhost:8080/auth/update/password", options)
+    const response = fetch(process.env.REACT_APP_BASE_URL+"/auth/update/password", options)
       .then(res => {
         if (!res.ok) {
           throw res.json();

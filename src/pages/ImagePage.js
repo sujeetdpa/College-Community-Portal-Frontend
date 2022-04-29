@@ -36,7 +36,7 @@ export default function ImagePage() {
             },
             body: JSON.stringify(imageRequest)
         }
-        fetch("http://localhost:8080/api/user/images", options)
+        fetch(process.env.REACT_APP_BASE_URL+"/api/user/images", options)
         .then(res=>{
           res.json().then(data=>{
             console.log(data);
@@ -68,7 +68,7 @@ export default function ImagePage() {
                   </p>
                 }
               >
-                {imageIds.map(id => <div className='col'><img src={'http://localhost:8080/api/post/local/storage/download/image/'+id } key={id} height="100" width="100"/></div>)}
+                {imageIds.map(id => <div className='col'><img src={process.env.REACT_APP_BASE_URL+'/api/post/local/storage/download/image/'+id } key={id} height="100" width="100"/></div>)}
               </InfiniteScroll>
             </div>
           </div>

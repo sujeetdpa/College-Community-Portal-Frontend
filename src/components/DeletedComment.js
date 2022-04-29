@@ -7,7 +7,7 @@ export default function DeletedComment({commentData}) {
   return (
     <>
       <div className="d-flex flex-row mb-2">
-        <img src={(commentData.profileImageId !== null && commentData.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + commentData.profileImageId : "https://robohash.org/" + commentData.userId} width="40" className="rounded-circle" alt='Profile' />
+        <img src={(commentData.profileImageId !== null && commentData.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + commentData.profileImageId : "https://robohash.org/" + commentData.userId} width="40" className="rounded-circle" alt='Profile' />
         <div className="d-flex justify-content-between">
             <div className="d-flex flex-column ml-2">
            <Link to={"/user/"+commentData.universityId+"/profile"} id="Link"><span className="name">{commentData.fullName}</span> </Link>

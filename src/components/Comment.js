@@ -15,7 +15,7 @@ export default function Comment({ commentData,changePageNo }) {
         'Authorization': authHeader
       }
     }
-    fetch("http://localhost:8080/api/post/comment/delete/" + commentData.id, options)
+    fetch(process.env.REACT_APP_BASE_URL+"/api/post/comment/delete/" + commentData.id, options)
     .then(res=>{
       if(!res.ok){
         throw res.json();
@@ -35,7 +35,7 @@ export default function Comment({ commentData,changePageNo }) {
   return (
     <>
       <div className="d-flex flex-row mb-2">
-        <img src={(commentData.profileImageId !== null && commentData.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + commentData.profileImageId : "https://robohash.org/" + commentData.userId} width="40" className="rounded-circle" alt='Profile' />
+        <img src={(commentData.profileImageId !== null && commentData.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + commentData.profileImageId : "https://robohash.org/" + commentData.userId} width="40" className="rounded-circle" alt='Profile' />
         <div className="d-flex justify-content-between">
             <div className="d-flex flex-column ml-2">
            <Link to={"/user/"+commentData.universityId+"/profile"} id="Link"><span className="name">{commentData.fullName}</span> </Link>

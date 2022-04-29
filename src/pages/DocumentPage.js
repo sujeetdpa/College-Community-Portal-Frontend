@@ -35,7 +35,7 @@ export default function DocumentPage() {
             },
             body: JSON.stringify(imageRequest)
         }
-        fetch("http://localhost:8080/api/user/documents", options)
+        fetch(process.env.REACT_APP_BASE_URL+"/api/user/documents", options)
         .then(res=>{
           if(!res.ok){
             throw res.json();
@@ -75,7 +75,7 @@ export default function DocumentPage() {
                   </p>
                 }
               >
-                {documentIds.map(id => <div><iframe src={'http://localhost:8080/api/post/local/storage/download/document/'+id } key={id}></iframe></div>)}
+                {documentIds.map(id => <div><iframe src={process.env.REACT_APP_BASE_URL+'/api/post/local/storage/download/document/'+id } key={id}></iframe></div>)}
               </InfiniteScroll>
             </div>
           </div>

@@ -23,7 +23,7 @@ export default function ForgotPasswordPage() {
             },
             body: JSON.stringify(resetData)
         }
-        fetch("http://localhost:8080/auth/forgot/password", options)
+        fetch(process.env.REACT_APP_BASE_URL+"/auth/forgot/password", options)
         .then(res=>{
             if(!res.ok){
                 throw res.json();

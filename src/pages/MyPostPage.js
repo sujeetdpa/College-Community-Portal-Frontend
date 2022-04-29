@@ -41,7 +41,7 @@ export default function MyPostPage() {
             },
             body: JSON.stringify(postRequest)
         }
-        fetch("http://localhost:8080/api/user/post", options)
+        fetch(process.env.REACT_APP_BASE_URL+"/api/user/post", options)
             .then(res => {
                 if(!res.ok){
                     throw res.json();

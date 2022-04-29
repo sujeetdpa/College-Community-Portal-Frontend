@@ -14,7 +14,7 @@ export default function UserSmallCard({ userData }) {
                 'Authorization': authHeader,
             },
         }
-        fetch("http://localhost:8080/api/admin/blockUser/" + userData.id, options)
+        fetch(process.env.REACT_APP_BASE_URL+"/api/admin/blockUser/" + userData.id, options)
             .then(res => {
                 if (!res.ok) {
                     throw res.json();
@@ -33,7 +33,7 @@ export default function UserSmallCard({ userData }) {
     return (
         <tr>
             <td>{user.id}</td>
-            <td><img src={(user.profileImageId !== null && user.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + user.profileImageId : "https://robohash.org/" + user.userId} width="50" className="rounded-circle" alt='Profile' /></td>
+            <td><img src={(user.profileImageId !== null && user.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + user.profileImageId : "https://robohash.org/" + user.userId} width="50" className="rounded-circle" alt='Profile' /></td>
             <td>{user.firstName}</td>
             <td>{user.lastName}</td>
             <td>{user.username}</td>
@@ -55,7 +55,7 @@ export default function UserSmallCard({ userData }) {
                                                     <div name="my-form">
                                                         <div className="d-flex justify-content-between p-2 px-3">
                                                             <div className="d-flex flex-row align-items-center">
-                                                                <img src={(userData.profileImageId !== null && user.profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + user.profileImageId : "https://robohash.org/" + user.userId} width="100" className="rounded-circle" alt='Profile' />
+                                                                <img src={(userData.profileImageId !== null && user.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + user.profileImageId : "https://robohash.org/" + user.userId} width="100" className="rounded-circle" alt='Profile' />
                                                                 <div className="d-flex flex-column ml-2"> <h3 className="font-weight-bold">{userData.fullName}</h3> <small className="text-primary">{userData.role}</small> </div>
                                                             </div>
                                                         </div>

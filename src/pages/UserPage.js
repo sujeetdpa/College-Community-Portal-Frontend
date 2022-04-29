@@ -36,7 +36,7 @@ export default function UserPage() {
           'Authorization': authHeader
         },
       }
-      const response = await fetch("http://localhost:8080/api/user/" + params.universityId, options);
+      const response = await fetch(process.env.REACT_APP_BASE_URL+"/api/user/" + params.universityId, options);
       if (!response.ok) {
         throw response.json();
       }
@@ -66,7 +66,7 @@ export default function UserPage() {
       },
       body: JSON.stringify(userData)
     }
-    fetch("http://localhost:8080/api/user/update/" + userData.id, options)
+    fetch(process.env.REACT_APP_BASE_URL+"/api/user/update/" + userData.id, options)
       .then(res => {
         if (!res.ok) {
           throw res.json();
@@ -96,7 +96,7 @@ export default function UserPage() {
         },
         body: formData
       }
-      const response = fetch("http://localhost:8080/api/user/update/profileImage", options);
+      const response = fetch(process.env.REACT_APP_BASE_URL+"/api/user/update/profileImage", options);
       response.then(res => {
         res.json().then(data => {
           console.log(data);
@@ -122,7 +122,7 @@ export default function UserPage() {
                           <div name="my-form">
                             <div className="d-flex justify-content-between p-2 px-3">
                               <div className="d-flex flex-row align-items-center">
-                                <img src={(profileImageId !== null && profileImageId !== undefined) ? "http://localhost:8080/api/post/local/storage/download/image/" + profileImageId : "https://robohash.org/" + userData.userId} width="100" className="rounded-circle" alt='Profile' />
+                                <img src={(profileImageId !== null && profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + profileImageId : "https://robohash.org/" + userData.userId} width="100" className="rounded-circle" alt='Profile' />
                                 <div className="d-flex flex-column ml-2"> <h3 className="font-weight-bold">{userData.fullName}</h3> <small className="text-primary">{userData.role}</small> </div>
                               </div>
                               {loggedInUser.id === userData.id ?
