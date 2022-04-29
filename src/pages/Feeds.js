@@ -66,9 +66,17 @@ export default function Feeds() {
             }
             const response = fetch("http://localhost:8080/api/post/local/storage/upload/image", options);
             response.then(res => {
+                if(!res.ok){
+                    throw res.json();
+                }
                 res.json().then(data => {
                     console.log(data);
                     setUploadedImgs(data);
+                })
+            }).catch(err=>{
+                err.then(data=>{
+                    console.log(data);
+                    alert(data.message);
                 })
             })
         }
@@ -90,9 +98,17 @@ export default function Feeds() {
             }
             const response = fetch("http://localhost:8080/api/post/local/storage/upload/document", options);
             response.then(res => {
+                if(!res.ok){
+                    throw res.json();
+                }
                 res.json().then(data => {
                     console.log(data);
                     setUploadedDocs(data);
+                })
+            }).catch(err=>{
+                err.then(data=>{
+                    console.log(data);
+                    alert(data.message);
                 })
             })
         }
