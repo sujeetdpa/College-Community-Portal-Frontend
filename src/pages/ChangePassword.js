@@ -1,19 +1,20 @@
 import React from 'react'
-import { Link, useParams,useNavigate } from 'react-router-dom';
-import { useState,useEffect } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import UserSidebar from '../components/UserSidebar';
 
 export default function ChangePassword() {
   const params = useParams();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  const [btnDisable,setBtnDisable]=useState(false);
   const [changePasswordData, setChangePasswordData] = useState({
     currentPassword: "",
     newPassword: "",
     cnfNewPassword: ""
   })
   const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
-  useEffect(()=>{
+  useEffect(() => {
     if (loggedInUser.universityId !== params.universityId) {
       alert("You dont't have the required permissions");
       navigate("/user/" + params.universityId + "/profile");
@@ -21,6 +22,7 @@ export default function ChangePassword() {
   })
   const handleChangePassword = (e) => {
     e.preventDefault();
+    setBtnDisable(true);
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     let options = {
       method: 'POST',
@@ -30,7 +32,7 @@ export default function ChangePassword() {
       },
       body: JSON.stringify(changePasswordData)
     }
-    const response = fetch(process.env.REACT_APP_BASE_URL+"/auth/update/password", options)
+    const response = fetch(process.env.REACT_APP_BASE_URL + "/auth/update/password", options)
       .then(res => {
         if (!res.ok) {
           throw res.json();
@@ -38,11 +40,13 @@ export default function ChangePassword() {
         res.text().then(data => {
           console.log(data);
           alert(data);
+          setBtnDisable(false);
         })
       }).catch(err => {
         err.then(data => {
           console.log(data);
           alert(data.message);
+          setBtnDisable(false)
         })
       })
   }

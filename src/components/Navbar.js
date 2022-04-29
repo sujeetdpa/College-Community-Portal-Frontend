@@ -10,7 +10,7 @@ export default function Navbar() {
     const didMount = useRef(false);
 
     const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token"));
-    const token=decodeToken(localStorage.getItem("access_token"))
+    const token = decodeToken(localStorage.getItem("access_token"))
     const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
     const [searchTxt, setSearchTxt] = useState();
 
@@ -27,18 +27,18 @@ export default function Navbar() {
         console.log("UserData: ", loggedInUser);
         setLoggedInUser(JSON.parse(localStorage.getItem("logged_in_user")));
     }, []);
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         if (didMount.current) fetchSearchedPost();
         else didMount.current = true;
-    },[searchPageNo])
+    }, [searchPageNo])
 
     const fetchSearchedPost = () => {
-        if(localStorage.getItem("access_token")===null || localStorage.getItem("access_token")===undefined || localStorage.getItem("logged_in_user")===null){
+        if (localStorage.getItem("access_token") === null || localStorage.getItem("access_token") === undefined || localStorage.getItem("logged_in_user") === null) {
             navigate("/login");
             alert("Please login.");
         }
-        console.log("Page no: "+searchPageNo);
+        console.log("Page no: " + searchPageNo);
         const authHeader = "Bearer " + localStorage.getItem("access_token");
         const searchRequest = {
             title: searchTxt,
@@ -53,7 +53,7 @@ export default function Navbar() {
             },
             body: JSON.stringify(searchRequest)
         }
-        fetch(process.env.REACT_APP_BASE_URL+"/api/post/search", options)
+        fetch(process.env.REACT_APP_BASE_URL + "/api/post/search", options)
             .then(res => {
                 if (!res.ok) {
                     throw res.json();
@@ -79,7 +79,7 @@ export default function Navbar() {
         navigate("/login");
     }
     const handleSearch = () => {
-        setSearchPageNo({pageNo:0});
+        setSearchPageNo({ pageNo: 0 });
         setTotalNumberOfItems(0);
         setTotalPages(0);
         setSearchedPosts([]);
@@ -107,17 +107,17 @@ export default function Navbar() {
                                     <>
                                         <li className="nav-item dropdown">
                                             <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src={(loggedInUser.profileImageId !== null && loggedInUser.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + loggedInUser.profileImageId : "https://robohash.org/" + loggedInUser.id} width="30" height="30" className="rounded-circle" alt='Profile' /> {loggedInUser.fullName}
+                                                <img src={(loggedInUser.profileImageId !== null && loggedInUser.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + loggedInUser.profileImageId : "https://robohash.org/" + loggedInUser.id} width="30" height="30" className="rounded-circle" alt='Profile' /> {loggedInUser.fullName}
                                             </a>
                                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                <li><Link className="dropdown-item" to={"/user/" + loggedInUser.universityId+"/profile"}>Account</Link></li>
-                                                {token.Roles.includes("ROLE_ADMIN")? <>
-                                                <li><Link className="dropdown-item" to={"/admin/dashboard"}>Admin Dashboard</Link></li>
-                                                <li><Link className="dropdown-item" to={"/admin/users"}>Users</Link></li>
-                                                <li><Link className="dropdown-item" to={"/admin/add"}>Add Admin</Link></li>
-                                                <li><Link className="dropdown-item" to={"/admin/deletedPosts"}>Deleted Posts</Link></li>
-                                                <li><Link className="dropdown-item" to={"/admin/deletedComments"}>Deleted Comments</Link></li>
-                                                </> :null}
+                                                <li><Link className="dropdown-item" to={"/user/" + loggedInUser.universityId + "/profile"}>Account</Link></li>
+                                                {token.Roles.includes("ROLE_ADMIN") ? <>
+                                                    <li><Link className="dropdown-item" to={"/admin/dashboard"}>Admin Dashboard</Link></li>
+                                                    <li><Link className="dropdown-item" to={"/admin/users"}>Users</Link></li>
+                                                    <li><Link className="dropdown-item" to={"/admin/add"}>Add Admin</Link></li>
+                                                    <li><Link className="dropdown-item" to={"/admin/deletedPosts"}>Deleted Posts</Link></li>
+                                                    <li><Link className="dropdown-item" to={"/admin/deletedComments"}>Deleted Comments</Link></li>
+                                                </> : null}
                                                 <li><hr className="dropdown-divider" /></li>
                                                 <li><button className="btn btn-outline-secondary btn-sm dropdown-item" onClick={handleLogout}>Logout</button></li>
                                             </ul>
@@ -147,8 +147,8 @@ export default function Navbar() {
                         <div className="modal-body" id='scroll'>
                             <InfiniteScroll
                                 dataLength={searchedPosts.length} //This is important field to render the next data
-                                next={() => setSearchPageNo({pageNo: searchPageNo.pageNo+1})}
-                                hasMore={(setSearchedPosts.length !==0) && (totalPages - 1) !== searchPageNo.pageNo}
+                                next={() => setSearchPageNo({ pageNo: searchPageNo.pageNo + 1 })}
+                                hasMore={(setSearchedPosts.length !== 0) && (totalPages - 1) !== searchPageNo.pageNo}
                                 loader={<h4>Loading...</h4>}
                                 scrollableTarget="scroll"
                                 endMessage={
@@ -158,7 +158,7 @@ export default function Navbar() {
                                 }
 
                             >
-                                {searchedPosts.map(searchedPost => <SearchedPost postData={searchedPost} key={searchedPost.id}/>)}
+                                {searchedPosts.map(searchedPost => <SearchedPost postData={searchedPost} key={searchedPost.id} />)}
                             </InfiniteScroll>
                         </div>
                         <div className="modal-footer">

@@ -26,7 +26,7 @@ export default function UsersPage() {
       },
       body: JSON.stringify(userRequest)
     }
-    fetch(process.env.REACT_APP_BASE_URL+"/api/admin/users", options)
+    fetch(process.env.REACT_APP_BASE_URL + "/api/admin/users", options)
       .then(res => {
         if (!res.ok) {
           throw res.json();
@@ -73,7 +73,7 @@ export default function UsersPage() {
               </tr>
             </thead>
             <tbody className='mt-3'>
-            {users.map(user => <UserSmallCard userData={user} key={user.id} />)}
+              {users.map(user => <UserSmallCard userData={user} key={user.id} />)}
             </tbody>
           </table>
         </InfiniteScroll>

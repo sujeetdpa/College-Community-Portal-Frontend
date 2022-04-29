@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams,useNavigate } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Comment from '../components/Comment';
 import './PostPage.css'
@@ -7,12 +7,13 @@ import Navbar from '../components/Navbar';
 
 export default function PostPage() {
   let params = useParams();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [loggedInUser, setLoggedInUser] = useState({});
   const [post, setPost] = useState({ imageIds: [], documentIds: [] });
   const [noOfLikes, setNoOfLikes] = useState(post.noOfLikes);
   const [noOfComments, setNoOfComments] = useState(post.noOfComments);
   const [comments, setComments] = useState([]);
+  const [btnDisable, setBtnDisable] = useState(false);
   const [commentPageNo, setCommentPageNo] = useState({
     pageNo: 0
   });
@@ -24,10 +25,10 @@ export default function PostPage() {
     postId: post.id,
     userId: ''
   });
-  function changeCommentPageNo(){
+  function changeCommentPageNo() {
     setTotalPages(0);
     setComments([]);
-    setCommentPageNo({pageNo:0});
+    setCommentPageNo({ pageNo: 0 });
   }
   //API call to fetch post data
   useEffect(() => {
@@ -40,7 +41,7 @@ export default function PostPage() {
         'Authorization': authHeader
       }
     }
-    fetch(process.env.REACT_APP_BASE_URL+"/api/post/" + params.postId, options)
+    fetch(process.env.REACT_APP_BASE_URL + "/api/post/" + params.postId, options)
       .then(res => {
         if (!res.ok) {
           throw res.json();
@@ -75,7 +76,7 @@ export default function PostPage() {
       },
       body: JSON.stringify(commentRequest)
     }
-    fetch(process.env.REACT_APP_BASE_URL+"/api/post/" + params.postId + "/comments", options)
+    fetch(process.env.REACT_APP_BASE_URL + "/api/post/" + params.postId + "/comments", options)
       .then(res => {
         res.json().then(data => {
           console.log(data);
@@ -94,7 +95,7 @@ export default function PostPage() {
         'Authorization': authHeader
       },
     }
-    const response = fetch(process.env.REACT_APP_BASE_URL+"/api/post/" + post.id + "/like/" + post.userId, options);
+    const response = fetch(process.env.REACT_APP_BASE_URL + "/api/post/" + post.id + "/like/" + post.userId, options);
     response.then(res => {
       if (!res.ok) {
         throw res.json();
@@ -120,7 +121,7 @@ export default function PostPage() {
         'Authorization': authHeader
       },
     }
-    const response = fetch(process.env.REACT_APP_BASE_URL+"/api/post/" + post.id + "/dislike/" + post.userId, options);
+    const response = fetch(process.env.REACT_APP_BASE_URL + "/api/post/" + post.id + "/dislike/" + post.userId, options);
     response.then(res => {
       if (!res.ok) {
         throw res.json();
@@ -138,6 +139,7 @@ export default function PostPage() {
   }
   const handleCreateComment = (e) => {
     e.preventDefault();
+    setBtnDisable(true);
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     const options = {
       method: 'POST',
@@ -147,7 +149,7 @@ export default function PostPage() {
       },
       body: JSON.stringify(createCommentData)
     }
-    const response = fetch(process.env.REACT_APP_BASE_URL+"/api/post/comment/new", options);
+    const response = fetch(process.env.REACT_APP_BASE_URL + "/api/post/comment/new", options);
     response.then(res => {
       if (!res.ok) {
         throw res.json();
@@ -156,6 +158,7 @@ export default function PostPage() {
         console.log(data);
         setNoOfComments(noOfComments + 1);
         document.getElementById("commentInput").value = '';
+        setBtnDisable(false);
         setComments([]);
         setCommentPageNo({ pageNo: 0 });
         setTotalPages(0);
@@ -164,6 +167,7 @@ export default function PostPage() {
       err.then(data => {
         console.log(data);
         alert(data.message);
+        setBtnDisable(false);
       })
     })
   }
@@ -175,7 +179,7 @@ export default function PostPage() {
         'Authorization': authHeader
       }
     }
-    fetch(process.env.REACT_APP_BASE_URL+"/api/post/delete/" + post.id, options)
+    fetch(process.env.REACT_APP_BASE_URL + "/api/post/delete/" + post.id, options)
       .then(res => {
         if (!res.ok) {
           throw res.json();
@@ -201,17 +205,17 @@ export default function PostPage() {
             <div className="card">
               <div className="d-flex justify-content-between p-2 px-3">
                 <div className="d-flex flex-row align-items-center">
-                  <img src={(post.profileImageId !== null && post.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + post.profileImageId : "https://robohash.org/" + post.userId} width="50" className="rounded-circle" alt='Profile' />
+                  <img src={(post.profileImageId !== null && post.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + post.profileImageId : "https://robohash.org/" + post.userId} width="50" className="rounded-circle" alt='Profile' />
                   <div className="d-flex flex-column ml-2"> <span className="font-weight-bold">{post.fullName}</span> <small className="text-primary">Collegues</small> </div>
                 </div>
                 <div className="d-flex flex-row mt-1 ellipsis">
                   <small className="mr-2 px-2">{post.creationDate}</small>
                   <small>
-                    <a class="bi bi-list " href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a className="bi bi-list " href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                      <li><Link class="dropdown-item" to={"/post/" + post.id}>View</Link></li>
-                      {post.userId === loggedInUser.id ? <li><button class="dropdown-item" onClick={handleDeletePost}>Delete</button></li> : null}
+                    <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><Link className="dropdown-item" to={"/post/" + post.id}>View</Link></li>
+                      {post.userId === loggedInUser.id ? <li><button className="dropdown-item" onClick={handleDeletePost}>Delete</button></li> : null}
                     </ul>
                   </small>
                 </div>
@@ -220,9 +224,8 @@ export default function PostPage() {
                 <h5>{post.title}</h5>
                 <p className="text-justify">{post.description}</p>
               </div>
-              {post.imageIds.map(id => <img src={process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + id} className="img-fluid" alt='Data' key={id} />)}
-              {post.documentIds.map(id => <iframe src={process.env.REACT_APP_BASE_URL+'/api/post/local/storage/download/document/'+id } key={id}></iframe>)}
-              {/* {post.imageIds.length > 0 ? <img src={process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + post.imageIds[0]} className="img-fluid" alt='dsvv' /> : ""} */}
+              {post.imageIds.map(id => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + id} className="img-fluid" alt='Data' key={id} />)}
+              {post.documentIds.map(id => <iframe src={process.env.REACT_APP_BASE_URL + '/api/post/local/storage/download/document/' + id} key={id}></iframe>)}
               <div className="p-2">
                 <hr />
                 <div className="d-flex justify-content-between align-items-center">
@@ -240,9 +243,9 @@ export default function PostPage() {
                 <div className="comment-input pb-3">
                   <form onSubmit={handleCreateComment}>
                     <div className="d-flex flex-row add-comment-section mt-4 mb-4">
-                      <img src={(loggedInUser.profileImageId !== null && loggedInUser.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + loggedInUser.profileImageId : "https://robohash.org/" + loggedInUser.id} width="30" className="rounded-circle" alt='Profile' />
+                      <img src={(loggedInUser.profileImageId !== null && loggedInUser.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + loggedInUser.profileImageId : "https://robohash.org/" + loggedInUser.id} width="30" className="rounded-circle" alt='Profile' />
                       <input type="text" id='commentInput' className="form-control mr-3" placeholder="Add comment" onChange={e => { createCommentData.description = e.target.value }} />
-                      <button className="btn-outline-primary rounded-circle" type="submit">
+                      <button className="btn-outline-primary rounded-circle" type="submit" disabled={btnDisable}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" className="bi bi-sendbtn " viewBox="0 0 16 16">
                           <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z" />
                         </svg>
@@ -262,7 +265,7 @@ export default function PostPage() {
                       </p>
                     }
                   >
-                    {comments.map(comment => <Comment commentData={comment} key={comment.id} changePageNo={changeCommentPageNo}/>)}
+                    {comments.map(comment => <Comment commentData={comment} key={comment.id} changePageNo={changeCommentPageNo} />)}
                   </InfiniteScroll>
                 </div>
               </div>
@@ -271,6 +274,6 @@ export default function PostPage() {
         </div>
       </div>
     </div>
-    
+
   )
 }

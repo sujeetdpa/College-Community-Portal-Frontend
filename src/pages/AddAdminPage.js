@@ -8,10 +8,11 @@ export default function AddAdminPage() {
     firstName: "",
     lastName: "",
     username: "",
-    gender:"",
+    gender: "",
     roles: []
-  })
+  });
   const [roles, setRoles] = useState([]);
+  const [btnDisable,setBtnDisable]=useState(false);
   useEffect(() => {
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     const options = {
@@ -20,7 +21,7 @@ export default function AddAdminPage() {
         'Authorization': authHeader,
       }
     }
-    const response = fetch(process.env.REACT_APP_BASE_URL+"/api/admin/roles", options)
+    const response = fetch(process.env.REACT_APP_BASE_URL + "/api/admin/roles", options)
       .then(res => {
         if (!res.ok) {
           throw res.json();
@@ -38,6 +39,7 @@ export default function AddAdminPage() {
   }, [])
   const handleSubmit = (e) => {
     e.preventDefault();
+    setBtnDisable(true);
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     const options = {
       method: 'POST',
@@ -47,7 +49,7 @@ export default function AddAdminPage() {
       },
       body: JSON.stringify(registerData)
     }
-    const response = fetch(process.env.REACT_APP_BASE_URL+"/api/admin/add", options)
+    const response = fetch(process.env.REACT_APP_BASE_URL + "/api/admin/add", options)
       .then(res => {
         if (!res.ok) {
           throw res.json();
@@ -55,11 +57,13 @@ export default function AddAdminPage() {
         res.json().then(data => {
           console.log(data);
           alert("User added successfully and an e-mail containing password is sent on the username");
+          setBtnDisable(false);
         })
       }).catch(err => {
         err.then(data => {
           console.log(data.message);
           alert(data.message);
+          setBtnDisable(false);
         })
       })
   }
@@ -114,7 +118,7 @@ export default function AddAdminPage() {
                         </div>
                       </div>
                       <div className="col-md-6 offset-md-4">
-                        <button type="submit" className="btn btn-primary mx-3">
+                        <button type="submit" className="btn btn-primary mx-3" disabled={btnDisable}>
                           Add
                         </button>
                         <button type="reset" className="btn btn-secondary">
@@ -122,7 +126,6 @@ export default function AddAdminPage() {
                         </button>
                       </div>
                     </form>
-
                   </div>
                 </div>
               </div>

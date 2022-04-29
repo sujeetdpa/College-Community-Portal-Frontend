@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import './Login.css'
-import {Link , useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function ForgotPasswordPage() {
-    const [resetData,setResetData]=useState({
-        username:"",
-        dob:""
+    const [resetData, setResetData] = useState({
+        username: "",
+        dob: ""
     });
     const navigate = useNavigate();
+    const [btnDisable, setBtnDisable] = useState(false);
     useEffect(() => {
         if (localStorage.getItem("access_token")) {
             navigate("/feeds");
         }
     }, [])
-    const handleSubmit=(e)=>{
+    const handleSubmit = (e) => {
         e.preventDefault();
+        setBtnDisable(true);
         let options = {
             method: 'POST',
             headers: {
@@ -23,26 +25,28 @@ export default function ForgotPasswordPage() {
             },
             body: JSON.stringify(resetData)
         }
-        fetch(process.env.REACT_APP_BASE_URL+"/auth/forgot/password", options)
-        .then(res=>{
-            if(!res.ok){
-                throw res.json();
-            }
-            res.text().then(data=>{
-                console.log(data);
-                alert(data);
+        fetch(process.env.REACT_APP_BASE_URL + "/auth/forgot/password", options)
+            .then(res => {
+                if (!res.ok) {
+                    throw res.json();
+                }
+                res.text().then(data => {
+                    console.log(data);
+                    alert(data);
+                    setBtnDisable(false);
+                })
+            }).catch(err => {
+                err.then(data => {
+                    console.log(data);
+                    alert(data.message);
+                    setBtnDisable(false);
+                })
             })
-        }).catch(err=>{
-            err.then(data=>{
-                console.log(data);
-                alert(data.message);
-            })
-        })
     }
-  return (
-    <div>
-        <Navbar/>
-        <div className='login'>
+    return (
+        <div>
+            <Navbar />
+            <div className='login'>
                 <main className="my-form">
                     <div className="cotainer">
                         <div className="row justify-content-center">
@@ -65,8 +69,8 @@ export default function ForgotPasswordPage() {
                                                 </div>
                                             </div>
                                             <div className="col-md-6 offset-md-4">
-                                                <button type="submit" className="btn btn-primary">
-                                                   Send
+                                                <button type="submit" className="btn btn-primary" disabled={btnDisable}>
+                                                    Send
                                                 </button>
                                                 <Link to="/login" className="btn btn-link">Click to Login</Link>
                                             </div>
@@ -81,6 +85,6 @@ export default function ForgotPasswordPage() {
                     </div>
                 </main >
             </div >
-    </div>
-  )
+        </div>
+    )
 }

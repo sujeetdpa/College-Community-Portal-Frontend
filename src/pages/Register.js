@@ -3,7 +3,6 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Register.css'
-import { register } from '../api/UserApis'
 import Navbar from '../components/Navbar'
 
 export default function Register() {
@@ -22,9 +21,11 @@ export default function Register() {
         cnfPassword: "",
         dob: "",
         mobileNo: ""
-    })
+    });
+    const [btnDisable, setBtnDisable] = useState(false);
     const handleSubmit = e => {
         e.preventDefault();
+        setBtnDisable(true);
         let options = {
             method: 'POST',
             headers: {
@@ -32,7 +33,7 @@ export default function Register() {
             },
             body: JSON.stringify(registerData)
         }
-        const response = fetch(process.env.REACT_APP_BASE_URL+"/auth/signup", options);
+        const response = fetch(process.env.REACT_APP_BASE_URL + "/auth/signup", options);
         response.then(res => {
             if (!res.ok) {
                 throw res.json();
@@ -41,11 +42,13 @@ export default function Register() {
                 console.log("APi response: ");
                 console.log(responseData);
                 alert("Registration Successfull: Please Login");
+                setBtnDisable(false);
             })
         }).catch(err => {
             err.then(data => {
                 console.log(data);
                 alert(data.message);
+                setBtnDisable(false);
             })
         })
     }
@@ -117,7 +120,7 @@ export default function Register() {
                                                 </div>
                                             </div>
                                             <div className="col-md-6 offset-md-4">
-                                                <button type="submit" className="btn btn-primary mx-3">
+                                                <button type="submit" className="btn btn-primary mx-3" disabled={btnDisable}>
                                                     Register
                                                 </button>
                                                 <button type="reset" className="btn btn-secondary">

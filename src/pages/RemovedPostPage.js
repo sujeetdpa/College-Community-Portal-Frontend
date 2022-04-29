@@ -25,7 +25,7 @@ export default function RemovedPostPage() {
       },
       body: JSON.stringify(postRequest)
     }
-    fetch(process.env.REACT_APP_BASE_URL+"/api/admin/deletedPosts", options)
+    fetch(process.env.REACT_APP_BASE_URL + "/api/admin/deletedPosts", options)
       .then(res => {
         res.json().then(data => {
           console.log(data.postResponseViews);
@@ -50,7 +50,7 @@ export default function RemovedPostPage() {
               </p>
             }
           >
-            {deletedPosts.map(post=> <DeletedPost postData={post} key={post.id}/>)}
+            {deletedPosts.map(post => <DeletedPost postData={post} key={post.id} />)}
           </InfiniteScroll>
         </div>
       </div>

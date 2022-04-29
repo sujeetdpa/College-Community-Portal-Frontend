@@ -10,6 +10,7 @@ export default function Login() {
         password: ''
     })
     const navigate = useNavigate();
+    const [btnDisable, setBtnDisable] = useState(false);
     useEffect(() => {
         if (localStorage.getItem("access_token")) {
             navigate("/feeds");
@@ -17,6 +18,7 @@ export default function Login() {
     }, [])
     const handleSubmit = (e) => {
         e.preventDefault();
+        setBtnDisable(true);
         let options = {
             method: 'POST',
             headers: {
@@ -24,27 +26,29 @@ export default function Login() {
             },
             body: JSON.stringify(loginData)
         }
-        fetch(process.env.REACT_APP_BASE_URL+"/auth/login", options)
-        .then(res => {
-            if (!res.ok) {
-                throw res.json();
-            }
-            res.json().then(data => {
-                console.log(data);
-                localStorage.setItem("access_token", data.access_token);
-                localStorage.setItem("logged_in_user",JSON.stringify(data.userResponseView));
-                navigate("/feeds");
+        fetch(process.env.REACT_APP_BASE_URL + "/auth/login", options)
+            .then(res => {
+                if (!res.ok) {
+                    throw res.json();
+                }
+                res.json().then(data => {
+                    console.log(data);
+                    localStorage.setItem("access_token", data.access_token);
+                    localStorage.setItem("logged_in_user", JSON.stringify(data.userResponseView));
+                    setBtnDisable(false);
+                    navigate("/feeds");
+                })
+            }).catch(err => {
+                err.then(data => {
+                    console.log(data);
+                    alert(data.message);
+                    setBtnDisable(false);
+                })
             })
-        }).catch(err => {
-            err.then(data => {
-                console.log(data);
-                alert(data.message);
-            })
-        })
     }
     return (
         <>
-        <Navbar/>
+            <Navbar />
             <div className='login'>
                 <main className="my-form">
                     <div className="cotainer">
@@ -68,7 +72,7 @@ export default function Login() {
                                                 </div>
                                             </div>
                                             <div className="col-md-6 offset-md-4">
-                                                <button type="submit" className="btn btn-primary">
+                                                <button type="submit" className="btn btn-primary" disabled={btnDisable}>
                                                     Login
                                                 </button>
                                                 <Link to="/resetPassword" className="btn btn-link">Forgot Your Password?</Link>

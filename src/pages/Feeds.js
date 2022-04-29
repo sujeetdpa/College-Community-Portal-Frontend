@@ -7,7 +7,7 @@ import lodash from 'lodash'
 export default function Feeds() {
     const [posts, setPosts] = useState([]);
     const [postPageNo, setPostPageNo] = useState({
-        pageNo:0
+        pageNo: 0
     });
     const [totalPages, setTotalPages] = useState(0);
     const [createPostData, setCreatePostData] = useState({
@@ -18,10 +18,11 @@ export default function Feeds() {
     })
     const [uploadedImgs, setUploadedImgs] = useState([]);
     const [uploadedDocs, setUploadedDocs] = useState([]);
-    function changePageNo(){
+    const [btnDisable, setBtnDisable] = useState(false);
+    function changePageNo() {
         setPosts([]);
         setTotalPages(0);
-        setPostPageNo({pageNo:0});
+        setPostPageNo({ pageNo: 0 });
     }
     useEffect(() => {
         const authHeader = "Bearer " + localStorage.getItem("access_token");
@@ -38,7 +39,7 @@ export default function Feeds() {
             },
             body: JSON.stringify(postRequest)
         }
-        fetch(process.env.REACT_APP_BASE_URL+"/api/post/all", options)
+        fetch(process.env.REACT_APP_BASE_URL + "/api/post/all", options)
             .then(res => {
                 res.json().then(data => {
                     console.log(data.postResponseViews);
@@ -52,6 +53,7 @@ export default function Feeds() {
         console.log("Images");
         console.log(images);
         if (images.length > 0) {
+            setBtnDisable(true);
             const authHeader = "Bearer " + localStorage.getItem("access_token");
             let formData = new FormData();
             lodash.forEach(images, file => {
@@ -64,19 +66,21 @@ export default function Feeds() {
                 },
                 body: formData
             }
-            const response = fetch(process.env.REACT_APP_BASE_URL+"/api/post/local/storage/upload/image", options);
+            const response = fetch(process.env.REACT_APP_BASE_URL + "/api/post/local/storage/upload/image", options);
             response.then(res => {
-                if(!res.ok){
+                if (!res.ok) {
                     throw res.json();
                 }
                 res.json().then(data => {
                     console.log(data);
                     setUploadedImgs(data);
+                    setBtnDisable(false);
                 })
-            }).catch(err=>{
-                err.then(data=>{
+            }).catch(err => {
+                err.then(data => {
                     console.log(data);
                     alert(data.message);
+                    setBtnDisable(false);
                 })
             })
         }
@@ -84,6 +88,7 @@ export default function Feeds() {
     const handleDocumentUpload = (e) => {
         const docs = e.target.files;
         if (docs.length > 0) {
+            setBtnDisable(true);
             const authHeader = "Bearer " + localStorage.getItem("access_token");
             const docsData = new FormData();
             lodash.forEach(docs, file => {
@@ -96,24 +101,28 @@ export default function Feeds() {
                 },
                 body: docsData
             }
-            const response = fetch(process.env.REACT_APP_BASE_URL+"/api/post/local/storage/upload/document", options);
+            const response = fetch(process.env.REACT_APP_BASE_URL + "/api/post/local/storage/upload/document", options);
             response.then(res => {
-                if(!res.ok){
+                if (!res.ok) {
                     throw res.json();
                 }
                 res.json().then(data => {
                     console.log(data);
                     setUploadedDocs(data);
+                    setBtnDisable(false);
                 })
-            }).catch(err=>{
-                err.then(data=>{
+            }).catch(err => {
+                err.then(data => {
                     console.log(data);
                     alert(data.message);
+                    setBtnDisable(false);
                 })
             })
         }
     }
-    const handleCreatePost = () => {
+    const handleCreatePost = (e) => {
+        e.preventDefault();
+        setBtnDisable(true);
         if (uploadedImgs.length > 0) {
             createPostData.images = uploadedImgs;
         }
@@ -129,7 +138,7 @@ export default function Feeds() {
             },
             body: JSON.stringify(createPostData)
         }
-        const response = fetch(process.env.REACT_APP_BASE_URL+"/api/post/new", options);
+        const response = fetch(process.env.REACT_APP_BASE_URL + "/api/post/new", options);
         response.then(res => {
             if (!res.ok) {
                 throw res.json();
@@ -137,15 +146,23 @@ export default function Feeds() {
             res.json().then(data => {
                 console.log(data);
                 alert("Post successfully created");
+                setBtnDisable(false);
+                clearForm();
                 changePageNo();
             })
         }).catch(err => {
             err.then(data => {
                 console.log(data);
                 alert(data.message);
+                setBtnDisable(false);
             })
         })
 
+    }
+    function clearForm() {
+        document.getElementById("postForm").reset();
+        setUploadedDocs([]);
+        setUploadedImgs([]);
     }
     return (
         <>
@@ -159,7 +176,7 @@ export default function Feeds() {
                 <div className='flex-fill mt-2'>
                     <InfiniteScroll
                         dataLength={posts.length} //This is important field to render the next data
-                        next={() => setPostPageNo({pageNo: postPageNo.pageNo+1})}
+                        next={() => setPostPageNo({ pageNo: postPageNo.pageNo + 1 })}
                         hasMore={(totalPages - 1) !== postPageNo.pageNo}
                         loader={<h4>Loading...</h4>}
                         endMessage={
@@ -173,58 +190,59 @@ export default function Feeds() {
                 </div>
             </div >
             <div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div className="modal-dialog" role="document">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title" id="exampleModalLabel">Create Post</h5>
-                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div className="modal-body">
-                                    <form className=''>
-                                        <div className="form-group row mb-2">
-                                            <label className="col-md-4 col-form-label text-md-right">Title</label>
-                                            <div className="col-md-6">
-                                                <input type="text" id="title" className="form-control" onChange={e => { createPostData.title = e.target.value }} />
-                                            </div>
-                                        </div>
-                                        <div className="form-group row">
-                                            <label className="col-md-4 col-form-label text-md-right">Description</label>
-                                            <div className="col-md-6">
-                                                <textarea type="text" id="description" className="form-control" cols='50' rows='8' onChange={e => { createPostData.description = e.target.value }} />
-                                            </div>
-                                        </div>
-                                        <div className="modal-body d-felx flex-row">
-                                            <div className="form-group row d-flex">
-                                                <div className="col-md-6">
-                                                    <small className="mr-2">
-                                                        <label for="apply" className='' ><input type="file" name="" id='apply' accept="image/*" onChange={e => handleImageUpload(e)} multiple /><i class="bi bi-images mx-2"></i>Upload Image</label>
-                                                    </small>
-                                                    <span className='container-fluid'>
-                                                        {
-                                                            uploadedImgs.map(id => <img src={process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/image/" + id} width="50" key={id} className="px-1" />)
-                                                        }
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div className="form-group row d-flex">
-                                                <div className="col-md-6">
-                                                    <small className="mr-2">
-                                                        <label for="apply1" className='' ><input type="file" name="" id='apply1' onChange={e => handleDocumentUpload(e)} multiple /><i class="bi bi-file-earmark-arrow-up mx-2"></i>Upload Document</label>
-                                                    </small>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="modal-footer">
-                                            <button type="reset" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="button" className="btn btn-primary" onClick={handleCreatePost}>Post</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="exampleModalLabel">Create Post</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                    </div >
+                        <div className="modal-body">
+                            <form id='postForm' onSubmit={handleCreatePost}>
+                                <div className="form-group row mb-2">
+                                    <label className="col-md-4 col-form-label text-md-right">Title</label>
+                                    <div className="col-md-6">
+                                        <input type="text" id="title" className="form-control" onChange={e => { createPostData.title = e.target.value }} required />
+                                    </div>
+                                </div>
+                                <div className="form-group row">
+                                    <label className="col-md-4 col-form-label text-md-right">Description</label>
+                                    <div className="col-md-6">
+                                        <textarea type="text" id="description" className="form-control" cols='50' rows='8' onChange={e => { createPostData.description = e.target.value }} required />
+                                    </div>
+                                </div>
+                                <div className="modal-body d-felx flex-row">
+                                    <div className="form-group row d-flex">
+                                        <div className="col-md-6">
+                                            <small className="mr-2">
+                                                <label htmlFor="apply" className='' ><input type="file" name="" id='apply' accept="image/*" onChange={e => handleImageUpload(e)} multiple /><i className="bi bi-images mx-2"></i>Upload Image</label>
+                                            </small>
+                                            <span className='container-fluid'>
+                                                {
+                                                    uploadedImgs.map(id => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + id} width="50" key={id} className="px-1" />)
+                                                }
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="form-group row d-flex">
+                                        <div className="col-md-6">
+                                            <small className="mr-2">
+                                                <label htmlFor="apply1" className='' ><input type="file" name="" id='apply1' onChange={e => handleDocumentUpload(e)} multiple /><i className="bi bi-file-earmark-arrow-up mx-2"></i>Upload Document</label>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type='button' className="btn btn-warning" onClick={clearForm}>Reset</button>
+                                    <button type="submit" className="btn btn-primary" disabled={btnDisable}>Post</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div >
         </>
 
     )
