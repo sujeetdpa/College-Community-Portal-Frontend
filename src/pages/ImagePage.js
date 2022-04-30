@@ -38,11 +38,19 @@ export default function ImagePage() {
     }
     fetch(process.env.REACT_APP_BASE_URL + "/api/user/images", options)
       .then(res => {
+        if(!res.ok){
+          throw res.json();
+        }
         res.json().then(data => {
           console.log(data);
           setTotalNumberOfItems(data.totalNumberOfItems);
           setTotalPages(data.totalPages);
           setImageIds([...imageIds, ...data.imageIds]);
+        })
+      }).catch(err=>{
+        err.then(data=>{
+          console.log(data);
+          alert(data.message);
         })
       })
   }, [pageNo])

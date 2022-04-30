@@ -33,7 +33,7 @@ export default function UserSmallCard({ userData }) {
     return (
         <tr>
             <td>{user.id}</td>
-            <td><img src={(user.profileImageId !== null && user.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + user.profileImageId : "https://robohash.org/" + user.userId} width="50" className="rounded-circle" alt='Profile' /></td>
+            <td><img src={(user.profileImageId !== null && user.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + user.profileImageId : "https://robohash.org/" + user.id} width="50" className="rounded-circle" alt='Profile' /></td>
             <td>{user.firstName}</td>
             <td>{user.lastName}</td>
             <td>{user.username}</td>

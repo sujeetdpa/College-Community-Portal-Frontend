@@ -88,7 +88,7 @@ export default function UserPage() {
       })
   }
   const updateImage = (e) => {
-    inpDisable(true);
+    setInpDisable(true);
     const profileImage = e.target.files;
     console.log("profile image: ", profileImage);
     if (profileImage.length > 0) {

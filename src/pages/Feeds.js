@@ -20,9 +20,9 @@ export default function Feeds() {
     const [uploadedDocs, setUploadedDocs] = useState([]);
     const [btnDisable, setBtnDisable] = useState(false);
     function changePageNo() {
+        setPostPageNo({ pageNo: 0 });
         setPosts([]);
         setTotalPages(0);
-        setPostPageNo({ pageNo: 0 });
     }
     useEffect(() => {
         const authHeader = "Bearer " + localStorage.getItem("access_token");
