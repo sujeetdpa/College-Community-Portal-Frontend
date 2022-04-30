@@ -22,6 +22,7 @@ import RemovedPostPage from './pages/RemovedPostPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
 import RemovedCommentPage from './pages/RemovedCommentPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import SearchPage from './pages/SearchPage';
 
 ReactDOM.render(
   // <React.StrictMode>
@@ -36,6 +37,7 @@ ReactDOM.render(
         <Route path='/resetPassword' element={<ForgotPasswordPage/>}/>
 
         <Route path='/feeds' element={<Protected Cmp={Feeds} />} />
+        <Route path='/search' element={<Protected Cmp={SearchPage}/>}/>
         <Route path='/post/:postId' element={<Protected Cmp={PostPage} />} />
         <Route path='/user/:universityId/profile' element={<Protected Cmp={UserPage} />} />
         <Route path='/user/:universityId/myPosts' element={<Protected Cmp={MyPostPage} />} />
@@ -43,6 +45,7 @@ ReactDOM.render(
         <Route path='/user/:universityId/changePassword' element={<Protected Cmp={ChangePassword} />} />
         <Route path='/user/:universityId/images' element={<Protected Cmp={ImagePage} />} />
         <Route path='/user/:universityId/documents' element={<Protected Cmp={DocumentPage} />} />
+
 
 
         <Route path='/admin/dashboard' element={<AdminProtected Cmp={AdminDashboardPage}/>}/>
