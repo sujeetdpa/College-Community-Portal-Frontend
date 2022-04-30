@@ -54,6 +54,25 @@ export default function DocumentPage() {
       })
   }, [pageNo])
 
+  const fetchDoc=()=>{
+    const options = {
+      method: 'GET'
+    }
+    fetch(process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/document/162",options)
+    .then(res=>{
+      res.blob().then(data=>{
+        const file=new File([data],"test1",{ lastModified: new Date().getTime(), type: "application/pdf" });
+        console.log(file);
+        const fileUrl=URL.createObjectURL(file);
+        window.open(fileUrl,"_blank");
+        
+      })
+      // const file=new Blob(res.text,{ type: 'application/pdf' });
+      // const fileUrl=URL.createObjectURL(file);
+      // window.open(fileUrl,"_blank");
+    })
+  }
+
   return (
     <div>
       <Navbar />
@@ -75,7 +94,7 @@ export default function DocumentPage() {
                   </p>
                 }
               >
-                {documentIds.map(id => <iframe src={process.env.REACT_APP_BASE_URL + '/api/post/local/storage/download/document/' + id} key={id}></iframe>)}
+                {documentIds.map(id => <input type="button" onClick={fetchDoc} value={"Document Id: "+id} key={id}/>)}
               </InfiniteScroll>
             </div>
           </div>
