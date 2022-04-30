@@ -19,6 +19,8 @@ export default function Feeds() {
     const [uploadedImgs, setUploadedImgs] = useState([]);
     const [uploadedDocs, setUploadedDocs] = useState([]);
     const [btnDisable, setBtnDisable] = useState(false);
+    const [imgSpinner, setImgSpinner] = useState("hidden");
+    const [docSpinner, setDocSpinner] = useState("hidden");
     function changePageNo() {
         setPostPageNo({ pageNo: 0 });
         setPosts([]);
@@ -54,6 +56,7 @@ export default function Feeds() {
         console.log(images);
         if (images.length > 0) {
             setBtnDisable(true);
+            setImgSpinner("visible");
             const authHeader = "Bearer " + localStorage.getItem("access_token");
             let formData = new FormData();
             lodash.forEach(images, file => {
@@ -75,12 +78,15 @@ export default function Feeds() {
                     console.log(data);
                     setUploadedImgs(data);
                     setBtnDisable(false);
+                    setImgSpinner("hidden")
                 })
             }).catch(err => {
                 err.then(data => {
                     console.log(data);
                     alert(data.message);
+                    setUploadedImgs([]);
                     setBtnDisable(false);
+                    setImgSpinner("hidden");
                 })
             })
         }
@@ -89,6 +95,7 @@ export default function Feeds() {
         const docs = e.target.files;
         if (docs.length > 0) {
             setBtnDisable(true);
+            setDocSpinner("visible");
             const authHeader = "Bearer " + localStorage.getItem("access_token");
             const docsData = new FormData();
             lodash.forEach(docs, file => {
@@ -110,12 +117,15 @@ export default function Feeds() {
                     console.log(data);
                     setUploadedDocs(data);
                     setBtnDisable(false);
+                    setDocSpinner("hidden")
                 })
             }).catch(err => {
                 err.then(data => {
                     console.log(data);
                     alert(data.message);
+                    setUploadedDocs([]);
                     setBtnDisable(false);
+                    setDocSpinner("hidden");
                 })
             })
         }
@@ -169,8 +179,8 @@ export default function Feeds() {
             <Navbar />
             <div className='d-flex flex-row container'>
                 <div className='mt-2 position-fixed'>
-                    <button type="button" className="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
-                        Create Post
+                    <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Create Post
                     </button>
                 </div >
                 <div className='flex-fill mt-2'>
@@ -216,7 +226,11 @@ export default function Feeds() {
                                     <div className="form-group row d-flex">
                                         <div className="col-md-6">
                                             <small className="mr-2">
-                                                <label htmlFor="apply" className='' ><input type="file" name="" id='apply' accept="image/*" onChange={e => handleImageUpload(e)} multiple /><i className="bi bi-images mx-2"></i>Upload Image</label>
+                                                <label htmlFor="apply" className='' ><input type="file" name="" id='apply' accept="image/*" onChange={e => handleImageUpload(e)} multiple /><i className="bi bi-images mx-2"></i>
+                                                <span >Upload Image </span>
+                                                <div className="spinner-border float-right spinner-border-sm" role="status" style={{visibility: imgSpinner}}>
+                                                </div>
+                                                </label>
                                             </small>
                                             <span className='container-fluid'>
                                                 {
@@ -228,7 +242,11 @@ export default function Feeds() {
                                     <div className="form-group row d-flex">
                                         <div className="col-md-6">
                                             <small className="mr-2">
-                                                <label htmlFor="apply1" className='' ><input type="file" name="" id='apply1' onChange={e => handleDocumentUpload(e)} multiple /><i className="bi bi-file-earmark-arrow-up mx-2"></i>Upload Document</label>
+                                                <label htmlFor="apply1" className='' ><input type="file" name="" id='apply1' onChange={e => handleDocumentUpload(e)} multiple /><i className="bi bi-file-earmark-arrow-up mx-2"></i>
+                                                <span >Upload Document </span>
+                                                <div className="spinner-border float-right spinner-border-sm" role="status" style={{visibility: docSpinner}}>
+                                                </div>
+                                                </label>
                                             </small>
                                         </div>
                                     </div>

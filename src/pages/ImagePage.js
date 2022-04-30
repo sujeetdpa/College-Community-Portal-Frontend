@@ -76,7 +76,7 @@ export default function ImagePage() {
                   </p>
                 }
               >
-                {imageIds.map(id => <img src={process.env.REACT_APP_BASE_URL + '/api/post/local/storage/download/image/' + id} key={id} height="150" width="150" className='py-1 px-1' />)}
+                {imageIds.map(id => <img src={process.env.REACT_APP_BASE_URL + '/api/post/local/storage/download/image/' + id} key={id} height="150" width="150" className='py-1 px-1' alt={'Image'+id} />)}
               </InfiniteScroll>
             </div>
           </div>
