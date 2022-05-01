@@ -1,8 +1,24 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import DocumentSmallCard from './DocumentSmallCard'
 import './Post.css'
 
 export default function DeletedPost({ postData }) {
+  const fetchDoc = (docId) => {
+    const options = {
+      method: 'GET'
+    }
+    fetch(process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" + docId, options)
+      .then(res => {
+        res.blob().then(data => {
+          const file = new File([data], "test1", { type: data.type });
+          console.log(file);
+          const fileUrl = URL.createObjectURL(file);
+          window.open(fileUrl, "_blank");
+
+        })
+      })
+  }
   return (
     <div>
       <div className="container  mb-2">
@@ -23,6 +39,7 @@ export default function DeletedPost({ postData }) {
                 <p className="text-justify">{postData.description}</p>
               </div>
               {postData.imageIds.map(id => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + id} className="img-fluid" alt='Data' key={id} />)}
+              {(postData.documentResponses !==undefined)? postData.documentResponses.map(doc=><div onClick={() => fetchDoc(doc.id)} role="button" className='mb-2'><DocumentSmallCard fileName={doc.fileName} key={doc.id} /></div>):null}
               <div className="p-2">
                 <hr />
                 <div className="d-flex justify-content-between align-items-center">

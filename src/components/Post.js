@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { decodeToken } from 'react-jwt';
 import './Post.css'
+import DocumentSmallCard from './DocumentSmallCard';
 
 export default function Post({ postData, changePage }) {
   const [noOfLikes, setNoOfLikes] = useState(postData.noOfLikes);
@@ -86,6 +87,22 @@ export default function Post({ postData, changePage }) {
         })
       })
   }
+  const fetchDoc = (docId) => {
+    const options = {
+      method: 'GET'
+    }
+    fetch(process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" + docId, options)
+      .then(res => {
+        res.blob().then(data => {
+          const file = new File([data], "test1", { type: data.type });
+          console.log(file);
+          const fileUrl = URL.createObjectURL(file);
+          window.open(fileUrl, "_blank");
+
+        })
+      })
+  }
+
   return (
     <div>
       <div className="container  mb-2">
@@ -113,8 +130,9 @@ export default function Post({ postData, changePage }) {
                 <Link to={"/post/" + postData.id} id="Link"><h5>{postData.title}</h5></Link>
                 <p className="text-justify">{postData.description}</p>
               </div>
-              {postData.imageIds.length > 0 ? <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + postData.imageIds[0]} className="img-fluid" alt='dsvv' /> : ""}
-              {postData.imageIds.length > 1 ? <Link to={"/post/" + postData.id}><p>More...</p></Link> : ""}
+              {(postData.imageIds.length > 0 )? <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + postData.imageIds[0]} className="img-fluid" alt='dsvv' /> :
+               (postData.documentResponses.length > 0 )? <div onClick={() => fetchDoc(postData.documentResponses[0].id)} role="button" className='mb-2'><DocumentSmallCard fileName={postData.documentResponses[0].fileName} key={postData.documentResponses[0].id} /></div>:""}
+              {(postData.imageIds.length < 1 && postData.documentResponses.length < 1 )? "" : <Link to={"/post/" + postData.id}><p>More...</p></Link>  }
               <div className="p-2">
                 <hr />
                 <div className="d-flex justify-content-between align-items-center">

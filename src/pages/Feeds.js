@@ -3,6 +3,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Navbar from '../components/Navbar';
 import Post from '../components/Post'
 import lodash from 'lodash'
+import DocumentSmallCard from '../components/DocumentSmallCard';
 
 export default function Feeds() {
     const [posts, setPosts] = useState([]);
@@ -174,6 +175,22 @@ export default function Feeds() {
         setUploadedDocs([]);
         setUploadedImgs([]);
     }
+    const fetchDoc = (docId) => {
+        const options = {
+          method: 'GET'
+        }
+        fetch(process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" + docId, options)
+          .then(res => {
+            res.blob().then(data => {
+              const file = new File([data], "test1", { type: data.type });
+              console.log(file);
+              const fileUrl = URL.createObjectURL(file);
+              window.open(fileUrl, "_blank");
+    
+            })
+          })
+      }
+    
     return (
         <>
             <Navbar />
@@ -248,6 +265,11 @@ export default function Feeds() {
                                                 </div>
                                                 </label>
                                             </small>
+                                            <span className='container-fluid'>
+                                                {
+                                                    uploadedDocs.map(id=><div onClick={() => fetchDoc(id)} role="button" className='mb-2'><p>{"File id: "+id}</p></div>)
+                                                }
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
