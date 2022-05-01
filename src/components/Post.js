@@ -128,10 +128,10 @@ export default function Post({ postData, changePage }) {
               </div>
               <div className="p-1">
                 <Link to={"/post/" + postData.id} id="Link"><h5>{postData.title}</h5></Link>
-                <p className="text-justify">{postData.description}</p>
+                <small className="text-justify">{postData.description}</small>
               </div >
               {(postData.imageResponses.length > 0 )? <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + postData.imageResponses[0].id} className="img-fluid" alt='dsvv' /> :
-               (postData.documentResponses.length > 0 )? <div onClick={() => fetchDoc(postData.documentResponses[0].id)} role="button" className='mb-2'><DocumentSmallCard fileName={postData.documentResponses[0].fileName} key={postData.documentResponses[0].id} /></div>:""}
+               (postData.documentResponses.length > 0 )? <DocumentSmallCard document={postData.documentResponses[0]} key={postData.documentResponses[0].id} />:""}
               {(postData.imageResponses.length < 1 && postData.documentResponses.length < 1 )? "" : <Link to={"/post/" + postData.id}><p>More...</p></Link>  }
           
               <div className="p-2">

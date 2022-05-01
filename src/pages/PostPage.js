@@ -242,7 +242,7 @@ export default function PostPage() {
                 <p className="text-justify">{post.description}</p>
               </div>
               {(post.imageResponses!==undefined)?post.imageResponses.map(image => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + image.id} className="img-fluid" alt='Data' key={image.id} />): null}
-              {(post.documentResponses !==undefined)? post.documentResponses.map(doc=><div onClick={() => fetchDoc(doc.id)} role="button" className='mb-2' key={doc.id} ><DocumentSmallCard fileName={doc.fileName} /></div>):null}
+              {(post.documentResponses !==undefined)? post.documentResponses.map(doc=><DocumentSmallCard document={doc} key={doc.id}/>):null}
               <div className="p-2">
                 <hr />
                 <div className="d-flex justify-content-between align-items-center">

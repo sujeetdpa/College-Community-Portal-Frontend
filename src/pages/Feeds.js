@@ -188,13 +188,16 @@ export default function Feeds() {
         const options = {
           method: 'GET'
         }
+        const fileUrl=null;
+        window.open(fileUrl, "_blank");
         fetch(process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" + docId, options)
           .then(res => {
             res.blob().then(data => {
+                
               const file = new File([data], "test1", { type: data.type });
               console.log(file);
-              const fileUrl = URL.createObjectURL(file);
-              window.open(fileUrl, "_blank");
+              fileUrl = URL.createObjectURL(file);
+              
             })
           })
       }
@@ -275,7 +278,7 @@ export default function Feeds() {
                                             </small>
                                             <span className='container-fluid'>
                                                 {
-                                                    documents.map(doc=><div onClick={() => fetchDoc(doc.id)} role="button" className='mb-2'><p>{doc.fileName}</p></div>)
+                                                    documents.map(doc=><a href={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" +doc.id}><p>{doc.fileName}</p></a>)
                                                 }
                                             </span>
                                         </div>
