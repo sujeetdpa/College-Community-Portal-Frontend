@@ -19,6 +19,9 @@ export default function Feeds() {
     })
     const [uploadedImgs, setUploadedImgs] = useState([]);
     const [uploadedDocs, setUploadedDocs] = useState([]);
+    const [images,setImages]=useState([]);
+    const [documents,setDocuments]=useState([]);
+
     const [btnDisable, setBtnDisable] = useState(false);
     const [imgSpinner, setImgSpinner] = useState("hidden");
     const [docSpinner, setDocSpinner] = useState("hidden");
@@ -77,7 +80,8 @@ export default function Feeds() {
                 }
                 res.json().then(data => {
                     console.log(data);
-                    setUploadedImgs(data);
+                    setImages(data);
+                    setUploadedImgs(data.map(image=> image.id));
                     setBtnDisable(false);
                     setImgSpinner("hidden")
                 })
@@ -85,6 +89,7 @@ export default function Feeds() {
                 err.then(data => {
                     console.log(data);
                     alert(data.message);
+                    setImages([]);
                     setUploadedImgs([]);
                     setBtnDisable(false);
                     setImgSpinner("hidden");
@@ -116,7 +121,8 @@ export default function Feeds() {
                 }
                 res.json().then(data => {
                     console.log(data);
-                    setUploadedDocs(data);
+                    setDocuments(data);
+                    setUploadedDocs(data.map(doc=>doc.id));
                     setBtnDisable(false);
                     setDocSpinner("hidden")
                 })
@@ -124,6 +130,7 @@ export default function Feeds() {
                 err.then(data => {
                     console.log(data);
                     alert(data.message);
+                    setDocuments([]);
                     setUploadedDocs([]);
                     setBtnDisable(false);
                     setDocSpinner("hidden");
@@ -172,6 +179,8 @@ export default function Feeds() {
     }
     function clearForm() {
         document.getElementById("postForm").reset();
+        setImages([]);
+        setDocuments([]);
         setUploadedDocs([]);
         setUploadedImgs([]);
     }
@@ -186,7 +195,6 @@ export default function Feeds() {
               console.log(file);
               const fileUrl = URL.createObjectURL(file);
               window.open(fileUrl, "_blank");
-    
             })
           })
       }
@@ -251,7 +259,7 @@ export default function Feeds() {
                                             </small>
                                             <span className='container-fluid'>
                                                 {
-                                                    uploadedImgs.map(id => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + id} width="50" key={id} className="px-1" />)
+                                                    images.map(image => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + image.id} width="50" key={image.id} className="px-1" alt={image.imageName}/>)
                                                 }
                                             </span>
                                         </div>
@@ -267,7 +275,7 @@ export default function Feeds() {
                                             </small>
                                             <span className='container-fluid'>
                                                 {
-                                                    uploadedDocs.map(id=><div onClick={() => fetchDoc(id)} role="button" className='mb-2'><p>{"File id: "+id}</p></div>)
+                                                    documents.map(doc=><div onClick={() => fetchDoc(doc.id)} role="button" className='mb-2'><p>{doc.fileName}</p></div>)
                                                 }
                                             </span>
                                         </div>

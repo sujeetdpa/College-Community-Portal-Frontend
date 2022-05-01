@@ -92,8 +92,7 @@ export default function DocumentPage() {
                   </p>
                 }
               >
-                {/* {documentIds.map(id => <h3 type="button" onClick={()=>{fetchDoc(id)}} key={id}>{"Document Id: "+id}</h3>)} */}
-                {documents.map(doc => <div onClick={() => fetchDoc(doc.id)} role="button" className='mb-2'><DocumentSmallCard fileName={doc.fileName} key={doc.id} /></div>)}
+                {documents.map(doc => <div onClick={() => fetchDoc(doc.id)} role="button" className='mb-2' key={doc.id}><DocumentSmallCard fileName={doc.fileName}  /></div>)}
               </InfiniteScroll>
             </div>
           </div>
