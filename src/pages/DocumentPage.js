@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar'
 import InfiniteScroll from 'react-infinite-scroll-component';
 import UserSidebar from '../components/UserSidebar';
+import DocumentSmallCard from '../components/DocumentSmallCard';
 
 export default function DocumentPage() {
   const params = useParams();
@@ -11,7 +12,7 @@ export default function DocumentPage() {
   const [pageNo, setPageNo] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [totalNumberOfItems, setTotalNumberOfItems] = useState(0);
-  const [documentIds, setDocumentIds] = useState([]);
+  const [documents, setDocuments] = useState([]);
 
   const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
 
@@ -44,7 +45,7 @@ export default function DocumentPage() {
           console.log(data);
           setTotalNumberOfItems(data.totalNumberOfItems);
           setTotalPages(data.totalPages);
-          setDocumentIds([...documentIds, ...data.documentIds]);
+          setDocuments([...documents, ...data.userDocumentResponses]);
         })
       }).catch(err => {
         err.then(data => {
@@ -54,23 +55,20 @@ export default function DocumentPage() {
       })
   }, [pageNo])
 
-  const fetchDoc=()=>{
+  const fetchDoc = (docId) => {
     const options = {
       method: 'GET'
     }
-    fetch(process.env.REACT_APP_BASE_URL+"/api/post/local/storage/download/document/162",options)
-    .then(res=>{
-      res.blob().then(data=>{
-        const file=new File([data],"test1",{ lastModified: new Date().getTime(), type: "application/pdf" });
-        console.log(file);
-        const fileUrl=URL.createObjectURL(file);
-        window.open(fileUrl,"_blank");
-        
+    fetch(process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" + docId, options)
+      .then(res => {
+        res.blob().then(data => {
+          const file = new File([data], "test1", { type: data.type });
+          console.log(file);
+          const fileUrl = URL.createObjectURL(file);
+          window.open(fileUrl, "_blank");
+
+        })
       })
-      // const file=new Blob(res.text,{ type: 'application/pdf' });
-      // const fileUrl=URL.createObjectURL(file);
-      // window.open(fileUrl,"_blank");
-    })
   }
 
   return (
@@ -83,9 +81,9 @@ export default function DocumentPage() {
             <h1 className="mt-4">{totalNumberOfItems} Documents</h1>
             <div className="modal-body d-flex" id='scroll'>
               <InfiniteScroll
-                dataLength={documentIds.length} //This is important field to render the next data
+                dataLength={documents.length} //This is important field to render the next data
                 next={() => setPageNo(pageNo + 1)}
-                hasMore={(documentIds.length !== 0) && (totalPages - 1) !== pageNo}
+                hasMore={(documents.length !== 0) && (totalPages - 1) !== pageNo}
                 loader={<h4>Loading...</h4>}
                 scrollableTarget="scroll"
                 endMessage={
@@ -94,7 +92,8 @@ export default function DocumentPage() {
                   </p>
                 }
               >
-                {documentIds.map(id => <input type="button" onClick={fetchDoc} value={"Document Id: "+id} key={id}/>)}
+                {/* {documentIds.map(id => <h3 type="button" onClick={()=>{fetchDoc(id)}} key={id}>{"Document Id: "+id}</h3>)} */}
+                {documents.map(doc => <div onClick={() => fetchDoc(doc.id)} role="button" className='mb-2'><DocumentSmallCard fileName={doc.fileName} key={doc.id} /></div>)}
               </InfiniteScroll>
             </div>
           </div>
