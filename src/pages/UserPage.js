@@ -243,19 +243,19 @@ export default function UserPage() {
                         <div className="form-group row pb-2">
                           <label className="col-md-4 col-form-label text-md-right">First Name</label>
                           <div className="col-md-6">
-                            <input type="text" id="firstName" className="form-control" defaultValue={userData.firstName} onChange={e => { userData.firstName = e.target.value }} />
+                            <input type="text" id="firstName" className="form-control" defaultValue={userData.firstName} onChange={e => { userData.firstName = e.target.value }} required/>
                           </div>
                         </div>
                         <div className="form-group row pb-2">
                           <label className="col-md-4 col-form-label text-md-right">Last Name</label>
                           <div className="col-md-6">
-                            <input type="text" id="lastName" className="form-control" defaultValue={userData.lastName} onChange={e => { userData.lastName = e.target.value }} />
+                            <input type="text" id="lastName" className="form-control" defaultValue={userData.lastName} onChange={e => { userData.lastName = e.target.value }} required/>
                           </div>
                         </div>
                         <div className="form-group row pb-2">
                           <label className="col-md-4 col-form-label text-md-right">Gender</label>
                           <div className="col-md-6">
-                            <select className="form-control form-control-sm d-inline-block" aria-label="Default select example" id="gender" defaultValue={userData.gender} onChange={e => { userData.gender = e.target.value }}>
+                            <select className="form-control form-control-sm d-inline-block" aria-label="Default select example" id="gender" defaultValue={userData.gender} onChange={e => { userData.gender = e.target.value }} required>
                               <option value="Select.." disabled>Select..</option>
                               <option value="FEMALE">Female</option>
                               <option value="MALE">Male</option>
@@ -266,13 +266,13 @@ export default function UserPage() {
                         <div className="form-group row pb-2">
                           <label className="col-md-4 col-form-label text-md-right">Date of Birth</label>
                           <div className="col-md-6">
-                            <input type="date" id="dob" className="form-control" defaultValue={userData.dob} onChange={e => { userData.dob = e.target.value }} />
+                            <input type="date" id="dob" className="form-control" defaultValue={userData.dob} onChange={e => { userData.dob = e.target.value }} required/>
                           </div>
                         </div>
                         <div className="form-group row pb-2">
                           <label className="col-md-4 col-form-label text-md-right" >Mobile Number</label>
                           <div className="col-md-6">
-                            <input type="tel" id="phoneNumber" className="form-control" defaultValue={userData.mobileNo} onChange={e => { userData.mobileNo = e.target.value }} />
+                            <input type="tel" id="phoneNumber" className="form-control" defaultValue={userData.mobileNo} onChange={e => { userData.mobileNo = e.target.value }} required/>
                           </div>
                         </div>
                         <div className="modal-footer">
