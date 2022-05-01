@@ -241,8 +241,8 @@ export default function PostPage() {
                 <h5>{post.title}</h5>
                 <p className="text-justify">{post.description}</p>
               </div>
-              {post.imageIds.map(id => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + id} className="img-fluid" alt='Data' key={id} />)}
-              {(post.documentResponses !==undefined)? post.documentResponses.map(doc=><div onClick={() => fetchDoc(doc.id)} role="button" className='mb-2'><DocumentSmallCard fileName={doc.fileName} key={doc.id} /></div>):null}
+              {(post.imageResponses!==undefined)?post.imageResponses.map(image => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + image.id} className="img-fluid" alt='Data' key={image.id} />): null}
+              {(post.documentResponses !==undefined)? post.documentResponses.map(doc=><div onClick={() => fetchDoc(doc.id)} role="button" className='mb-2' key={doc.id} ><DocumentSmallCard fileName={doc.fileName} /></div>):null}
               <div className="p-2">
                 <hr />
                 <div className="d-flex justify-content-between align-items-center">

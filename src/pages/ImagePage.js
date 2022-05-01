@@ -11,7 +11,7 @@ export default function ImagePage() {
   const [pageNo, setPageNo] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [totalNumberOfItems, setTotalNumberOfItems] = useState(0);
-  const [imageIds, setImageIds] = useState([]);
+  const [images, setImages] = useState([]);
 
   const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
 
@@ -45,7 +45,7 @@ export default function ImagePage() {
           console.log(data);
           setTotalNumberOfItems(data.totalNumberOfItems);
           setTotalPages(data.totalPages);
-          setImageIds([...imageIds, ...data.imageIds]);
+          setImages([...images, ...data.imageResponses]);
         })
       }).catch(err=>{
         err.then(data=>{
@@ -65,9 +65,9 @@ export default function ImagePage() {
             <h1 className="mt-4">{totalNumberOfItems} Images</h1>
             <div className="row align-items-start" id='scroll'>
               <InfiniteScroll
-                dataLength={imageIds.length} //This is important field to render the next data
+                dataLength={images.length} //This is important field to render the next data
                 next={() => setPageNo(pageNo + 1)}
-                hasMore={(imageIds.length !== 0) && (totalPages - 1) !== pageNo}
+                hasMore={(images.length !== 0) && (totalPages - 1) !== pageNo}
                 loader={<h4>Loading...</h4>}
                 scrollableTarget="scroll"
                 endMessage={
@@ -76,7 +76,7 @@ export default function ImagePage() {
                   </p>
                 }
               >
-                {imageIds.map(id => <img src={process.env.REACT_APP_BASE_URL + '/api/post/local/storage/download/image/' + id} key={id} height="150" width="150" className='py-1 px-1' alt={'Image'+id} />)}
+                {images.map(image => <img src={process.env.REACT_APP_BASE_URL + '/api/post/local/storage/download/image/' + image.id} key={image.id} height="150" width="150" className='py-1 px-1' alt={image.imageName} />)}
               </InfiniteScroll>
             </div>
           </div>

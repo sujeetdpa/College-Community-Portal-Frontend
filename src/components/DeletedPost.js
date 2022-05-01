@@ -38,8 +38,8 @@ export default function DeletedPost({ postData }) {
                 <h5 id='title'>{postData.title}</h5>
                 <p className="text-justify">{postData.description}</p>
               </div>
-              {postData.imageIds.map(id => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + id} className="img-fluid" alt='Data' key={id} />)}
-              {(postData.documentResponses !==undefined)? postData.documentResponses.map(doc=><div onClick={() => fetchDoc(doc.id)} role="button" className='mb-2'><DocumentSmallCard fileName={doc.fileName} key={doc.id} /></div>):null}
+              {postData.imageResponses.map(image => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + image.id} className="img-fluid" alt={image.imageName} key={image.id} />)}
+              { postData.documentResponses.map(doc=><div onClick={() => fetchDoc(doc.id)} role="button" className='mb-2' key={doc.id} ><DocumentSmallCard fileName={doc.fileName} /></div>)}
               <div className="p-2">
                 <hr />
                 <div className="d-flex justify-content-between align-items-center">

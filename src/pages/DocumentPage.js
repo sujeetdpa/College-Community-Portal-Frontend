@@ -45,7 +45,7 @@ export default function DocumentPage() {
           console.log(data);
           setTotalNumberOfItems(data.totalNumberOfItems);
           setTotalPages(data.totalPages);
-          setDocuments([...documents, ...data.userDocumentResponses]);
+          setDocuments([...documents, ...data.documentResponses]);
         })
       }).catch(err => {
         err.then(data => {

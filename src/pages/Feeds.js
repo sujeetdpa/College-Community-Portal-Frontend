@@ -23,8 +23,8 @@ export default function Feeds() {
     const [imgSpinner, setImgSpinner] = useState("hidden");
     const [docSpinner, setDocSpinner] = useState("hidden");
     function changePageNo() {
-        setPostPageNo({ pageNo: 0 });
         setPosts([]);
+        setPostPageNo({ pageNo: 0 });
         setTotalPages(0);
     }
     useEffect(() => {
@@ -200,7 +200,7 @@ export default function Feeds() {
                     Create Post
                     </button>
                 </div >
-                <div className='flex-fill mt-2'>
+                <div className='flex-grow-1 bd-highlight mt-2'>
                     <InfiniteScroll
                         dataLength={posts.length} //This is important field to render the next data
                         next={() => setPostPageNo({ pageNo: postPageNo.pageNo + 1 })}
