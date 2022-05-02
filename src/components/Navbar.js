@@ -65,7 +65,7 @@ export default function Navbar() {
                                     </>}
                             </ul>
                             <div className="d-flex" >
-                                <Link to="/search" className='nav-link'><h5 className='bi bi-search'>Search</h5></Link>
+                                <Link to="/search" className='nav-link'><h5 className='bi bi-search'> Search</h5></Link>
                             </div>
                         </div>
                     </div>
