@@ -3,7 +3,6 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Navbar from '../components/Navbar';
 import Post from '../components/Post'
 import lodash from 'lodash'
-import DocumentSmallCard from '../components/DocumentSmallCard';
 
 export default function Feeds() {
     const [posts, setPosts] = useState([]);

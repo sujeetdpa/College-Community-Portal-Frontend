@@ -238,7 +238,7 @@ export default function PostPage() {
                 </div>
               </div>
               <div className="p-2">
-                <h5>{post.title}</h5>
+                <h5 className='text-center'>{post.title}</h5>
                 <p className="text-justify">{post.description}</p>
               </div>
               {(post.imageResponses!==undefined)?post.imageResponses.map(image => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + image.id} className="img-fluid" alt='Data' key={image.id} />): null}

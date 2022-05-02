@@ -19,7 +19,7 @@ export default function Protected(props) {
         else if(isTokenExpired){
           localStorage.clear();
           navigate("/login");
-          alert("Token expired please login again");
+          alert("Token expired please login again.");
         }
         setFlag(true);
     },[])

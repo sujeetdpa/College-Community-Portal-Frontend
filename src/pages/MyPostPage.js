@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar'
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -66,7 +66,7 @@ export default function MyPostPage() {
                 <div id="page-content-wrapper">
                     <div className="container-fluid">
                         <h1 className="mt-4">{totalNumberOfItems} Posts</h1>
-                        <div className=''>
+                        <div className="modal-body d-flex" id='scroll'>
                             <InfiniteScroll
                                 dataLength={posts.length} //This is important field to render the next data
                                 next={() => setPostPageNo({ pageNo: postPageNo.pageNo + 1 })}
@@ -80,7 +80,7 @@ export default function MyPostPage() {
                             >
                                 {posts.map(post => <Post postData={post} key={post.id} changePage={changePageNo} />)}
                             </InfiniteScroll>
-                        </div>
+                            </div>
                     </div>
                 </div>
             </div>

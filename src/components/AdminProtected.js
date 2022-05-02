@@ -17,7 +17,7 @@ export default function AdminProtected(props) {
         else if(isTokenExpired){
           localStorage.clear();
           navigate("/login");
-          alert("Token expired please login again");
+          alert("Token expired please login again.");
         }
         if(!decodeData.Roles.includes("ROLE_ADMIN")){
             alert("You dont have the permission to access this page");
