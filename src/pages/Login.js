@@ -61,7 +61,7 @@ export default function Login() {
                                             <div className="form-group row">
                                                 <label className="col-md-4 col-form-label text-md-right">E-Mail / Username</label>
                                                 <div className="col-md-6">
-                                                    <input type="text" id="username" className="form-control" onChange={e => { loginData.username = e.target.value }} required/>
+                                                    <input type="email" id="username" className="form-control" onChange={e => { loginData.username = e.target.value }} required/>
                                                 </div>
                                             </div>
 

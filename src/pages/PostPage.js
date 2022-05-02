@@ -223,7 +223,7 @@ export default function PostPage() {
               <div className="d-flex justify-content-between p-2 px-3">
                 <div className="d-flex flex-row align-items-center">
                   <img src={(post.profileImageId !== null && post.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + post.profileImageId : "https://robohash.org/" + post.userId} width="50" className="rounded-circle" alt='Profile' />
-                  <div className="d-flex flex-column ml-2"> <span className="font-weight-bold">{post.fullName}</span> <small className="text-primary">Collegues</small> </div>
+                  <div className="d-flex flex-column ml-2"> <span className="font-weight-bold">{post.fullName}</span> </div>
                 </div>
                 <div className="d-flex flex-row mt-1 ellipsis">
                   <small className="mr-2 px-2">{post.creationDate}</small>

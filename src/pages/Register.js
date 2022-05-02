@@ -42,6 +42,7 @@ export default function Register() {
                 console.log("APi response: ");
                 console.log(responseData);
                 alert("Registration Successfull: Please Login");
+                document.getElementsByName("my-form").reset();
                 setBtnDisable(false);
             })
         }).catch(err => {
@@ -73,7 +74,7 @@ export default function Register() {
                                             <div className="form-group row">
                                                 <label className="col-md-4 col-form-label text-md-right">Last Name</label>
                                                 <div className="col-md-6">
-                                                    <input type="text" id="lastName" className="form-control" onChange={e => { registerData.lastName = e.target.value }} required/>
+                                                    <input type="text" id="lastName" className="form-control" onChange={e => { registerData.lastName = e.target.value }} />
                                                 </div>
                                             </div>
                                             <div className="form-group row">
