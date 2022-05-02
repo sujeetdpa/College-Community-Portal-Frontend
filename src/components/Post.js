@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { decodeToken } from 'react-jwt';
 import './Post.css'
@@ -7,9 +7,8 @@ import DocumentSmallCard from './DocumentSmallCard';
 
 export default function Post({ postData, changePage }) {
   const [noOfLikes, setNoOfLikes] = useState(postData.noOfLikes);
-  const decodeData = decodeToken(localStorage.getItem("access_token"))
+  const token = decodeToken(localStorage.getItem("access_token"));
   const [loggedInUser, setLoggedInUser] = useState({});
-  const navigate = useNavigate();
   useEffect(() => {
     setLoggedInUser(JSON.parse(localStorage.getItem("logged_in_user")));
   }, [])
@@ -107,7 +106,7 @@ export default function Post({ postData, changePage }) {
     <div>
       <div className="container  mb-2">
         <div className="row d-flex align-items-center justify-content-center">
-          <div className="col-md-6">
+          <div className="col-md-7">
             <div className="card">
               <div className="d-flex justify-content-between p-2 px-3">
                 <div className="d-flex flex-row align-items-center">
@@ -117,11 +116,11 @@ export default function Post({ postData, changePage }) {
                 <div className="d-flex flex-row mt-1 ellipsis">
                   <small className="mr-2 px-2">{postData.creationDate}</small>
                   <small>
-                    <a className="bi bi-list " href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    </a>
+                    <i className="bi bi-list btn-outline-primary btn-sm" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    </i>
                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li><Link className="dropdown-item" to={"/post/" + postData.id}>View</Link></li>
-                      {(postData.userId === loggedInUser.id) || decodeData.Roles.includes("ROLE_ADMIN") ? <li><button className="dropdown-item" onClick={handleDeletePost}>Delete</button></li> : null}
+                      {(postData.userId === loggedInUser.id) || token.Roles.includes("ROLE_ADMIN") ? <li><button className="dropdown-item" onClick={handleDeletePost}>Delete</button></li> : null}
                     </ul>
                   </small>
                 </div>

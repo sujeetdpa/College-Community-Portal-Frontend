@@ -5,10 +5,12 @@ import Comment from '../components/Comment';
 import './PostPage.css'
 import Navbar from '../components/Navbar';
 import DocumentSmallCard from '../components/DocumentSmallCard';
+import { decodeToken } from 'react-jwt';
 
 export default function PostPage() {
   let params = useParams();
   const navigate = useNavigate();
+  const token = decodeToken(localStorage.getItem("access_token"))
   const [loggedInUser, setLoggedInUser] = useState({});
   const [post, setPost] = useState({ imageIds: [], documentIds: [] });
   const [noOfLikes, setNoOfLikes] = useState(post.noOfLikes);
@@ -228,11 +230,11 @@ export default function PostPage() {
                 <div className="d-flex flex-row mt-1 ellipsis">
                   <small className="mr-2 px-2">{post.creationDate}</small>
                   <small>
-                    <a className="bi bi-list " href="#" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    </a>
+                    <i className="bi bi-list btn-outline-primary btn-sm" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    </i>
                     <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                       <li><Link className="dropdown-item" to={"/post/" + post.id}>View</Link></li>
-                      {post.userId === loggedInUser.id ? <li><button className="dropdown-item" onClick={handleDeletePost}>Delete</button></li> : null}
+                      {post.userId === loggedInUser.id || token.Roles.includes("ROLE_ADMIN") ? <li><button className="dropdown-item" onClick={handleDeletePost}>Delete</button></li> : null}
                     </ul>
                   </small>
                 </div>

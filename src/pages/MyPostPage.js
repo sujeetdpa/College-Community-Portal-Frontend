@@ -61,12 +61,12 @@ export default function MyPostPage() {
     return (
         <div>
             <Navbar />
-            <div className="d-flex container pt-2" id="wrapper">
+            <div className="d-flex container pt-2" >
                 <UserSidebar universityId={params.universityId} />
-                <div id="page-content-wrapper">
+                <div>
                     <div className="container-fluid">
                         <h1 className="mt-4">{totalNumberOfItems} Posts</h1>
-                        <div className="modal-body d-flex" id='scroll'>
+                        <div className="d-flex">
                             <InfiniteScroll
                                 dataLength={posts.length} //This is important field to render the next data
                                 next={() => setPostPageNo({ pageNo: postPageNo.pageNo + 1 })}
