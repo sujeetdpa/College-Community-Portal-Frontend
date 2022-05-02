@@ -21,7 +21,7 @@ export default function UserSmallCard({ userData, changePage }) {
                 }
                 res.json().then(data => {
                     console.log(data);
-                    setIsNotLocked(data);
+                    setUser(data);
                 })
             }).catch(err => {
                 err.then(data => {
@@ -89,8 +89,8 @@ export default function UserSmallCard({ userData, changePage }) {
             <td>{user.username}</td>
             <td><p className={user.role.includes("ROLE_ADMIN") ? "badge bg-primary rounded-pill" : "badge bg-secondary rounded-pill"}>{user.role}</p></td>
             <td>{user.isActive ? <p className='badge bg-success rounded-pill'>Active</p> : <p className='badge bg-danger rounded-pill'>Not Active</p>}</td>
-            <td>{isNotLocked ? <p className='badge bg-success rounded-pill'>Not Blocked</p> : <p className='badge bg-danger rounded-pill'>Blocked</p>}</td>
-            <td><button className={isNotLocked ? "btn btn-outline-danger btn-sm" : "btn btn-outline-success btn-sm"} data-bs-toggle="modal" data-bs-target={"#cnfBlockModal" + user.id}>{isNotLocked ? "Block" : "Unblock"}</button></td>
+            <td>{user.isNotLocked ? <p className='badge bg-success rounded-pill'>Not Blocked</p> : <p className='badge bg-danger rounded-pill'>Blocked</p>}</td>
+            <td><button className={user.isNotLocked ? "btn btn-outline-danger btn-sm" : "btn btn-outline-success btn-sm"} data-bs-toggle="modal" data-bs-target={"#cnfBlockModal" + user.id}>{user.isNotLocked ? "Block" : "Unblock"}</button></td>
             <td><button className='btn btn-outline-primary btn-sm bi bi-eye' data-bs-toggle="modal" data-bs-target={"#exampleModal" + user.id}></button></td>
             <td><button className='btn btn-outline-danger btn-sm bi bi-trash' onClick={handleDelete}></button></td>
             <div className="modal fade bd-example-modal-lg" id={"exampleModal" + user.id} tabIndex="-1" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -187,11 +187,11 @@ export default function UserSmallCard({ userData, changePage }) {
                                                         <div className="form-group row">
                                                             <label className="col-md-4 col-form-label text-md-right" >Account Status</label>
                                                             <div className="col-md-6">
-                                                                <label className={isNotLocked ? "  badge bg-success rounded-pill" : "  badge bg-danger rounded-pill"}>{isNotLocked ? "Not Blocked" : "Blocked"} </label>
+                                                                <label className={user.isNotLocked ? "  badge bg-success rounded-pill" : "  badge bg-danger rounded-pill"}>{user.isNotLocked ? "Not Blocked" : "Blocked"} </label>
                                                             </div>
                                                         </div>
                                                         <div className="form-group row">
-                                                            <button className={isNotLocked ? "btn btn-outline-danger btn-sm" : "btn btn-outline-success btn-sm"} data-bs-toggle="modal" data-bs-target={"#cnfBlockModal" + user.id}>{isNotLocked ? "Block" : "Unblock"}</button>
+                                                            <button className={user.isNotLocked ? "btn btn-outline-danger btn-sm" : "btn btn-outline-success btn-sm"} data-bs-toggle="modal" data-bs-target={"#cnfBlockModal" + user.id}>{user.isNotLocked ? "Block" : "Unblock"}</button>
                                                         </div>
                                                         <div className="form-group row">
                                                             <button className={user.role.includes("ROLE_ADMIN") ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-primary btn-sm"} data-bs-toggle="modal" data-bs-target={"#roleModal" + user.id}>{user.role.includes("ROLE_ADMIN") ? "Change Role to USER" : "Change Role to ADMIN"}</button>
@@ -211,10 +211,10 @@ export default function UserSmallCard({ userData, changePage }) {
                 <div className="modal-dialog modal-sm">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h6 className="modal-title">Are you sure to {isNotLocked ? "block" : "unblock"} {user.firstName}</h6>
+                            <h6 className="modal-title">Are you sure to {user.isNotLocked ? "block" : "unblock"} {user.firstName}</h6>
                         </div>
                         <div className="modal-footer">
-                            <button className={isNotLocked ? "btn btn-outline-danger btn-sm" : "btn btn-outline-success btn-sm"} onClick={handleBlockUser}>{isNotLocked ? "Block" : "Unblock"}</button>
+                            <button className={user.isNotLocked ? "btn btn-outline-danger btn-sm" : "btn btn-outline-success btn-sm"} onClick={handleBlockUser}>{user.isNotLocked ? "Block" : "Unblock"}</button>
                         </div>
                     </div>
                 </div>

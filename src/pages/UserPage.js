@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import './UserPage.css';
 import UserSidebar from '../components/UserSidebar'
+import { decodeToken } from 'react-jwt';
 
 export default function UserPage() {
   const params = useParams();
+  const token = decodeToken(localStorage.getItem("access_token"))
   const [loggedInUser, setLoggedInUser] = useState({});
   const [profileImageId, setProfileImageId] = useState();
   const [btnDisable, setBtnDisable] = useState(false);
@@ -121,6 +123,31 @@ export default function UserPage() {
       })
     }
   }
+  const handleBlockUser = () => {
+    const authHeader = "Bearer " + localStorage.getItem("access_token");
+    const options = {
+      method: 'POST',
+      headers: {
+        'Authorization': authHeader,
+      },
+    }
+    fetch(process.env.REACT_APP_BASE_URL + "/api/admin/blockUser/" + userData.id, options)
+      .then(res => {
+        if (!res.ok) {
+          throw res.json();
+        }
+        res.json().then(data => {
+          console.log(data);
+          setUserData(data);
+          alert("User blocked successfully");
+        })
+      }).catch(err => {
+        err.then(data => {
+          console.log(data);
+          alert(data.message);
+        })
+      })
+  }
   return (
     <div>
       <Navbar />
@@ -218,12 +245,17 @@ export default function UserPage() {
                                   <input type="text" id="lastLogin" className="form-control" value={userData.lastLoginTimestamp} disabled />
                                 </div>
                               </div>
-                              <div className="col-md-6 offset-md-4">
+                              <div className="col-md-6 offset-md-4 mb-2">
                                 <button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                   Edit
                                 </button>
                               </div>
                             </> : null}
+                            { token.Roles.includes("ROLE_ADMIN")?
+                              <div className="col-md-6 offset-md-4">
+                                <button className={userData.isNotLocked ? "btn btn-outline-danger" : "btn btn-outline-success btn-sm"} data-bs-toggle="modal" data-bs-target={"#cnfBlockModal" + userData.id}>{userData.isNotLocked ? "Block" : "Unblock"}</button>
+                              </div>
+                            : null }
                           </div>
                         </div>
                       </div>
@@ -243,7 +275,7 @@ export default function UserPage() {
                         <div className="form-group row pb-2">
                           <label className="col-md-4 col-form-label text-md-right">First Name</label>
                           <div className="col-md-6">
-                            <input type="text" id="firstName" className="form-control" defaultValue={userData.firstName} onChange={e => { userData.firstName = e.target.value }} required/>
+                            <input type="text" id="firstName" className="form-control" defaultValue={userData.firstName} onChange={e => { userData.firstName = e.target.value }} required />
                           </div>
                         </div>
                         <div className="form-group row pb-2">
@@ -266,13 +298,13 @@ export default function UserPage() {
                         <div className="form-group row pb-2">
                           <label className="col-md-4 col-form-label text-md-right">Date of Birth</label>
                           <div className="col-md-6">
-                            <input type="date" id="dob" className="form-control" defaultValue={userData.dob} onChange={e => { userData.dob = e.target.value }} required/>
+                            <input type="date" id="dob" className="form-control" defaultValue={userData.dob} onChange={e => { userData.dob = e.target.value }} required />
                           </div>
                         </div>
                         <div className="form-group row pb-2">
                           <label className="col-md-4 col-form-label text-md-right" >Mobile Number</label>
                           <div className="col-md-6">
-                            <input type="tel" id="phoneNumber" className="form-control" defaultValue={userData.mobileNo} onChange={e => { userData.mobileNo = e.target.value }} required/>
+                            <input type="tel" id="phoneNumber" className="form-control" defaultValue={userData.mobileNo} onChange={e => { userData.mobileNo = e.target.value }} required />
                           </div>
                         </div>
                         <div className="modal-footer">
@@ -284,6 +316,18 @@ export default function UserPage() {
                   </div>
                 </div>
               </div>
+              <div className="modal fade bd-example-modal-sm" tabIndex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id={"cnfBlockModal" + userData.id}>
+                <div className="modal-dialog modal-sm">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h6 className="modal-title">Are you sure to {userData.isNotLocked ? "block" : "unblock"} {userData.firstName}</h6>
+                        </div>
+                        <div className="modal-footer">
+                            <button className={userData.isNotLocked ? "btn btn-outline-danger btn-sm" : "btn btn-outline-success btn-sm"} onClick={handleBlockUser}>{userData.isNotLocked ? "Block" : "Unblock"}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </div>
           </div>
         </div>
