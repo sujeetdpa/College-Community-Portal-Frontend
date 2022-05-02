@@ -18,8 +18,8 @@ export default function Feeds() {
     })
     const [uploadedImgs, setUploadedImgs] = useState([]);
     const [uploadedDocs, setUploadedDocs] = useState([]);
-    const [images,setImages]=useState([]);
-    const [documents,setDocuments]=useState([]);
+    const [images, setImages] = useState([]);
+    const [documents, setDocuments] = useState([]);
 
     const [btnDisable, setBtnDisable] = useState(false);
     const [imgSpinner, setImgSpinner] = useState("hidden");
@@ -80,7 +80,7 @@ export default function Feeds() {
                 res.json().then(data => {
                     console.log(data);
                     setImages(data);
-                    setUploadedImgs(data.map(image=> image.id));
+                    setUploadedImgs(data.map(image => image.id));
                     setBtnDisable(false);
                     setImgSpinner("hidden")
                 })
@@ -121,7 +121,7 @@ export default function Feeds() {
                 res.json().then(data => {
                     console.log(data);
                     setDocuments(data);
-                    setUploadedDocs(data.map(doc=>doc.id));
+                    setUploadedDocs(data.map(doc => doc.id));
                     setBtnDisable(false);
                     setDocSpinner("hidden")
                 })
@@ -185,32 +185,38 @@ export default function Feeds() {
     }
     const fetchDoc = (docId) => {
         const options = {
-          method: 'GET'
+            method: 'GET'
         }
-        const fileUrl=null;
+        const fileUrl = null;
         window.open(fileUrl, "_blank");
         fetch(process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" + docId, options)
-          .then(res => {
-            res.blob().then(data => {
-                
-              const file = new File([data], "test1", { type: data.type });
-              console.log(file);
-              fileUrl = URL.createObjectURL(file);
-              
+            .then(res => {
+                res.blob().then(data => {
+
+                    const file = new File([data], "test1", { type: data.type });
+                    console.log(file);
+                    fileUrl = URL.createObjectURL(file);
+
+                })
             })
-          })
-      }
-    
+    }
+
     return (
         <>
             <Navbar />
-            <div className='d-flex flex-row container'>
-                <div className='mt-2 position-fixed'>
-                    <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Create Post
-                    </button>
-                </div >
-                <div className='flex-grow-1 bd-highlight mt-2'>
+            <div className='d-flex flex-column container'>
+                <div className="container position-fixed" style={{"z-index":"3"}}>
+                    <div className="row align-items-center justify-content-center">
+                        <div className="col-md-6">
+                            <div className="card">
+                                <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    Create Post
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className='flex-grow-1 bd-highlight mt-5'  style={{"z-index":"1"}}>
                     <InfiniteScroll
                         dataLength={posts.length} //This is important field to render the next data
                         next={() => setPostPageNo({ pageNo: postPageNo.pageNo + 1 })}
@@ -254,14 +260,14 @@ export default function Feeds() {
                                         <div className="col-md-6">
                                             <small className="mr-2">
                                                 <label htmlFor="apply" className='' ><input type="file" name="" id='apply' accept="image/*" onChange={e => handleImageUpload(e)} multiple /><i className="bi bi-images mx-2"></i>
-                                                <span >Upload Image </span>
-                                                <div className="spinner-border float-right spinner-border-sm" role="status" style={{visibility: imgSpinner}}>
-                                                </div>
+                                                    <span >Upload Image </span>
+                                                    <div className="spinner-border float-right spinner-border-sm" role="status" style={{ visibility: imgSpinner }}>
+                                                    </div>
                                                 </label>
                                             </small>
                                             <span className='container-fluid'>
                                                 {
-                                                    images.map(image => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + image.id} width="50" key={image.id} className="px-1" alt={image.imageName}/>)
+                                                    images.map(image => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + image.id} width="50" key={image.id} className="px-1" alt={image.imageName} />)
                                                 }
                                             </span>
                                         </div>
@@ -270,14 +276,14 @@ export default function Feeds() {
                                         <div className="col-md-6">
                                             <small className="mr-2">
                                                 <label htmlFor="apply1" className='' ><input type="file" name="" id='apply1' onChange={e => handleDocumentUpload(e)} multiple /><i className="bi bi-file-earmark-arrow-up mx-2"></i>
-                                                <span >Upload Document </span>
-                                                <div className="spinner-border float-right spinner-border-sm" role="status" style={{visibility: docSpinner}}>
-                                                </div>
+                                                    <span >Upload Document </span>
+                                                    <div className="spinner-border float-right spinner-border-sm" role="status" style={{ visibility: docSpinner }}>
+                                                    </div>
                                                 </label>
                                             </small>
                                             <span className='container-fluid'>
                                                 {
-                                                    documents.map(doc=><a href={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" +doc.id}><p>{doc.fileName}</p></a>)
+                                                    documents.map(doc => <a href={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" + doc.id}><p>{doc.fileName}</p></a>)
                                                 }
                                             </span>
                                         </div>

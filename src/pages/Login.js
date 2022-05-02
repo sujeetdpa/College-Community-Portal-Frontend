@@ -61,14 +61,14 @@ export default function Login() {
                                             <div className="form-group row">
                                                 <label className="col-md-4 col-form-label text-md-right">E-Mail / Username</label>
                                                 <div className="col-md-6">
-                                                    <input type="email" id="username" className="form-control" onChange={e => { loginData.username = e.target.value }} required/>
+                                                    <input type="email" id="username" className="form-control" onChange={e => { loginData.username = e.target.value }} required />
                                                 </div>
                                             </div>
 
                                             <div className="form-group row">
                                                 <label className="col-md-4 col-form-label text-md-right">Password</label>
                                                 <div className="col-md-6">
-                                                    <input type="password" id="password" className="form-control" onChange={e => { loginData.password = e.target.value }} required/>
+                                                    <input type="password" id="password" className="form-control" onChange={e => { loginData.password = e.target.value }} required />
                                                 </div>
                                             </div>
                                             <div className="col-md-6 offset-md-4">
@@ -82,6 +82,7 @@ export default function Login() {
                                             Don't have account please <Link to="/register">Join</Link>
                                         </div>
                                     </div>
+                                   
                                 </div>
                             </div>
                         </div>

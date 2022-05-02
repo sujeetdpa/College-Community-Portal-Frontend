@@ -11,6 +11,11 @@ export default function UsersPage() {
   })
   const [totalPages, setTotalPages] = useState(0);
 
+  function changePage(){
+    setUsers([]);
+    setTotalPages(0);
+    setUserPageNo({pageNo:0});
+  }
   useEffect(() => {
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     const userRequest = {
@@ -60,7 +65,7 @@ export default function UsersPage() {
         >
           <table className='table align-middle mb-0 bg-white table-hover'>
             <thead className="bg-light ">
-              <tr>
+              <tr className='text-center'>
                 <th>Id</th>
                 <th>Image</th>
                 <th>First Name</th>
@@ -69,11 +74,11 @@ export default function UsersPage() {
                 <th>Role</th>
                 <th>Status</th>
                 <th>Account Status</th>
-                <th colSpan={2}>Actions</th>
+                <th colSpan={3}>Actions</th>
               </tr>
             </thead>
             <tbody className='mt-3'>
-              {users.map(user => <UserSmallCard userData={user} key={user.id} />)}
+              {users.map(user => <UserSmallCard userData={user} key={user.id} changePage={changePage} />)}
             </tbody>
           </table>
         </InfiniteScroll>
