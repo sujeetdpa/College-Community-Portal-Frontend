@@ -93,7 +93,7 @@ export default function AddAdminPage() {
                         <label className="col-md-4 col-form-label text-md-right">Gender</label>
                         <div className="col-md-6">
                           <select className="form-control form-control-sm d-inline-block" aria-label="Default select example" id="gender" onChange={e => { registerData.gender = e.target.value }} required>
-                            <option value="Select.." disabled>Select..</option>
+                            <option value="">Select..</option>
                             <option value="FEMALE">Female</option>
                             <option value="MALE">Male</option>
                             <option value="NOT_TO_MENTION">Other</option>
@@ -110,7 +110,7 @@ export default function AddAdminPage() {
                         <label className="col-md-4 col-form-label text-md-right">Role</label>
                         <div className="col-md-6">
                           <select className="form-control form-control-sm d-inline-block" aria-label="Default select example" id="gender" onChange={e => { registerData.roles[0] = e.target.value }} required>
-                            <option disabled>Role.</option>
+                            <option value="">Select..</option>
                             {roles.map(role => <option value={role.id} key={role.id}>{role.name}</option>)}
                           </select>
                         </div>
