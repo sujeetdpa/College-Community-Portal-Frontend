@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import './Comment.css'
 
 export default function Comment({ commentData, changePageNo }) {
-  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
+  const [loggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
   const decodeData = decodeToken(localStorage.getItem("access_token"))
   const handleCommentDelete = () => {
     const authHeader = "Bearer " + localStorage.getItem("access_token");

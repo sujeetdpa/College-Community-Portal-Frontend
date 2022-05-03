@@ -7,6 +7,7 @@ export default function AddAdminPage() {
   const [registerData] = useState({
     firstName: "",
     lastName: "",
+    dob:"",
     username: "",
     gender: "",
     roles: []
@@ -87,6 +88,12 @@ export default function AddAdminPage() {
                         <label className="col-md-4 col-form-label text-md-right">Last Name</label>
                         <div className="col-md-6">
                           <input type="text" id="lastName" className="form-control" onChange={e => { registerData.lastName = e.target.value }} required/>
+                        </div>
+                      </div>
+                      <div className="form-group row">
+                        <label className="col-md-4 col-form-label text-md-right" >Date of Birth</label>
+                        <div className="col-md-6">
+                          <input type="date" id="dob" className="form-control" onChange={e => { registerData.dob = e.target.value }} required/>
                         </div>
                       </div>
                       <div className="form-group row">

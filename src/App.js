@@ -4,7 +4,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 
 function App() {
-  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
+  const [loggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
   return (
     <div className="App">
       <Navbar />
@@ -13,10 +13,10 @@ function App() {
           <div className="p-4 p-lg-5 bg-light rounded-3 text-center">
             <div className="m-4 m-lg-5">
               <h1 className="display-5 fw-bold">A warm welcome {loggedInUser ? loggedInUser.fullName : null}!</h1>
-              <p className="fs-4">
+              <div className="fs-4">
                 {loggedInUser ?
                   <> 
-                   Welcome back to <h3 className='fw-bold'>College Community Application.</h3> A platform that lets you connect
+                   Welcome back to <h3 className='fw-bold'>College Community Portal.</h3> A platform that lets you connect
                     to your college <strong className='fw-bold'> Friends, </strong> <strong className='fw-bold'> Alumni, </strong> <strong className='fw-bold'> Faculty, </strong>
                     <strong className='fw-bold'> Society </strong> and many more... from anywhere at anytime. 
                     <p className='mt-3'> <small>Let's continue your <span className='fw-bold'>Journey</span> with the following options.</small></p>
@@ -27,7 +27,7 @@ function App() {
                   </>
                   :
                   <>
-                    Thanks for visiting to our <h3 className='fw-bold'>College Community Application.</h3> A platform that lets you connect
+                    Thanks for visiting to our <h3 className='fw-bold'>College Community Portal.</h3> A platform that lets you connect
                     to your college <strong className='fw-bold'> Friends, </strong> <strong className='fw-bold'> Alumni, </strong> <strong className='fw-bold'> Faculty, </strong>
                     <strong className='fw-bold'> Society </strong> and many more... from anywhere at anytime.
                     <p className='mt-3'> <small>Let's start your <span className='fw-bold'>Journey</span> with the following options.</small></p>
@@ -37,7 +37,7 @@ function App() {
                     </div>
                   </>
                 }
-              </p>
+              </div>
 
             </div>
           </div>

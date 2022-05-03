@@ -14,8 +14,8 @@ export default function DeletedComment({ commentData }) {
           </div>
           <small className="mr-2 px-2">{commentData.commentDate}</small>
         </div>
-        <div className="">
-          <small className="comment-text">{commentData.description}</small>
+        <div className="ml-2">
+          <small className="comment-text "> {commentData.description}</small>
         </div>
       </div>
       <hr className="my-2" />
