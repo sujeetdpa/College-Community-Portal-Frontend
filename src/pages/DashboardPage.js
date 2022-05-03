@@ -9,7 +9,7 @@ export default function DashboardPage() {
   const params = useParams();
   const [dashboardData, setDashboardData] = useState({});
   const navigate = useNavigate();
-  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
+  const [loggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
 
   useEffect(() => {
     if (loggedInUser.universityId !== params.universityId) {
@@ -29,16 +29,14 @@ export default function DashboardPage() {
           throw res.json();
         }
         res.json().then(data => {
-          console.log(data);
           setDashboardData(data);
         })
       }).catch(err => {
         err.then(data => {
-          console.log(data);
           alert(data.message);
         })
       })
-  }, [])
+  }, [params.universityId,navigate,loggedInUser.universityId])
   return (
     <div>
       <Navbar />

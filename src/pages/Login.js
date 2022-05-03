@@ -5,7 +5,7 @@ import './Login.css'
 import Navbar from '../components/Navbar'
 
 export default function Login() {
-    const [loginData, setLoginData] = useState({
+    const [loginData] = useState({
         username: '',
         password: ''
     })
@@ -15,7 +15,7 @@ export default function Login() {
         if (localStorage.getItem("access_token")) {
             navigate("/feeds");
         }
-    }, [])
+    }, [navigate])
     const handleSubmit = (e) => {
         e.preventDefault();
         setBtnDisable(true);
@@ -32,7 +32,6 @@ export default function Login() {
                     throw res.json();
                 }
                 res.json().then(data => {
-                    console.log(data);
                     localStorage.setItem("access_token", data.access_token);
                     localStorage.setItem("logged_in_user", JSON.stringify(data.userResponseView));
                     setBtnDisable(false);
@@ -40,7 +39,6 @@ export default function Login() {
                 })
             }).catch(err => {
                 err.then(data => {
-                    console.log(data);
                     alert(data.message);
                     setBtnDisable(false);
                 })
@@ -82,7 +80,6 @@ export default function Login() {
                                             Don't have account please <Link to="/register">Join</Link>
                                         </div>
                                     </div>
-                                   
                                 </div>
                             </div>
                         </div>

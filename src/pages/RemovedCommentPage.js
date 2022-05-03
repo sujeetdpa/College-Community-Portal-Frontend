@@ -26,10 +26,16 @@ export default function RemovedCommentPage() {
         }
         fetch(process.env.REACT_APP_BASE_URL + "/api/admin/deletedComments", options)
             .then(res => {
+                if(!res.ok){
+                    throw res.json();
+                }
                 res.json().then(data => {
-                    console.log(data);
                     setTotalPages(data.totalPages)
                     setComments([...comments, ...data.commentResponseViews]);
+                })
+            }).catch(err=>{
+                err.then(data=>{
+                    alert(data.message);
                 })
             })
     }, [commentPageNo])

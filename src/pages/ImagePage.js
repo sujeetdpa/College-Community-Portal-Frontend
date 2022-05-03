@@ -13,7 +13,7 @@ export default function ImagePage() {
   const [totalNumberOfItems, setTotalNumberOfItems] = useState(0);
   const [images, setImages] = useState([]);
 
-  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
+  const [loggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
 
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function ImagePage() {
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     const imageRequest = {
       pageNo: pageNo,
-      maxItems: '10'
+      maxItems: '20'
     }
     const options = {
       method: 'POST',
@@ -42,14 +42,12 @@ export default function ImagePage() {
           throw res.json();
         }
         res.json().then(data => {
-          console.log(data);
           setTotalNumberOfItems(data.totalNumberOfItems);
           setTotalPages(data.totalPages);
           setImages([...images, ...data.imageResponses]);
         })
       }).catch(err=>{
         err.then(data=>{
-          console.log(data);
           alert(data.message);
         })
       })

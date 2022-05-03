@@ -11,8 +11,8 @@ export default function Register() {
         if (localStorage.getItem("access_token")) {
             navigate("/feeds");
         }
-    }, [])
-    const [registerData, setRegisterData] = useState({
+    }, [navigate])
+    const [registerData] = useState({
         firstName: "",
         lastName: "",
         gender: "",
@@ -39,15 +39,12 @@ export default function Register() {
                 throw res.json();
             }
             res.json().then(responseData => {
-                console.log("APi response: ");
-                console.log(responseData);
                 alert("Registration Successfull: Please Login");
                 document.getElementsByName("my-form").reset();
                 setBtnDisable(false);
             })
         }).catch(err => {
             err.then(data => {
-                console.log(data);
                 alert(data.message);
                 setBtnDisable(false);
             })

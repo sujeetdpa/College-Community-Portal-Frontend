@@ -14,7 +14,7 @@ export default function DocumentPage() {
   const [totalNumberOfItems, setTotalNumberOfItems] = useState(0);
   const [documents, setDocuments] = useState([]);
 
-  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
+  const [loggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
 
 
   useEffect(() => {
@@ -42,35 +42,18 @@ export default function DocumentPage() {
           throw res.json();
         }
         res.json().then(data => {
-          console.log(data);
           setTotalNumberOfItems(data.totalNumberOfItems);
           setTotalPages(data.totalPages);
           setDocuments([...documents, ...data.documentResponses]);
         })
       }).catch(err => {
         err.then(data => {
-          console.log(data);
+         
           alert(data.message);
         })
       })
   }, [pageNo])
-
-  const fetchDoc = (docId) => {
-    const options = {
-      method: 'GET'
-    }
-    fetch(process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" + docId, options)
-      .then(res => {
-        res.blob().then(data => {
-          const file = new File([data], "test1", { type: data.type });
-          console.log(file);
-          const fileUrl = URL.createObjectURL(file);
-          window.open(fileUrl, "_blank");
-
-        })
-      })
-  }
-
+  
   return (
     <div>
       <Navbar />

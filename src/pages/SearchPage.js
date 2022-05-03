@@ -26,7 +26,7 @@ export default function SearchPage() {
         const searchRequest = {
             title: searchTxt,
             pageNo: searchPageNo.pageNo,
-            maxItems: '10'
+            maxItems: '15'
         }
         const options = {
             method: 'POST',
@@ -42,14 +42,12 @@ export default function SearchPage() {
                     throw res.json();
                 }
                 res.json().then(data => {
-                    console.log(data);
                     setTotalPages(data.totalPages);
                     setTotalNumberOfItems(data.totalNumberOfItems);
                     setSearchedPosts([...searchedPosts, ...data.postSearchResponseViews]);
                 })
             }).catch(err => {
                 err.then(data => {
-                    console.log(data);
                     alert(data.message);
                 })
             })
@@ -75,19 +73,26 @@ export default function SearchPage() {
                     </form>
                     <h5 className="modal-title mb-2" id="exampleModalLongTitle" hidden={true}>{totalNumberOfItems}  Result Found..</h5>
                 </div>
-                <InfiniteScroll
-                    dataLength={searchedPosts.length} //This is important field to render the next data
-                    next={() => setSearchPageNo({ pageNo: searchPageNo.pageNo + 1 })}
-                    hasMore={(searchedPosts.length !== 0) && (totalPages - 1) !== searchPageNo.pageNo}
-                    loader={<h4>Loading...</h4>}
-                    endMessage={
-                        <p style={{ textAlign: 'center' }}>
-                            <b>Yay! You have seen it all</b>
-                        </p>
-                    }
-                >
-                    {searchedPosts.map(searchedPost => <SearchedPost postData={searchedPost} key={searchedPost.id} />)}
-                </InfiniteScroll>
+                <div className="container  mb-2">
+                    <div className="row d-flex align-items-center justify-content-center">
+                        <div className="col-md-7">
+                            <div className="card"></div>
+                            <InfiniteScroll
+                                dataLength={searchedPosts.length} //This is important field to render the next data
+                                next={() => setSearchPageNo({ pageNo: searchPageNo.pageNo + 1 })}
+                                hasMore={(searchedPosts.length !== 0) && (totalPages - 1) !== searchPageNo.pageNo}
+                                loader={<h4>Loading...</h4>}
+                                endMessage={
+                                    <p style={{ textAlign: 'center' }}>
+                                        <b>Yay! You have seen it all</b>
+                                    </p>
+                                }
+                            >
+                                {searchedPosts.map(searchedPost => <SearchedPost postData={searchedPost} key={searchedPost.id} />)}
+                            </InfiniteScroll>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )

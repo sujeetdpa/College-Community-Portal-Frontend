@@ -3,8 +3,6 @@ import { useState } from 'react'
 import './UserSmallCard.css'
 
 export default function UserSmallCard({ userData, changePage }) {
-
-    const [isNotLocked, setIsNotLocked] = useState(userData.isNotLocked);
     const [user, setUser] = useState(userData);
     const handleBlockUser = () => {
         const authHeader = "Bearer " + localStorage.getItem("access_token");
@@ -20,12 +18,11 @@ export default function UserSmallCard({ userData, changePage }) {
                     throw res.json();
                 }
                 res.json().then(data => {
-                    console.log(data);
                     setUser(data);
+                    alert(data.fullName+" Blocked successfully");
                 })
             }).catch(err => {
                 err.then(data => {
-                    console.log(data);
                     alert(data.message);
                 })
             })
@@ -44,12 +41,11 @@ export default function UserSmallCard({ userData, changePage }) {
                     throw res.json();
                 }
                 res.json().then(data => {
-                    console.log(data);
                     setUser(data);
+                    alert(data.fullName+" role changed to "+data.role)
                 })
             }).catch(err => {
                 err.then(data => {
-                    console.log(data);
                     alert(data.message);
                 })
             })
@@ -69,13 +65,11 @@ export default function UserSmallCard({ userData, changePage }) {
                     throw res.json();
                 }
                 res.json().then(data => {
-                    console.log(data);
                     alert(data.message);
                     changePage();
                 })
             }).catch(err => {
                 err.then(data => {
-                    console.log(data);
                     alert(data.message);
                 })
             })

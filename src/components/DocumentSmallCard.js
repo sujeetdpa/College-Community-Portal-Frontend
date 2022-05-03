@@ -3,7 +3,7 @@ import React from 'react'
 export default function DocumentSmallCard({ document }) {
     return (
         <div className="card mb-2">
-            <a href={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" + document.id} target="_blank">
+            <a href={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" + document.id} target="_blank" rel='noreferrer'>
                 <div className="card-body d-flex align-items-center ">
                     <div className="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-file-earmark-pdf" viewBox="0 0 16 16">

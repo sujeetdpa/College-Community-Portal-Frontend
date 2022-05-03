@@ -11,7 +11,6 @@ export default function Navbar() {
     const navigate = useNavigate();
     useEffect(() => {
         setAccessToken(localStorage.getItem("access_token"));
-        console.log("UserData: ", loggedInUser);
         setLoggedInUser(JSON.parse(localStorage.getItem("logged_in_user")));
     }, []);
     const handleLogout = () => {
@@ -35,28 +34,28 @@ export default function Navbar() {
                                 {(accessToken === undefined || accessToken === null) ?
                                     <>
                                         <li className="nav-item">
-                                            <Link className="nav-link" to="/login"><h5 class="bi bi-box-arrow-in-right"> Login</h5></Link>
+                                            <Link className="nav-link" to="/login"><h5 className="bi bi-box-arrow-in-right"> Login</h5></Link>
                                         </li>
                                         <li className="nav-item">
-                                            <Link className="nav-link" to="/register"><h5 class="bi bi-person-plus"> Join</h5></Link>
+                                            <Link className="nav-link" to="/register"><h5 className="bi bi-person-plus"> Join</h5></Link>
                                         </li>
                                     </> :
                                     <>
                                         <li className="nav-item dropdown">
-                                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <button className="nav-link dropdown-toggle btn shadow-none" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                                 <img src={(loggedInUser.profileImageId !== null && loggedInUser.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + loggedInUser.profileImageId : "https://robohash.org/" + loggedInUser.id} width="30" height="30" className="rounded-circle" alt='Profile' /> {loggedInUser.fullName}
-                                            </a>
+                                            </button>
                                             <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                <li><Link className="dropdown-item" to={"/user/" + loggedInUser.universityId + "/profile"}> <small class="bi bi-gear"></small> Account</Link></li>
+                                                <li><Link className="dropdown-item" to={"/user/" + loggedInUser.universityId + "/profile"}> <small className="bi bi-gear"></small> Account</Link></li>
                                                 {token.Roles.includes("ROLE_ADMIN") ? <>
-                                                    <li><Link className="dropdown-item" to={"/admin/dashboard"}> <small class="bi bi-speedometer2"></small> Admin Dashboard</Link></li>
-                                                    <li><Link className="dropdown-item" to={"/admin/users"}><small class="bi bi-people"></small> Users</Link></li>
-                                                    <li><Link className="dropdown-item" to={"/admin/add"}><small class="bi bi-person-plus"></small> Add Admin</Link></li>
-                                                    <li><Link className="dropdown-item" to={"/admin/deletedPosts"}><small class="bi bi-archive"></small> Deleted Posts</Link></li>
-                                                    <li><Link className="dropdown-item" to={"/admin/deletedComments"}><small class="bi bi-file-minus"></small> Deleted Comments</Link></li>
+                                                    <li><Link className="dropdown-item" to={"/admin/dashboard"}> <small className="bi bi-speedometer2"></small> Admin Dashboard</Link></li>
+                                                    <li><Link className="dropdown-item" to={"/admin/users"}><small className="bi bi-people"></small> Users</Link></li>
+                                                    <li><Link className="dropdown-item" to={"/admin/add"}><small className="bi bi-person-plus"></small> Add Admin</Link></li>
+                                                    <li><Link className="dropdown-item" to={"/admin/deletedPosts"}><small className="bi bi-archive"></small> Deleted Posts</Link></li>
+                                                    <li><Link className="dropdown-item" to={"/admin/deletedComments"}><small className="bi bi-file-minus"></small> Deleted Comments</Link></li>
                                                 </> : null}
                                                 <li><hr className="dropdown-divider" /></li>
-                                                <li><button className="btn btn-outline-secondary btn-sm dropdown-item" onClick={handleLogout}><small class="bi bi-box-arrow-left"></small> Logout</button></li>
+                                                <li><button className="btn btn-outline-secondary btn-sm dropdown-item" onClick={handleLogout}><small className="bi bi-box-arrow-left"></small> Logout</button></li>
                                             </ul>
                                         </li>
                                         <li className="nav-item ">

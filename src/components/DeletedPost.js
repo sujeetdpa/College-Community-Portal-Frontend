@@ -4,26 +4,11 @@ import DocumentSmallCard from './DocumentSmallCard'
 import './Post.css'
 
 export default function DeletedPost({ postData }) {
-  const fetchDoc = (docId) => {
-    const options = {
-      method: 'GET'
-    }
-    fetch(process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" + docId, options)
-      .then(res => {
-        res.blob().then(data => {
-          const file = new File([data], "test1", { type: data.type });
-          console.log(file);
-          const fileUrl = URL.createObjectURL(file);
-          window.open(fileUrl, "_blank");
-
-        })
-      })
-  }
   return (
     <div>
       <div className="container  mb-2">
         <div className="row d-flex align-items-center justify-content-center">
-          <div className="col-md-6">
+          <div className="col-md-7">
             <div className="card">
               <div className="d-flex justify-content-between p-2 px-3">
                 <div className="d-flex flex-row align-items-center">
@@ -39,7 +24,7 @@ export default function DeletedPost({ postData }) {
                 <p className="text-justify">{postData.description}</p>
               </div>
               {postData.imageResponses.map(image => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + image.id} className="img-fluid" alt={image.imageName} key={image.id} />)}
-              { postData.documentResponses.map(doc=><DocumentSmallCard document={doc} key={doc.id}/>)}
+              {postData.documentResponses.map(doc => <DocumentSmallCard document={doc} key={doc.id} />)}
               <div className="p-2">
                 <hr />
                 <div className="d-flex justify-content-between align-items-center">

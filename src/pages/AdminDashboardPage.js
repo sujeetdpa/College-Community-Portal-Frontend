@@ -18,12 +18,10 @@ export default function AdminDashboardPage() {
           throw res.json();
         }
         res.json().then(data => {
-          console.log(data);
           setDashboardData(data);
         })
       }).catch(err => {
         err.then(data => {
-          console.log(data);
           alert(data.message);
         })
       })

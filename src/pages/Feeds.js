@@ -10,7 +10,7 @@ export default function Feeds() {
         pageNo: 0
     });
     const [totalPages, setTotalPages] = useState(0);
-    const [createPostData, setCreatePostData] = useState({
+    const [createPostData] = useState({
         title: "",
         description: "",
         images: [],
@@ -46,10 +46,16 @@ export default function Feeds() {
         }
         fetch(process.env.REACT_APP_BASE_URL + "/api/post/all", options)
             .then(res => {
+                if(!res.ok){
+                    throw res.json();
+                }
                 res.json().then(data => {
-                    console.log(data.postResponseViews);
                     setTotalPages(data.totalPages);
                     setPosts([...posts, ...data.postResponseViews])
+                })
+            }).catch(err=>{
+                err.then(data=>{
+                    alert(data.message);
                 })
             })
     }, [postPageNo])
@@ -78,7 +84,6 @@ export default function Feeds() {
                     throw res.json();
                 }
                 res.json().then(data => {
-                    console.log(data);
                     setImages(data);
                     setUploadedImgs(data.map(image => image.id));
                     setBtnDisable(false);
@@ -86,7 +91,6 @@ export default function Feeds() {
                 })
             }).catch(err => {
                 err.then(data => {
-                    console.log(data);
                     alert(data.message);
                     setImages([]);
                     setUploadedImgs([]);
@@ -119,7 +123,6 @@ export default function Feeds() {
                     throw res.json();
                 }
                 res.json().then(data => {
-                    console.log(data);
                     setDocuments(data);
                     setUploadedDocs(data.map(doc => doc.id));
                     setBtnDisable(false);
@@ -127,7 +130,6 @@ export default function Feeds() {
                 })
             }).catch(err => {
                 err.then(data => {
-                    console.log(data);
                     alert(data.message);
                     setDocuments([]);
                     setUploadedDocs([]);
@@ -161,7 +163,6 @@ export default function Feeds() {
                 throw res.json();
             }
             res.json().then(data => {
-                console.log(data);
                 alert("Post successfully created");
                 setBtnDisable(false);
                 clearForm();
@@ -169,7 +170,6 @@ export default function Feeds() {
             })
         }).catch(err => {
             err.then(data => {
-                console.log(data);
                 alert(data.message);
                 setBtnDisable(false);
             })
@@ -183,29 +183,12 @@ export default function Feeds() {
         setUploadedDocs([]);
         setUploadedImgs([]);
     }
-    const fetchDoc = (docId) => {
-        const options = {
-            method: 'GET'
-        }
-        const fileUrl = null;
-        window.open(fileUrl, "_blank");
-        fetch(process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" + docId, options)
-            .then(res => {
-                res.blob().then(data => {
-
-                    const file = new File([data], "test1", { type: data.type });
-                    console.log(file);
-                    fileUrl = URL.createObjectURL(file);
-
-                })
-            })
-    }
 
     return (
         <>
             <Navbar />
             <div className='d-flex flex-column container'>
-                <div className="container position-fixed" style={{"z-index":"3"}}>
+                <div className="container position-fixed" style={{ "zIndex": "3" }}>
                     <div className="row align-items-center justify-content-center">
                         <div className="col-md-6">
                             <div className="card">
@@ -216,7 +199,7 @@ export default function Feeds() {
                         </div>
                     </div>
                 </div>
-                <div className='flex-grow-1 bd-highlight mt-5'  style={{"z-index":"1"}}>
+                <div className='flex-grow-1 bd-highlight mt-5' style={{ "zIndex": "1" }}>
                     <InfiniteScroll
                         dataLength={posts.length} //This is important field to render the next data
                         next={() => setPostPageNo({ pageNo: postPageNo.pageNo + 1 })}
@@ -288,6 +271,7 @@ export default function Feeds() {
                                             </span>
                                         </div>
                                     </div>
+                                    <small className='text-danger'>* File size must be less than 2MB</small>
                                 </div>
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>

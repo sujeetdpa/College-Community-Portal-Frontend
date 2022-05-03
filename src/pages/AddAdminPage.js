@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar'
 import './Register.css'
 
 export default function AddAdminPage() {
-  const [registerData, setRegisterData] = useState({
+  const [registerData] = useState({
     firstName: "",
     lastName: "",
     username: "",
@@ -13,6 +13,7 @@ export default function AddAdminPage() {
   });
   const [roles, setRoles] = useState([]);
   const [btnDisable,setBtnDisable]=useState(false);
+
   useEffect(() => {
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     const options = {
@@ -21,22 +22,21 @@ export default function AddAdminPage() {
         'Authorization': authHeader,
       }
     }
-    const response = fetch(process.env.REACT_APP_BASE_URL + "/api/admin/roles", options)
+    fetch(process.env.REACT_APP_BASE_URL + "/api/admin/roles", options)
       .then(res => {
         if (!res.ok) {
           throw res.json();
         }
         res.json().then(data => {
           setRoles(data);
-          console.log("roles: ", roles);
         })
       }).catch(err => {
         err.then(data => {
-          console.log(data);
           alert(data.message);
         })
       })
   }, [])
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setBtnDisable(true);
@@ -49,19 +49,17 @@ export default function AddAdminPage() {
       },
       body: JSON.stringify(registerData)
     }
-    const response = fetch(process.env.REACT_APP_BASE_URL + "/api/admin/add", options)
+    fetch(process.env.REACT_APP_BASE_URL + "/api/admin/add", options)
       .then(res => {
         if (!res.ok) {
           throw res.json();
         }
         res.json().then(data => {
-          console.log(data);
-          alert("User added successfully and an e-mail containing password is sent on the username");
+          alert("User added successfully and an e-mail containing password is sent on "+data.username);
           setBtnDisable(false);
         })
       }).catch(err => {
         err.then(data => {
-          console.log(data.message);
           alert(data.message);
           setBtnDisable(false);
         })

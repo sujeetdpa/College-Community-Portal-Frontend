@@ -14,7 +14,7 @@ export default function RemovedPostPage() {
     const authHeader = "Bearer " + localStorage.getItem("access_token");
     const postRequest = {
       pageNo: postPageNo.pageNo,
-      maxItem: '5',
+      maxItem: '10',
       sortBy: 'creationDate'
     }
     const options = {
@@ -27,10 +27,16 @@ export default function RemovedPostPage() {
     }
     fetch(process.env.REACT_APP_BASE_URL + "/api/admin/deletedPosts", options)
       .then(res => {
+        if(!res.ok){
+          throw res.json();
+        }
         res.json().then(data => {
-          console.log(data.postResponseViews);
           setTotalPages(data.totalPages);
           setDeletedPosts([...deletedPosts, ...data.postResponseViews])
+        })
+      }).catch(err=>{
+        err.then(data=>{
+          alert(data.message);
         })
       })
   }, [postPageNo])

@@ -28,11 +28,9 @@ export default function Post({ postData, changePage }) {
       res.json().then(data => {
         alert(data.message);
         setNoOfLikes(data.noOfLikes);
-        console.log(data);
       });
     }).catch(err => {
       err.then(data => {
-        console.log(data);
         alert(data.message);
       })
     })
@@ -51,12 +49,10 @@ export default function Post({ postData, changePage }) {
         throw res.json();
       }
       res.json().then(data => {
-        console.log(data);
         alert(data.message);
       });
     }).catch(err => {
       err.then(data => {
-        console.log(data);
         alert(data.message);
       })
     })
@@ -75,33 +71,16 @@ export default function Post({ postData, changePage }) {
           throw res.json();
         }
         res.json().then(data => {
-          console.log(data);
           alert(data.message);
           changePage();
         })
       }).catch(err => {
         err.then(data => {
-          console.log();
           alert(data.message);
         })
       })
   }
-  const fetchDoc = (docId) => {
-    const options = {
-      method: 'GET'
-    }
-    fetch(process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" + docId, options)
-      .then(res => {
-        res.blob().then(data => {
-          const file = new File([data], "test1", { type: data.type });
-          console.log(file);
-          const fileUrl = URL.createObjectURL(file);
-          window.open(fileUrl, "_blank");
-
-        })
-      })
-  }
-
+  
   return (
     <div>
       <div className="container  mb-2">

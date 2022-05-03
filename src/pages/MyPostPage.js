@@ -15,7 +15,7 @@ export default function MyPostPage() {
     const [totalPages, setTotalPages] = useState(0);
     const [totalNumberOfItems, setTotalNumberOfItems] = useState(0);
     const [posts, setPosts] = useState([]);
-    const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
+    const [loggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
 
     function changePageNo() {
         setPosts([]);
@@ -47,7 +47,6 @@ export default function MyPostPage() {
                     throw res.json();
                 }
                 res.json().then(data => {
-                    console.log(data.postResponseViews);
                     setTotalPages(data.totalPages);
                     setTotalNumberOfItems(data.totalNumberOfItems);
                     setPosts([...posts, ...data.postResponseViews])
@@ -80,7 +79,7 @@ export default function MyPostPage() {
                             >
                                 {posts.map(post => <Post postData={post} key={post.id} changePage={changePageNo} />)}
                             </InfiniteScroll>
-                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

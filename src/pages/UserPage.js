@@ -49,10 +49,8 @@ export default function UserPage() {
     fetchUser().then(data => {
       setProfileImageId(data.profileImageId)
       setUserData(data);
-      console.log((data));
     }).catch(err => {
       err.then(data => {
-        console.log(data);
         alert(data.message);
       })
     })
@@ -76,7 +74,6 @@ export default function UserPage() {
           throw res.json();
         }
         res.json().then(data => {
-          console.log("Updated user: ", data);
           alert("Updated Successfully");
           setBtnDisable(false);
           setUserData(data);
@@ -110,13 +107,11 @@ export default function UserPage() {
           throw res.json();
         }
         res.json().then(data => {
-          console.log(data);
           setProfileImageId(data);
           setInpDisable(false);
         })
       }).catch(err => {
         err.then(data => {
-          console.log(data);
           alert(data.message);
           setInpDisable(false);
         })
@@ -137,13 +132,11 @@ export default function UserPage() {
           throw res.json();
         }
         res.json().then(data => {
-          console.log(data);
           setUserData(data);
           alert("User blocked successfully");
         })
       }).catch(err => {
         err.then(data => {
-          console.log(data);
           alert(data.message);
         })
       })

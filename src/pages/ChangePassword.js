@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import UserSidebar from '../components/UserSidebar';
@@ -8,12 +8,12 @@ export default function ChangePassword() {
   const params = useParams();
   const navigate = useNavigate();
   const [btnDisable,setBtnDisable]=useState(false);
-  const [changePasswordData, setChangePasswordData] = useState({
+  const [changePasswordData] = useState({
     currentPassword: "",
     newPassword: "",
     cnfNewPassword: ""
   })
-  const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
+  const [loggedInUser] = useState(JSON.parse(localStorage.getItem("logged_in_user")));
   useEffect(() => {
     if (loggedInUser.universityId !== params.universityId) {
       alert("You dont't have the required permissions");
@@ -32,19 +32,17 @@ export default function ChangePassword() {
       },
       body: JSON.stringify(changePasswordData)
     }
-    const response = fetch(process.env.REACT_APP_BASE_URL + "/auth/update/password", options)
+    fetch(process.env.REACT_APP_BASE_URL + "/auth/update/password", options)
       .then(res => {
         if (!res.ok) {
           throw res.json();
         }
         res.text().then(data => {
-          console.log(data);
           alert(data);
           setBtnDisable(false);
         })
       }).catch(err => {
         err.then(data => {
-          console.log(data);
           alert(data.message);
           setBtnDisable(false)
         })
@@ -84,7 +82,7 @@ export default function ChangePassword() {
                             </div>
                           </div>
                           <div className="col-md-6 offset-md-4">
-                            <button type="submit" className="btn btn-primary mx-3">
+                            <button type="submit" className="btn btn-primary mx-3" disabled={btnDisable}>
                               Change
                             </button>
                             <button type="reset" className="btn btn-secondary">

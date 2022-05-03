@@ -4,7 +4,7 @@ import './Login.css'
 import { Link, useNavigate } from 'react-router-dom'
 
 export default function ForgotPasswordPage() {
-    const [resetData, setResetData] = useState({
+    const [resetData] = useState({
         username: "",
         dob: ""
     });
@@ -14,7 +14,7 @@ export default function ForgotPasswordPage() {
         if (localStorage.getItem("access_token")) {
             navigate("/feeds");
         }
-    }, [])
+    }, [navigate])
     const handleSubmit = (e) => {
         e.preventDefault();
         setBtnDisable(true);
@@ -31,13 +31,11 @@ export default function ForgotPasswordPage() {
                     throw res.json();
                 }
                 res.text().then(data => {
-                    console.log(data);
                     alert(data);
                     setBtnDisable(false);
                 })
             }).catch(err => {
                 err.then(data => {
-                    console.log(data);
                     alert(data.message);
                     setBtnDisable(false);
                 })

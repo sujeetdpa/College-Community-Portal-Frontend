@@ -22,7 +22,7 @@ export default function PostPage() {
   });
   const [totalPages, setTotalPages] = useState(0);
 
-  const [createCommentData, setCreateCommentData] = useState({
+  const [createCommentData] = useState({
     title: '',
     description: '',
     postId: post.id,
@@ -82,7 +82,6 @@ export default function PostPage() {
     fetch(process.env.REACT_APP_BASE_URL + "/api/post/" + params.postId + "/comments", options)
       .then(res => {
         res.json().then(data => {
-          console.log(data);
           setTotalPages(data.totalPages)
           setNoOfComments(data.totalNumberOfItems)
           setComments([...comments, ...data.commentResponseViews]);
@@ -106,11 +105,9 @@ export default function PostPage() {
       res.json().then(data => {
         alert(data.message);
         setNoOfLikes(data.noOfLikes);
-        console.log(data);
       });
     }).catch(err => {
       err.then(data => {
-        console.log(data);
         alert(data.message);
       })
     })
@@ -130,12 +127,10 @@ export default function PostPage() {
         throw res.json();
       }
       res.json().then(data => {
-        console.log(data);
         alert(data.message);
       });
     }).catch(err => {
       err.then(data => {
-        console.log(data);
         alert(data.message);
       })
     })
@@ -158,7 +153,6 @@ export default function PostPage() {
         throw res.json();
       }
       res.json().then(data => {
-        console.log(data);
         setNoOfComments(noOfComments + 1);
         document.getElementById("commentInput").value = '';
         setBtnDisable(false);
@@ -168,7 +162,6 @@ export default function PostPage() {
       })
     }).catch(err => {
       err.then(data => {
-        console.log(data);
         alert(data.message);
         setBtnDisable(false);
       })
@@ -188,29 +181,12 @@ export default function PostPage() {
           throw res.json();
         }
         res.json().then(data => {
-          console.log(data);
           alert(data.message);
           navigate("/feeds");
         })
       }).catch(err => {
         err.then(data => {
-          console.log();
           alert(data.message);
-        })
-      })
-  }
-  const fetchDoc = (docId) => {
-    const options = {
-      method: 'GET'
-    }
-    fetch(process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/document/" + docId, options)
-      .then(res => {
-        res.blob().then(data => {
-          const file = new File([data], "test1", { type: data.type });
-          console.log(file);
-          const fileUrl = URL.createObjectURL(file);
-          window.open(fileUrl, "_blank");
-
         })
       })
   }
@@ -243,8 +219,8 @@ export default function PostPage() {
                 <h5 className='text-center'>{post.title}</h5>
                 <p className="text-justify">{post.description}</p>
               </div>
-              {(post.imageResponses!==undefined)?post.imageResponses.map(image => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + image.id} className="img-fluid" alt='Data' key={image.id} />): null}
-              {(post.documentResponses !==undefined)? post.documentResponses.map(doc=><DocumentSmallCard document={doc} key={doc.id}/>):null}
+              {(post.imageResponses !== undefined) ? post.imageResponses.map(image => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + image.id} className="img-fluid" alt='Data' key={image.id} />) : null}
+              {(post.documentResponses !== undefined) ? post.documentResponses.map(doc => <DocumentSmallCard document={doc} key={doc.id} />) : null}
               <div className="p-2">
                 <hr />
                 <div className="d-flex justify-content-between align-items-center">

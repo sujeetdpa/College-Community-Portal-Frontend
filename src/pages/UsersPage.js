@@ -37,13 +37,11 @@ export default function UsersPage() {
           throw res.json();
         }
         res.json().then(data => {
-          console.log(data);
           setTotalPages(data.totalPages);
           setUsers([...users, ...data.userResponseViews]);
         })
       }).catch(err => {
         err.then(data => {
-          console.log(data);
           alert(data.message);
         })
       })
