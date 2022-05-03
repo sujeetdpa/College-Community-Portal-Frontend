@@ -145,7 +145,7 @@ export default function UserPage() {
     <div>
       <Navbar />
       <div className="d-flex container pt-2" id="wrapper">
-        {loggedInUser.id === userData.id ? <UserSidebar universityId={params.universityId} /> : null}
+        {loggedInUser.id === userData.id ? <div><UserSidebar universityId={params.universityId} /></div> : null}
         <div id="page-content-wrapper">
           <div className="container-fluid">
             <div>
@@ -280,7 +280,7 @@ export default function UserPage() {
                         <div className="form-group row pb-2">
                           <label className="col-md-4 col-form-label text-md-right">Gender</label>
                           <div className="col-md-6">
-                            <select className="form-control form-control-sm d-inline-block" aria-label="Default select example" id="gender" defaultValue={userData.gender} onChange={e => { userData.gender = e.target.value }} required>
+                            <select className="form-control form-control-sm d-inline-block" aria-label="Default select example" id="gender" value={userData.gender} onChange={e => { userData.gender = e.target.value }} required>
                               <option value="">Select..</option>
                               <option value="FEMALE">Female</option>
                               <option value="MALE">Male</option>
