@@ -51,29 +51,31 @@ export default function UserSmallCard({ userData, changePage }) {
             })
     }
     const handleDelete = () => {
-        const authHeader = "Bearer " + localStorage.getItem("access_token");
-        const options = {
-            method: 'DELETE',
-            headers: {
-                'Authorization': authHeader,
-            },
+        if (window.confirm("Confirm to delete "+userData.fullName)) {
+            const authHeader = "Bearer " + localStorage.getItem("access_token");
+            const options = {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': authHeader,
+                },
+            }
+            fetch(process.env.REACT_APP_BASE_URL + "/api/admin/delete/user/" + userData.id, options)
+                .then(res => {
+                    if (!res.ok) {
+                        throw res.json();
+                    }
+                    res.json().then(data => {
+                        alert(data.message);
+                        changePage();
+                    })
+                }).catch(err => {
+                    err.then(data => {
+                        alert(data.message);
+                    })
+                })
         }
-        fetch(process.env.REACT_APP_BASE_URL + "/api/admin/delete/user/" + userData.id, options)
-            .then(res => {
-                if (!res.ok) {
-                    throw res.json();
-                }
-                res.json().then(data => {
-                    alert(data.message);
-                    changePage();
-                })
-            }).catch(err => {
-                err.then(data => {
-                    alert(data.message);
-                })
-            })
     }
-    const handleSendActivationLink=()=>{
+    const handleSendActivationLink = () => {
         const authHeader = "Bearer " + localStorage.getItem("access_token");
         const options = {
             method: 'POST',
@@ -86,7 +88,7 @@ export default function UserSmallCard({ userData, changePage }) {
                 if (!res.ok) {
                     throw res.json();
                 }
-                res.text().then(data=>{
+                res.text().then(data => {
                     alert(data);
                 })
             }).catch(err => {
@@ -211,8 +213,8 @@ export default function UserSmallCard({ userData, changePage }) {
                                                         <div className="form-group row">
                                                             <button className={user.role.includes("ROLE_ADMIN") ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-primary btn-sm"} data-bs-toggle="modal" data-bs-target={"#roleModal" + user.id}>{user.role.includes("ROLE_ADMIN") ? "Change Role to USER" : "Change Role to ADMIN"}</button>
                                                         </div>
-                                                        {user.isActive ? null: <div className="form-group row">
-                                                           <button className='btn btn-outline-info btn-sm' onClick={handleSendActivationLink}>Send Activation Link</button>
+                                                        {user.isActive ? null : <div className="form-group row">
+                                                            <button className='btn btn-outline-info btn-sm' onClick={handleSendActivationLink}>Send Activation Link</button>
                                                         </div>}
                                                     </div>
                                                 </div>

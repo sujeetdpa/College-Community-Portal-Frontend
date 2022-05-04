@@ -21,7 +21,7 @@ function App() {
                     <strong className='fw-bold'> Society </strong> and many more... from anywhere at anytime. 
                     <p className='mt-3'> <small>Let's continue your <span className='fw-bold'>Journey</span> with the following options.</small></p>
                     <div className='d-flex flex-row justify-content-around'>
-                      <span ><Link className="btn btn-outline-primary btn-lg" to="/feeds"><h5 className='bi bi-rss'> Feeds</h5></Link></span>
+                      <span ><Link className="btn btn-outline-primary btn-lg " to="/feeds"><h5 className='bi bi-rss'> Feeds</h5></Link></span>
                       <span ><Link className="btn btn-outline-primary btn-lg " to={"/user/" + loggedInUser.universityId + "/profile"}><h5 className='bi bi-gear'> Account</h5></Link></span>
                     </div>
                   </>

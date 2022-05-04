@@ -23,6 +23,7 @@ import AdminDashboardPage from './pages/AdminDashboardPage';
 import RemovedCommentPage from './pages/RemovedCommentPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import SearchPage from './pages/SearchPage';
+import Error from './pages/Error';
 
 ReactDOM.render(
   // <React.StrictMode>
@@ -53,6 +54,7 @@ ReactDOM.render(
         <Route path='/admin/add' element={<AdminProtected Cmp={AddAdminPage}/>}/>
         <Route path='/admin/deletedPosts' element={<AdminProtected Cmp={RemovedPostPage}/>}/>
         <Route path='/admin/deletedComments' element={<AdminProtected Cmp={RemovedCommentPage}/>}/>
+        <Route path='*' element={<Error />}/>
       </Routes>
     </div>
   </BrowserRouter>,
