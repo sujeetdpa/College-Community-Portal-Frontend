@@ -5,7 +5,7 @@ import { isExpired} from "react-jwt";
 
 export default function Protected(props) {
     let Cmp=props.Cmp;
-    const isTokenExpired=isExpired(localStorage.getItem("access_token"));
+    
     const navigate=useNavigate();
     const [flag,setFlag]=useState(false);
     useEffect(()=>{
@@ -13,13 +13,14 @@ export default function Protected(props) {
             navigate("/login");
             alert("Please Login.")
         }
-        else if(isTokenExpired){
+        const isTokenExpired=isExpired(localStorage.getItem("access_token"));
+        if(isTokenExpired){
           localStorage.clear();
           navigate("/login");
           alert("Token expired please login again.");
         }
         setFlag(true);
-    },[isTokenExpired,navigate])
+    },[navigate])
   return (
     <div>
         {flag?<Cmp/>:null}
