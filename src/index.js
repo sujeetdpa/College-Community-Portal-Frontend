@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Feeds from './pages/Feeds';
@@ -29,7 +29,7 @@ ReactDOM.render(
   // <React.StrictMode>
   //   <App />
   // </React.StrictMode>,
-  <BrowserRouter>
+  <HashRouter>
     <div>
       <Routes>
         <Route path='/' element={<App />} />
@@ -57,7 +57,7 @@ ReactDOM.render(
         <Route path='*' element={<Error />}/>
       </Routes>
     </div>
-  </BrowserRouter>,
+  </HashRouter>,
   document.getElementById('root')
 );
 

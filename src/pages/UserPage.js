@@ -274,7 +274,7 @@ export default function UserPage() {
                         <div className="form-group row pb-2">
                           <label className="col-md-4 col-form-label text-md-right">Last Name</label>
                           <div className="col-md-6">
-                            <input type="text" id="lastName" className="form-control" defaultValue={userData.lastName} onChange={e => { userData.lastName = e.target.value }} />
+                            <input type="text" id="lastName" className="form-control" defaultValue={userData.lastName} onChange={e => { userData.lastName = e.target.value }} required/>
                           </div>
                         </div>
                         <div className="form-group row pb-2">
