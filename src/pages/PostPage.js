@@ -97,7 +97,7 @@ export default function PostPage() {
         'Authorization': authHeader
       },
     }
-    const response = fetch(process.env.REACT_APP_BASE_URL + "/api/post/" + post.id + "/like/" + post.userId, options);
+    const response = fetch(process.env.REACT_APP_BASE_URL + "/api/post/" + post.id + "/like", options);
     response.then(res => {
       if (!res.ok) {
         throw res.json();
@@ -121,7 +121,7 @@ export default function PostPage() {
         'Authorization': authHeader
       },
     }
-    const response = fetch(process.env.REACT_APP_BASE_URL + "/api/post/" + post.id + "/dislike/" + post.userId, options);
+    const response = fetch(process.env.REACT_APP_BASE_URL + "/api/post/" + post.id + "/dislike", options);
     response.then(res => {
       if (!res.ok) {
         throw res.json();

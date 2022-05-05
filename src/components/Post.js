@@ -20,7 +20,7 @@ export default function Post({ postData, changePage }) {
         'Authorization': authHeader
       },
     }
-    const response = fetch(process.env.REACT_APP_BASE_URL + "/api/post/" + postData.id + "/like/" + postData.userId, options);
+    const response = fetch(process.env.REACT_APP_BASE_URL + "/api/post/" + postData.id + "/like", options);
     response.then(res => {
       if (!res.ok) {
         throw res.json();
@@ -43,7 +43,7 @@ export default function Post({ postData, changePage }) {
         'Authorization': authHeader
       },
     }
-    const response = fetch(process.env.REACT_APP_BASE_URL + "/api/post/" + postData.id + "/dislike/" + postData.userId, options);
+    const response = fetch(process.env.REACT_APP_BASE_URL + "/api/post/" + postData.id + "/dislike", options);
     response.then(res => {
       if (!res.ok) {
         throw res.json();
