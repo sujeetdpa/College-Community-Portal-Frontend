@@ -39,7 +39,7 @@ export default function Register() {
                 throw res.json();
             }
             res.json().then(responseData => {
-                alert("Registration Successfull: Please Login");
+                alert("Registration Successfull. Activate your account via activation link sent to: "+responseData.username);
                 setBtnDisable(false);
                 document.getElementsByName("my-form").reset();
                 

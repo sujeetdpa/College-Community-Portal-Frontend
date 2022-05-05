@@ -46,15 +46,15 @@ export default function Feeds() {
         }
         fetch(process.env.REACT_APP_BASE_URL + "/api/post/all", options)
             .then(res => {
-                if(!res.ok){
+                if (!res.ok) {
                     throw res.json();
                 }
                 res.json().then(data => {
                     setTotalPages(data.totalPages);
                     setPosts([...posts, ...data.postResponseViews])
                 })
-            }).catch(err=>{
-                err.then(data=>{
+            }).catch(err => {
+                err.then(data => {
                     alert(data.message);
                 })
             })
@@ -215,8 +215,8 @@ export default function Feeds() {
                     </InfiniteScroll>
                 </div>
             </div >
-            <div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog" role="document">
+            <div className="modal fade bd-example-modal-lg" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal-dialog modal-lg" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLabel">Create Post</h5>
@@ -228,19 +228,19 @@ export default function Feeds() {
                             <form id='postForm' onSubmit={handleCreatePost}>
                                 <div className="form-group row mb-2">
                                     <label className="col-md-4 col-form-label text-md-right">Title</label>
-                                    <div className="col-md-6">
+                                    <div className="col-md-8">
                                         <input type="text" id="title" className="form-control" onChange={e => { createPostData.title = e.target.value }} required />
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <label className="col-md-4 col-form-label text-md-right">Description</label>
-                                    <div className="col-md-6">
+                                    <div className="col-md-8">
                                         <textarea type="text" id="description" className="form-control" cols='50' rows='8' onChange={e => { createPostData.description = e.target.value }} required />
                                     </div>
                                 </div>
                                 <div className="modal-body d-felx flex-row">
                                     <div className="form-group row d-flex">
-                                        <div className="col-md-6">
+                                        <div className="col-md-8">
                                             <small className="mr-2">
                                                 <label htmlFor="apply" className='' ><input type="file" name="" id='apply' accept="image/*" onChange={e => handleImageUpload(e)} multiple /><i className="bi bi-images mx-2"></i>
                                                     <span >Upload Image </span>
@@ -256,7 +256,7 @@ export default function Feeds() {
                                         </div>
                                     </div>
                                     <div className="form-group row d-flex">
-                                        <div className="col-md-6">
+                                        <div className="col-md-8">
                                             <small className="mr-2">
                                                 <label htmlFor="apply1" className='' ><input type="file" name="" id='apply1' onChange={e => handleDocumentUpload(e)} multiple /><i className="bi bi-file-earmark-arrow-up mx-2"></i>
                                                     <span >Upload Document </span>

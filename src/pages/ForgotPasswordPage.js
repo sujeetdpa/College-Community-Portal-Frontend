@@ -32,6 +32,7 @@ export default function ForgotPasswordPage() {
                 }
                 res.text().then(data => {
                     alert(data);
+                    document.getElementsByName("my-form").reset();
                     setBtnDisable(false);
                 })
             }).catch(err => {
@@ -66,14 +67,19 @@ export default function ForgotPasswordPage() {
                                                     <input type="date" id="password" className="form-control" onChange={e => { resetData.dob = e.target.value }} />
                                                 </div>
                                             </div>
-                                            <div className="col-md-6 offset-md-4">
-                                                <button type="submit" className="btn btn-primary" disabled={btnDisable}>
+                                            <div className="col-md-6 offset-md-4 ">
+                                                <button type="submit" className="btn btn-primary mr-3" disabled={btnDisable}>
                                                     Send
+                                                </button> &nbsp;&nbsp;&nbsp;
+                                                <button type="reset" className="btn btn-secondary " >
+                                                    Clear
                                                 </button>
-                                                <Link to="/login" className="btn btn-link">Click to Login</Link>
                                             </div>
+                                            <p className="col-md-6 offset-md-4">
+                                                Click to<Link to="/login" className="btn btn-link">Login</Link>
+                                            </p>
                                         </form>
-                                        <div className="col-md-6 offset-md-4 py-4">
+                                        <div className="col-md-6 offset-md-4">
                                             Don't have account please <Link to="/register">Join</Link>
                                         </div>
                                     </div>

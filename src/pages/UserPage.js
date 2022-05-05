@@ -144,11 +144,9 @@ export default function UserPage() {
   return (
     <div>
       <Navbar />
-      <div className="d-flex container pt-2" id="wrapper">
+      <div className="d-flex pt-2" id="wrapper">
         {loggedInUser.id === userData.id ? <div><UserSidebar universityId={params.universityId} /></div> : null}
         <div id="page-content-wrapper">
-          <div className="container-fluid">
-            <div>
               <main className="my-form">
                 <div className="cotainer">
                   <div className="row justify-content-center">
@@ -321,8 +319,6 @@ export default function UserPage() {
                     </div>
                 </div>
             </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
