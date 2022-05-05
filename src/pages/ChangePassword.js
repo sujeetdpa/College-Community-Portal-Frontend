@@ -7,7 +7,7 @@ import UserSidebar from '../components/UserSidebar';
 export default function ChangePassword() {
   const params = useParams();
   const navigate = useNavigate();
-  const [btnDisable,setBtnDisable]=useState(false);
+  const [btnDisable, setBtnDisable] = useState(false);
   const [changePasswordData] = useState({
     currentPassword: "",
     newPassword: "",
@@ -51,34 +51,34 @@ export default function ChangePassword() {
   return (
     <div>
       <Navbar />
-      <div className="d-flex container pt-2" id="wrapper">
+      <div className="container d-flex flex-row">
         <UserSidebar universityId={params.universityId} />
-        <div id="page-content-wrapper">
-          <div className="container-fluid">
-            <h1 className="mt-4">Change Password</h1>
-            <main className="my-form">
-              <div className="cotainer">
-                <div className="row justify-content-center">
-                  <div className="col-md-8">
-                    <div className="card">
-                      <div className="card-body">
+        <div class="col-md-9">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <h1 className="mt-4">Change Password</h1>
+                  <main className="my-form">
+                    <div className="cotainer">
+                      <div className="row justify-content-center">
                         <form name="my-form" onSubmit={handleChangePassword}>
                           <div className="form-group row">
                             <label className="col-md-4 col-form-label text-md-right" >Current Password</label>
                             <div className="col-md-6">
-                              <input type="password" id="curentPassword" className="form-control" onChange={e => { changePasswordData.currentPassword = e.target.value }} required/>
+                              <input type="password" id="curentPassword" className="form-control" onChange={e => { changePasswordData.currentPassword = e.target.value }} required />
                             </div>
                           </div>
                           <div className="form-group row">
                             <label className="col-md-4 col-form-label text-md-right" >New Password</label>
                             <div className="col-md-6">
-                              <input type="password" id="newPassword" className="form-control" onChange={e => { changePasswordData.newPassword = e.target.value }} required/>
+                              <input type="password" id="newPassword" className="form-control" onChange={e => { changePasswordData.newPassword = e.target.value }} required />
                             </div>
                           </div>
                           <div className="form-group row">
                             <label className="col-md-4 col-form-label text-md-right">Confirm Password</label>
                             <div className="col-md-6">
-                              <input type="password" id="cnfPassword" className="form-control" onChange={e => { changePasswordData.cnfNewPassword = e.target.value }} required/>
+                              <input type="password" id="cnfPassword" className="form-control" onChange={e => { changePasswordData.cnfNewPassword = e.target.value }} required />
                             </div>
                           </div>
                           <div className="col-md-6 offset-md-4">
@@ -92,10 +92,10 @@ export default function ChangePassword() {
                         </form>
                       </div>
                     </div>
-                  </div>
+                  </main >
                 </div>
               </div>
-            </main >
+            </div>
           </div>
         </div>
       </div>

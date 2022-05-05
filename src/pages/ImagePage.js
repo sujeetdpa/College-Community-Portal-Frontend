@@ -38,7 +38,7 @@ export default function ImagePage() {
     }
     fetch(process.env.REACT_APP_BASE_URL + "/api/user/images", options)
       .then(res => {
-        if(!res.ok){
+        if (!res.ok) {
           throw res.json();
         }
         res.json().then(data => {
@@ -46,8 +46,8 @@ export default function ImagePage() {
           setTotalPages(data.totalPages);
           setImages([...images, ...data.imageResponses]);
         })
-      }).catch(err=>{
-        err.then(data=>{
+      }).catch(err => {
+        err.then(data => {
           alert(data.message);
         })
       })
@@ -56,26 +56,31 @@ export default function ImagePage() {
   return (
     <div>
       <Navbar />
-      <div className="d-flex container pt-2" id="wrapper">
+      <div className="container d-flex flex-row">
         <UserSidebar universityId={params.universityId} />
-        <div id="page-content-wrapper" className='container px-2'>
-          <div className=''>
-            <h1 className="mt-4">{totalNumberOfItems} Images</h1>
-            <div className="row align-items-start" id='scroll'>
-              <InfiniteScroll
-                dataLength={images.length} //This is important field to render the next data
-                next={() => setPageNo(pageNo + 1)}
-                hasMore={(images.length !== 0) && (totalPages - 1) !== pageNo}
-                loader={<h4>Loading...</h4>}
-                scrollableTarget="scroll"
-                endMessage={
-                  <p style={{ textAlign: 'center' }}>
-                    <b>Yay! You have seen it all</b>
-                  </p>
-                }
-              >
-                {images.map(image => <img src={process.env.REACT_APP_BASE_URL + '/api/post/local/storage/download/image/' + image.id} key={image.id} height="150" width="150" className='py-1 px-1' alt={image.imageName} />)}
-              </InfiniteScroll>
+        <div class="col-md-9">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <h1 className="mt-4">{totalNumberOfItems} Images</h1>
+                  <div className="row align-items-start">
+                    <InfiniteScroll
+                      dataLength={images.length} //This is important field to render the next data
+                      next={() => setPageNo(pageNo + 1)}
+                      hasMore={(images.length !== 0) && (totalPages - 1) !== pageNo}
+                      loader={<h4>Loading...</h4>}
+                      endMessage={
+                        <p style={{ textAlign: 'center' }}>
+                          <b>Yay! You have seen it all</b>
+                        </p>
+                      }
+                    >
+                      {images.map(image => <img src={process.env.REACT_APP_BASE_URL + '/api/post/local/storage/download/image/' + image.id} key={image.id} height="150" width="150" className='py-1 px-1' alt={image.imageName} />)}
+                    </InfiniteScroll>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

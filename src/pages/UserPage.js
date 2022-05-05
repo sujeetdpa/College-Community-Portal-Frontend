@@ -144,42 +144,35 @@ export default function UserPage() {
   return (
     <div>
       <Navbar />
-      <div className="d-flex pt-2" id="wrapper">
-        {loggedInUser.id === userData.id ? <div><UserSidebar universityId={params.universityId} /></div> : null}
-        <div id="page-content-wrapper">
-              <main className="my-form">
-                <div className="cotainer">
-                  <div className="row justify-content-center">
-                    <div className="col-md-8">
-                      <div className="card">
-                        <div className="card-body">
-                          <div name="my-form">
-                            <div className="d-flex justify-content-between p-2 px-3">
-                              <div className="d-flex flex-row align-items-center">
-                                <img src={(profileImageId !== null && profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + profileImageId : "https://robohash.org/" + userData.userId} width="100" className="rounded-circle" alt='Profile' />
-                                <div className="d-flex flex-column ml-2"> <h3 className="font-weight-bold">{userData.fullName}</h3> <small className="text-primary">{userData.role}</small> </div>
-                              </div>
-                              {loggedInUser.id === userData.id ?
-                                <div className="d-flex flex-row mt-1 ellipsis">
-                                  <small className="mr-2">
-                                    <label htmlFor="apply" className='' ><input type="file" name="" id='apply' accept="image/*" onChange={e => updateImage(e)} disabled={inpDisable} /><i className="bi bi-images"></i></label>
-                                  </small>
-                                </div>
-                                : null}
+        <div className="container d-flex flex-row">
+          {loggedInUser.id === userData.id ? <UserSidebar universityId={params.universityId} /> : null}
+          <div class="col-md-9">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-12">
+                    <main className="my-form">
+                      <div className="cotainer">
+                        <div className="row justify-content-center">
+                          <div className="d-flex justify-content-between p-2 px-3">
+                            <div className="d-flex flex-row align-items-center">
+                              <img src={(profileImageId !== null && profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + profileImageId : "https://robohash.org/" + userData.userId} width="100" className="rounded-circle" alt='Profile' />
+                              <div className="d-flex flex-column ml-2"> <h3 className="font-weight-bold">{userData.fullName}</h3> <small className="text-primary">{userData.role}</small> </div>
                             </div>
+                            {loggedInUser.id === userData.id ?
+                              <div className="d-flex flex-row mt-1 ellipsis">
+                                <small className="mr-2">
+                                  <label htmlFor="apply" className='' ><input type="file" name="" id='apply' accept="image/*" onChange={e => updateImage(e)} disabled={inpDisable} /><i className="bi bi-images"></i></label>
+                                </small>
+                              </div>
+                              : null}
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </main >
-              <main className="my-form">
-                <div className="cotainer">
-                  <div className="row justify-content-center">
-                    <div className="col-md-8">
-                      <div className="card">
-                        <div className="card-body">
+                    </main >
+                    <main className="my-form">
+                      <div className="cotainer">
+                        <div className="row justify-content-center">
                           <div name="my-form">
                             <div className="form-group row">
                               <label className="col-md-4 col-form-label text-md-right">First Name</label>
@@ -242,85 +235,88 @@ export default function UserPage() {
                                 </button>
                               </div>
                             </> : null}
-                            { token.Roles.includes("ROLE_ADMIN")?
+                            {token.Roles.includes("ROLE_ADMIN") ?
                               <div className="col-md-6 offset-md-4">
                                 <button className={userData.isNotLocked ? "btn btn-outline-danger" : "btn btn-outline-success btn-sm"} data-bs-toggle="modal" data-bs-target={"#cnfBlockModal" + userData.id}>{userData.isNotLocked ? "Block" : "Unblock"}</button>
                               </div>
-                            : null }
+                              : null}
                           </div>
                         </div>
+                      </div>
+                    </main >
+                  </div>
+                </div>
+                <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div className="modal-dialog">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h5 className="modal-title" id="exampleModalLabel">Edit Details.</h5>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div className="modal-body">
+                        <form name="my-form" onSubmit={handleUpdateUser}>
+                          <div className="form-group row pb-2">
+                            <label className="col-md-4 col-form-label text-md-right">First Name</label>
+                            <div className="col-md-6">
+                              <input type="text" id="firstName" className="form-control" defaultValue={userData.firstName} onChange={e => { userData.firstName = e.target.value }} required />
+                            </div>
+                          </div>
+                          <div className="form-group row pb-2">
+                            <label className="col-md-4 col-form-label text-md-right">Last Name</label>
+                            <div className="col-md-6">
+                              <input type="text" id="lastName" className="form-control" defaultValue={userData.lastName} onChange={e => { userData.lastName = e.target.value }} required />
+                            </div>
+                          </div>
+                          <div className="form-group row pb-2">
+                            <label className="col-md-4 col-form-label text-md-right">Gender</label>
+                            <div className="col-md-6">
+                              <select className="form-control form-control-sm d-inline-block" aria-label="Default select example" id="gender" value={userData.gender} onChange={e => { userData.gender = e.target.value }} required>
+                                <option value="">Select..</option>
+                                <option value="FEMALE">Female</option>
+                                <option value="MALE">Male</option>
+                                <option value="NOT_TO_MENTION">Other</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className="form-group row pb-2">
+                            <label className="col-md-4 col-form-label text-md-right">Date of Birth</label>
+                            <div className="col-md-6">
+                              <input type="date" id="dob" className="form-control" defaultValue={userData.dob} onChange={e => { userData.dob = e.target.value }} required />
+                            </div>
+                          </div>
+                          <div className="form-group row pb-2">
+                            <label className="col-md-4 col-form-label text-md-right" >Mobile Number</label>
+                            <div className="col-md-6">
+                              <input type="tel" id="phoneNumber" className="form-control" defaultValue={userData.mobileNo} onChange={e => { userData.mobileNo = e.target.value }} required />
+                            </div>
+                          </div>
+                          <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" className="btn btn-primary" disabled={btnDisable}>Save changes</button>
+                          </div>
+                        </form>
                       </div>
                     </div>
                   </div>
                 </div>
-              </main >
-              <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title" id="exampleModalLabel">Edit Details.</h5>
-                      <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div className="modal-body">
-                      <form name="my-form" onSubmit={handleUpdateUser}>
-                        <div className="form-group row pb-2">
-                          <label className="col-md-4 col-form-label text-md-right">First Name</label>
-                          <div className="col-md-6">
-                            <input type="text" id="firstName" className="form-control" defaultValue={userData.firstName} onChange={e => { userData.firstName = e.target.value }} required />
-                          </div>
-                        </div>
-                        <div className="form-group row pb-2">
-                          <label className="col-md-4 col-form-label text-md-right">Last Name</label>
-                          <div className="col-md-6">
-                            <input type="text" id="lastName" className="form-control" defaultValue={userData.lastName} onChange={e => { userData.lastName = e.target.value }} required/>
-                          </div>
-                        </div>
-                        <div className="form-group row pb-2">
-                          <label className="col-md-4 col-form-label text-md-right">Gender</label>
-                          <div className="col-md-6">
-                            <select className="form-control form-control-sm d-inline-block" aria-label="Default select example" id="gender" value={userData.gender} onChange={e => { userData.gender = e.target.value }} required>
-                              <option value="">Select..</option>
-                              <option value="FEMALE">Female</option>
-                              <option value="MALE">Male</option>
-                              <option value="NOT_TO_MENTION">Other</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="form-group row pb-2">
-                          <label className="col-md-4 col-form-label text-md-right">Date of Birth</label>
-                          <div className="col-md-6">
-                            <input type="date" id="dob" className="form-control" defaultValue={userData.dob} onChange={e => { userData.dob = e.target.value }} required />
-                          </div>
-                        </div>
-                        <div className="form-group row pb-2">
-                          <label className="col-md-4 col-form-label text-md-right" >Mobile Number</label>
-                          <div className="col-md-6">
-                            <input type="tel" id="phoneNumber" className="form-control" defaultValue={userData.mobileNo} onChange={e => { userData.mobileNo = e.target.value }} required />
-                          </div>
-                        </div>
-                        <div className="modal-footer">
-                          <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          <button type="submit" className="btn btn-primary" disabled={btnDisable}>Save changes</button>
-                        </div>
-                      </form>
+                <div className="modal fade bd-example-modal-sm" tabIndex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id={"cnfBlockModal" + userData.id}>
+                  <div className="modal-dialog modal-sm">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h6 className="modal-title">Are you sure to {userData.isNotLocked ? "block" : "unblock"} {userData.firstName}</h6>
+                      </div>
+                      <div className="modal-footer">
+                        <button className={userData.isNotLocked ? "btn btn-outline-danger btn-sm" : "btn btn-outline-success btn-sm"} onClick={handleBlockUser}>{userData.isNotLocked ? "Block" : "Unblock"}</button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="modal fade bd-example-modal-sm" tabIndex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id={"cnfBlockModal" + userData.id}>
-                <div className="modal-dialog modal-sm">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h6 className="modal-title">Are you sure to {userData.isNotLocked ? "block" : "unblock"} {userData.firstName}</h6>
-                        </div>
-                        <div className="modal-footer">
-                            <button className={userData.isNotLocked ? "btn btn-outline-danger btn-sm" : "btn btn-outline-success btn-sm"} onClick={handleBlockUser}>{userData.isNotLocked ? "Block" : "Unblock"}</button>
-                        </div>
-                    </div>
-                </div>
             </div>
+          </div>
         </div>
       </div>
-    </div>
-  )
+
+
+      )
 }

@@ -60,29 +60,33 @@ export default function MyPostPage() {
     return (
         <div>
             <Navbar />
-            <div className="d-flex container pt-2" >
+            <div className="container d-flex flex-row" >
                 <UserSidebar universityId={params.universityId} />
-                <div>
-                    <div className="container-fluid">
-                        <h1 className="mt-4">{totalNumberOfItems} Posts</h1>
-                        <div className="d-flex">
-                            <InfiniteScroll
-                                dataLength={posts.length} //This is important field to render the next data
-                                next={() => setPostPageNo({ pageNo: postPageNo.pageNo + 1 })}
-                                hasMore={(posts.length !== 0) && (totalPages - 1) !== postPageNo.pageNo}
-                                loader={<h4>Loading...</h4>}
-                                endMessage={
-                                    <p style={{ textAlign: 'center' }}>
-                                        <b>Yay! You have seen it all</b>
-                                    </p>
-                                }
-                            >
-                                {posts.map(post => <Post postData={post} key={post.id} changePage={changePageNo} />)}
-                            </InfiniteScroll>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                 <div class="col-md-9">
+                   <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12"> 
+                                    <h1 className="mt-4">{totalNumberOfItems} Posts</h1>
+                                    <InfiniteScroll
+                                        dataLength={posts.length} //This is important field to render the next data
+                                        next={() => setPostPageNo({ pageNo: postPageNo.pageNo + 1 })}
+                                        hasMore={(posts.length !== 0) && (totalPages - 1) !== postPageNo.pageNo}
+                                        loader={<h4>Loading...</h4>}
+                                        endMessage={
+                                            <p style={{ textAlign: 'center' }}>
+                                                <b>Yay! You have seen it all</b>
+                                            </p>
+                                        }
+                                    >
+                                        {posts.map(post => <Post postData={post} key={post.id} changePage={changePageNo} />)}
+                                    </InfiniteScroll>
+                                </div>
+                            </div>
+                        </div> 
+                                    </div>
+                </div>*
+            </div> 
         </div>
     )
 }

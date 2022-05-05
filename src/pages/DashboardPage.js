@@ -36,24 +36,32 @@ export default function DashboardPage() {
           alert(data.message);
         })
       })
-  }, [params.universityId,navigate,loggedInUser.universityId])
+  }, [params.universityId, navigate, loggedInUser.universityId])
   return (
     <div>
       <Navbar />
-      <div className="d-flex container pt-2" id="wrapper">
+      <div className="container d-flex flex-row">
         <UserSidebar universityId={params.universityId} />
-        <div id="page-content-wrapper" className='container px-2'>
-          <div className="row align-items-start">
-            <h1 className="mt-4">Dashboard.</h1>
-            <DashboardCard header={"Total Posts "} data={dashboardData.numberOfPosts} />
-            <DashboardCard header={"Total Images "} data={dashboardData.numberOfImages} />
-            <DashboardCard header={"Total Documents "} data={dashboardData.numberOfDocuments} />
-            <DashboardCard header={"Likes Made"} data={dashboardData.numberOfLikesMade} />
-            <DashboardCard header={"Likes Achieved "} data={dashboardData.numberOfLikesAchieved} />
-            <DashboardCard header={"Dislikes Made "} data={dashboardData.numberOfDislikedMade} />
-            <DashboardCard header={"Dislikes Achieved"} data={dashboardData.numberOfDislikesAchieved} />
-            <DashboardCard header={"Comments Made"} data={dashboardData.numberOfCommentsMade} />
-            <DashboardCard header={"Comments Achieved"} data={dashboardData.numberOfCommentsAchieved} />
+        <div class="col-md-9">
+          <div class="card">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <h1 className="mt-4">Dashboard.</h1>
+                  <div className='row align-items-start'>
+                  <DashboardCard header={"Total Posts "} data={dashboardData.numberOfPosts} />
+                  <DashboardCard header={"Total Images "} data={dashboardData.numberOfImages} />
+                  <DashboardCard header={"Total Documents "} data={dashboardData.numberOfDocuments} />
+                  <DashboardCard header={"Likes Made"} data={dashboardData.numberOfLikesMade} />
+                  <DashboardCard header={"Likes Achieved "} data={dashboardData.numberOfLikesAchieved} />
+                  <DashboardCard header={"Dislikes Made "} data={dashboardData.numberOfDislikedMade} />
+                  <DashboardCard header={"Dislikes Achieved"} data={dashboardData.numberOfDislikesAchieved} />
+                  <DashboardCard header={"Comments Made"} data={dashboardData.numberOfCommentsMade} />
+                  <DashboardCard header={"Comments Achieved"} data={dashboardData.numberOfCommentsAchieved} />
+                </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
