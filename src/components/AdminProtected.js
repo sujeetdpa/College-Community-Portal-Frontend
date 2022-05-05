@@ -13,16 +13,18 @@ export default function AdminProtected(props) {
       navigate("/login");
       alert("Please Login.")
     }
-    const decodeData = decodeToken(localStorage.getItem("access_token"))
-    const isTokenExpired = isExpired(localStorage.getItem("access_token"));
-    if (isTokenExpired) {
-      localStorage.clear();
-      navigate("/login");
-      alert("Token expired please login again.");
-    }
-    if (!decodeData.Roles.includes("ROLE_ADMIN")) {
-      alert("You dont have the permission to access this page");
-      navigate("/");
+    else {
+      const decodeData = decodeToken(localStorage.getItem("access_token"))
+      const isTokenExpired = isExpired(localStorage.getItem("access_token"));
+      if (isTokenExpired) {
+        localStorage.clear();
+        navigate("/login");
+        alert("Token expired please login again.");
+      }
+      else if (!decodeData.Roles.includes("ROLE_ADMIN")) {
+        alert("You dont have the permission to access this page");
+        navigate("/");
+      }
     }
     setFlag(true);
   }, [navigate])
