@@ -46,16 +46,9 @@ export default function Feeds() {
         }
         fetch(process.env.REACT_APP_BASE_URL + "/api/post/all", options)
             .then(res => {
-                if (!res.ok) {
-                    throw res.json();
-                }
                 res.json().then(data => {
                     setTotalPages(data.totalPages);
                     setPosts([...posts, ...data.postResponseViews])
-                })
-            }).catch(err => {
-                err.then(data => {
-                    alert(data.message);
                 })
             })
     }, [postPageNo])
