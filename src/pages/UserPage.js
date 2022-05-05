@@ -303,7 +303,7 @@ export default function UserPage() {
                   <div className="modal-dialog modal-sm">
                     <div className="modal-content">
                       <div className="modal-header">
-                        <h6 className="modal-title">Are you sure to {userData.isNotLocked ? "block" : "unblock"} {userData.firstName}</h6>
+                        <h6 className="modal-title">Confirm to <b>{userData.isNotLocked ? "block" : "unblock"}</b> {userData.fullName} ?</h6>
                       </div>
                       <div className="modal-footer">
                         <button className={userData.isNotLocked ? "btn btn-outline-danger btn-sm" : "btn btn-outline-success btn-sm"} onClick={handleBlockUser}>{userData.isNotLocked ? "Block" : "Unblock"}</button>

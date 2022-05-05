@@ -19,7 +19,12 @@ export default function UserSmallCard({ userData, changePage }) {
                 }
                 res.json().then(data => {
                     setUser(data);
-                    alert(data.fullName + " Blocked successfully");
+                    if(data.isNotLocked){
+                        alert(data.fullName + " : Unblocked successfully");
+                    }
+                    else{
+                        alert(data.fullName + " : Blocked successfully");
+                    }
                 })
             }).catch(err => {
                 err.then(data => {
@@ -231,7 +236,7 @@ export default function UserSmallCard({ userData, changePage }) {
                 <div className="modal-dialog modal-sm">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h6 className="modal-title">Are you sure to {user.isNotLocked ? "block" : "unblock"} {user.firstName}</h6>
+                            <h6 className="modal-title">Confirm to <b>{user.isNotLocked ? "block" : "unblock"}</b> {user.firstName} ?</h6>
                         </div>
                         <div className="modal-footer">
                             <button className={user.isNotLocked ? "btn btn-outline-danger btn-sm" : "btn btn-outline-success btn-sm"} onClick={handleBlockUser}>{user.isNotLocked ? "Block" : "Unblock"}</button>
@@ -243,10 +248,10 @@ export default function UserSmallCard({ userData, changePage }) {
                 <div className="modal-dialog modal-sm">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h6 className="modal-title">Are you sure to assign <b>{user.role.includes("ROLE_ADMIN") ? "ROLE_USER" : "ROLE_ADMIN"}</b> to  {user.firstName}</h6>
+                            <h6 className="modal-title">Confirm to assign <b>{user.role.includes("ROLE_ADMIN") ? "ROLE_USER" : "ROLE_ADMIN"}</b> to  {user.firstName} ?</h6>
                         </div>
                         <div className="modal-footer">
-                            <button className={user.role.includes("ROLE_ADMIN") ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-primary btn-sm"} onClick={toggleRole}>{user.role.includes("ROLE_ADMIN") ? "Change Role to USER" : "Change Role to ADMIN"}</button>
+                            <button className={user.role.includes("ROLE_ADMIN") ? "btn btn-outline-secondary btn-sm" : "btn btn-outline-primary btn-sm"} onClick={toggleRole}>{user.role.includes("ROLE_ADMIN") ? "Change to USER" : "Change to ADMIN"}</button>
                         </div>
                     </div>
                 </div>
