@@ -73,7 +73,7 @@ export default function Login() {
                                                 <button type="submit" className="btn btn-primary" disabled={btnDisable}>
                                                     Login
                                                 </button>
-                                                <Link to="/resetPassword" className="btn btn-link">Forgot Your Password?</Link>
+                                                <Link to="/resetPassword" className="btn btn-link">Forgot Password?</Link>
                                             </div>
                                         </form>
                                         <div className="col-md-6 offset-md-4 py-4">

@@ -62,7 +62,7 @@ export default function ForgotPasswordPage() {
                                             </div>
 
                                             <div className="form-group row">
-                                                <label className="col-md-4 col-form-label text-md-right">Date of Borth</label>
+                                                <label className="col-md-4 col-form-label text-md-right">Date of Birth</label>
                                                 <div className="col-md-6">
                                                     <input type="date" id="password" className="form-control" onChange={e => { resetData.dob = e.target.value }} />
                                                 </div>
