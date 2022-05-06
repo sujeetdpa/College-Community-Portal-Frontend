@@ -10,7 +10,7 @@ export default function SearchedPost({ postData }) {
                 <small className="mr-2 px-2">{postData.creationDate}</small>
             </div>
             <div>
-                <p>{postData.description} <Link to={"/post/" + postData.id} id="SLink">More...</Link></p>
+            <p className="text-justify" dangerouslySetInnerHTML={{__html: postData.description}}></p> <Link to={"/post/" + postData.id} id="SLink">More...</Link>
             </div>
             <div className="d-flex flex-row ml-2">
                 <img src={(postData.profileImageId !== null && postData.profileImageId !== undefined) ? process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + postData.profileImageId : "https://robohash.org/" + postData.userId} width="30" className="rounded-circle" alt='Profile' />

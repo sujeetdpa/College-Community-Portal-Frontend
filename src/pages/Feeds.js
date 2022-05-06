@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Navbar from '../components/Navbar';
 import Post from '../components/Post'
 import lodash from 'lodash'
@@ -20,6 +22,7 @@ export default function Feeds() {
     const [uploadedDocs, setUploadedDocs] = useState([]);
     const [images, setImages] = useState([]);
     const [documents, setDocuments] = useState([]);
+
 
     const [btnDisable, setBtnDisable] = useState(false);
     const [imgSpinner, setImgSpinner] = useState("hidden");
@@ -46,9 +49,16 @@ export default function Feeds() {
         }
         fetch(process.env.REACT_APP_BASE_URL + "/api/post/all", options)
             .then(res => {
+                if(!res.ok){
+                    throw res.json();
+                }
                 res.json().then(data => {
                     setTotalPages(data.totalPages);
                     setPosts([...posts, ...data.postResponseViews])
+                })
+            }).catch(err=>{
+                err.then(data=>{
+                    alert(data.message);
                 })
             })
     }, [postPageNo])
@@ -171,6 +181,7 @@ export default function Feeds() {
     }
     function clearForm() {
         document.getElementById("postForm").reset();
+        
         setImages([]);
         setDocuments([]);
         setUploadedDocs([]);
@@ -196,7 +207,7 @@ export default function Feeds() {
                     <InfiniteScroll
                         dataLength={posts.length} //This is important field to render the next data
                         next={() => setPostPageNo({ pageNo: postPageNo.pageNo + 1 })}
-                        hasMore={(totalPages - 1) !== postPageNo.pageNo}
+                        hasMore={(posts.length !==0) && (totalPages - 1) !== postPageNo.pageNo}
                         loader={<h4>Loading...</h4>}
                         endMessage={
                             <p style={{ textAlign: 'center' }}>
@@ -220,15 +231,23 @@ export default function Feeds() {
                         <div className="modal-body">
                             <form id='postForm' onSubmit={handleCreatePost}>
                                 <div className="form-group row mb-2">
-                                    <label className="col-md-4 col-form-label text-md-right">Title</label>
-                                    <div className="col-md-8">
+                                    <label className="col-md-2 col-form-label text-md-right">Title</label>
+                                    <div className="col-md-10">
                                         <input type="text" id="title" className="form-control" onChange={e => { createPostData.title = e.target.value }} required />
                                     </div>
                                 </div>
                                 <div className="form-group row">
-                                    <label className="col-md-4 col-form-label text-md-right">Description</label>
-                                    <div className="col-md-8">
-                                        <textarea type="text" id="description" className="form-control" cols='50' rows='8' onChange={e => { createPostData.description = e.target.value }} required />
+                                    <label className="col-md-2 col-form-label text-md-right">Description</label>
+                                    <div className="col-md-10">
+                                        <CKEditor 
+                                        editor={ ClassicEditor }
+                                        data= ''
+                                        onChange={ ( event, editor ) => {
+                                            const data = editor.getData();
+                                            createPostData.description=data;
+                                        } }
+                                        />
+                                        
                                     </div>
                                 </div>
                                 <div className="modal-body d-felx flex-row">

@@ -21,7 +21,7 @@ export default function DeletedPost({ postData }) {
               </div>
               <div className="p-2">
                 <h5 id='title'>{postData.title}</h5>
-                <p className="text-justify">{postData.description}</p>
+                <small className="text-justify" dangerouslySetInnerHTML={{__html: postData.description}}></small>
               </div>
               {postData.imageResponses.map(image => <img src={process.env.REACT_APP_BASE_URL + "/api/post/local/storage/download/image/" + image.id} className="img-fluid" alt={image.imageName} key={image.id} />)}
               {postData.documentResponses.map(doc => <DocumentSmallCard document={doc} key={doc.id} />)}
