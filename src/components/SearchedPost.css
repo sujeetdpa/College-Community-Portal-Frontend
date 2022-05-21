@@ -1,0 +1,27 @@
+#SLink {
+    text-decoration: none;
+}
+.comment-text {
+    font-size: 12px
+}
+.comment-input {
+    position: relative
+}
+.status small {
+    margin-right: 10px;
+    color: blue
+}
+.comment-input {
+    position: relative
+}
+.name {
+    font-weight: 600
+}
+.rounded-image {
+    border-radius: 50% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 50px
+}

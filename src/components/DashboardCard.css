@@ -1,0 +1,153 @@
+.card {
+    box-shadow: 4px 8px 9px -2px #c7c5d8;
+    -webkit-box-shadow: 4px 8px 9px -2px #c7c5d8;
+    -moz-box-shadow: 4px 8px 9px -2px #c7c5d8;
+    -ms-box-shadow: 4px 8px 9px -2px #c7c5d8;
+  }
+  
+  .card .card-body {
+    padding: 1.25rem 1.437rem;
+  }
+  
+  .card .card-body + .card-body {
+    padding-top: 1rem;
+  }
+  
+  .card .card-title {
+    color: #787878;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  .card .card-subtitle {
+    font-weight: 400;
+    margin-top: 0.625rem;
+    margin-bottom: 0.625rem;
+  }
+  
+  .card .card-description {
+    margin-bottom: .875rem;
+    font-weight: 400;
+    color: #76838f;
+  }
+  
+  .card.card-outline-success {
+    border: 1px solid theme-color("success");
+  }
+  
+  .card.card-outline-primary {
+    border: 1px solid theme-color("primary");
+  }
+  
+  .card.card-outline-warning {
+    border: 1px solid theme-color("warning");
+  }
+  
+  .card.card-outline-danger {
+    border: 1px solid theme-color("danger");
+  }
+  
+  .card.card-rounded {
+    border-radius: 5px;
+  }
+  
+  .card.card-faded {
+    background: #b5b0b2;
+    border-color: #b5b0b2;
+  }
+  
+  .card.card-circle-progress {
+    color: #ffffff;
+    text-align: center;
+  }
+  
+  .card.card-img-holder {
+    position: relative;
+  }
+  
+  .card.card-img-holder .card-img-absolute {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+  }
+  
+  .card.card-weather .weather-daily .weather-day {
+    opacity: .5;
+    font-weight: 900;
+  }
+  
+  .card.card-weather .weather-daily i {
+    font-size: 20px;
+  }
+  
+  .card.card-weather .weather-daily .weather-temp {
+    margin-top: .5rem;
+    margin-bottom: 0;
+    opacity: .5;
+    font-size: .75rem;
+  }
+
+  @media (min-width: 576px) {
+    .card-columns {
+      column-count: 3;
+      column-gap: 1.25rem;
+      orphans: 1;
+      widows: 1;
+    }
+    .card-columns .card {
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 0.75rem;
+    }
+  }
+  
+  .card-inverse-primary {
+    background: rgba(36, 138, 253, 0.2);
+    border: 1px solid theme-color-level(#248afd, 1);
+    color: theme-color-level(#248afd, 3);
+  }
+  
+  .card-inverse-secondary {
+    background: rgba(163, 164, 165, 0.2);
+    border: 1px solid theme-color-level(#a3a4a5, 1);
+    color: theme-color-level(#a3a4a5, 3);
+  }
+  
+  .card-inverse-success {
+    background: rgba(113, 192, 22, 0.2);
+    border: 1px solid theme-color-level(#71c016, 1);
+    color: theme-color-level(#71c016, 3);
+  }
+  
+  .card-inverse-info {
+    background: rgba(104, 175, 255, 0.2);
+    border: 1px solid theme-color-level(#68afff, 1);
+    color: theme-color-level(#68afff, 3);
+  }
+  
+  .card-inverse-warning {
+    background: rgba(245, 166, 35, 0.2);
+    border: 1px solid theme-color-level(#f5a623, 1);
+    color: theme-color-level(#f5a623, 3);
+  }
+  
+  .card-inverse-danger {
+    background: rgba(255, 71, 71, 0.2);
+    border: 1px solid theme-color-level(#ff4747, 1);
+    color: theme-color-level(#ff4747, 3);
+  }
+  
+  .card-inverse-light {
+    background: rgba(248, 249, 250, 0.2);
+    border: 1px solid theme-color-level(#f8f9fa, 1);
+    color: theme-color-level(#f8f9fa, 3);
+  }
+  
+  .card-inverse-dark {
+    background: rgba(40, 47, 58, 0.2);
+    border: 1px solid theme-color-level(#282f3a, 1);
+    color: theme-color-level(#282f3a, 3);
+  }
